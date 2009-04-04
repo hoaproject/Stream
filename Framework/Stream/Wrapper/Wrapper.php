@@ -113,7 +113,7 @@ class Hoa_Stream_Wrapper {
         return stream_wrapper_restore($protocol);
     }
 
-    /*/
+    /**
      * Check if a protocol is registered or not.
      *
      * @access  public
