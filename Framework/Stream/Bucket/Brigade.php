@@ -94,10 +94,10 @@ class Hoa_Stream_Bucket_Brigade {
      * create a brigade automatically.
      *
      * @access  public
-     * @param   resource  $brigade    A stream or a brigade.
-     * @param   bool      $is         Specify if $brigade is a stream or a
-     *                                brigade, given by self::IS_A_* constant.
-     * @param   string    $buffer     Stream buffer.
+     * @param   resource  &$brigade    A stream or a brigade.
+     * @param   bool      $is          Specify if $brigade is a stream or a
+     *                                 brigade, given by self::IS_A_* constant.
+     * @param   string    $buffer      Stream buffer.
      * @return  void
      */
     public function __construct ( &$brigade, $is = self::IS_A_BRIGADE, $buffer = '' ) {
@@ -206,7 +206,7 @@ class Hoa_Stream_Bucket_Brigade {
      * Set the brigade.
      *
      * @access  protected
-     * @param   resource   &$stream    Brigade to add.
+     * @param   resource   &$brigade    Brigade to add.
      * @return  resource
      */
     protected function setBrigade ( &$brigade ) {
