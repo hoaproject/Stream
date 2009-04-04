@@ -137,7 +137,7 @@ abstract class Hoa_Stream_Filter_Default extends php_user_filter {
         $iBucket = new Hoa_Stream_Bucket_Brigade($in);
         $oBucket = new Hoa_Stream_Bucket_Brigade($out);
 
-        while(true != $iBucket->eob()) {
+        while(true !== $iBucket->eob()) {
 
             $consumed += $iBucket->getLength();
             $oBucket->append($iBucket);
