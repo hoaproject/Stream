@@ -287,7 +287,7 @@ class Hoa_Stream_Notification {
 
             case self::AUTH_RESULT:
                 foreach(self::$_notifiers as $i => $notifier)
-                    $notifier->failure($severity, $message, $code, $transferred, $max);
+                    $notifier->authResult($severity, $message, $code, $transferred, $max);
               break;
 
             default:
