@@ -116,7 +116,7 @@ class Hoa_Stream_Filter {
      * @param   bool    $overwrite    Overwrite filter if alreaady exists or
      *                                not. Given by self::*OVERWRITE constants.
      * @return  bool
-     * @throws  Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Filter_Exception
      */
     public static function register ( $name, $class, $overwrite = self::DO_NOT_OVERWRITE ) {
 
@@ -144,7 +144,7 @@ class Hoa_Stream_Filter {
      * @param   int       $mode          self::READ or self::WRITE.
      * @param   mixed     $parameters    Parameters.
      * @return  resource
-     * @throws  Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Filter_Exception
      */
     public static function append ( $stream,            $name,
                                     $mode = self::READ, $parameters = null ) {
@@ -152,8 +152,6 @@ class Hoa_Stream_Filter {
         if(!is_resource($stream))
             throw new Hoa_Stream_Filter_Exception(
                 'The stream must be a resource, given %s.', 2, gettype($stream));
-
-        //if(false === self::isRegistered($name))
 
         if(null === $parameters)
             return self::$_resources[$name] =
@@ -172,7 +170,7 @@ class Hoa_Stream_Filter {
      * @param   int       $mode          self::READ or self::WRITE.
      * @param   mixed     $parameters    Parameters.
      * @return  resource
-     * @throws  Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Filter_Exception
      */
     public static function prepend ( $stream,            $name,
                                      $mode = self::READ, $parameters = null ) {
@@ -180,8 +178,6 @@ class Hoa_Stream_Filter {
         if(!is_resource($stream))
             throw new Hoa_Stream_Filter_Exception(
                 'The stream must be a resource, given %s.', 3, gettype($stream));
-
-        //if(false === self::isRegistered($name))
 
         if(null === $parameters)
             return self::$_resources[$name] =
@@ -197,7 +193,7 @@ class Hoa_Stream_Filter {
      * @access  public
      * @param   mixed   $streamFilter    Stream filter resource or name.
      * @return  bool
-     * @throws  Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Filter_Exception
      */
     public static function remove ( $streamFilter ) {
 

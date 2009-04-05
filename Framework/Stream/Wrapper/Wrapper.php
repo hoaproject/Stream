@@ -73,7 +73,7 @@ class Hoa_Stream_Wrapper {
      *                                $protocol is a URL protocol. Default is 0,
      *                                local stream.
      * @return  bool
-     * @throws  Hoa_Stream_Wrapper_Exception
+     * @throw   Hoa_Stream_Wrapper_Exception
      */
     public static function register ( $protocol, $classname, $flags = 0 ) {
 
