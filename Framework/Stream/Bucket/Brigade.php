@@ -121,10 +121,7 @@ class Hoa_Stream_Bucket_Brigade {
 
         unset($this->_bucket);
 
-        if(false == $this->_bucket = stream_bucket_make_writeable($this->getBrigade()))
-            return true;
-
-        return false;
+        return false == $this->_bucket = stream_bucket_make_writeable($this->getBrigade());
     }
 
     /**
