@@ -75,7 +75,7 @@ abstract class Hoa_Stream {
      */
     public function __construct ( $stream ) {
 
-        $this->setStream($stream)e
+        $this->setStream($stream);
 
         return;
     }
