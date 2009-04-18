@@ -1,0 +1,135 @@
+<?php
+
+/**
+ * Hoa Framework
+ *
+ *
+ * @license
+ *
+ * GNU General Public License
+ *
+ * This file is part of Hoa Open Accessibility.
+ * Copyright (c) 2007, 2008 Ivan ENDERLIN. All rights reserved.
+ *
+ * HOA Open Accessibility is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * HOA Open Accessibility is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with HOA Open Accessibility; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ *
+ * @category    Framework
+ * @package     Hoa_Stream
+ * @subpackage  Hoa_Stream_Io_Statable
+ *
+ */
+
+/**
+ * Hoa_Framework
+ */
+require_once 'Framework.php';
+
+/**
+ * Interface Hoa_Stream_Io_Statable.
+ *
+ * Interface for statable input/output.
+ *
+ * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright   Copyright (c) 2007, 2008 Ivan ENDERLIN.
+ * @license     http://gnu.org/licenses/gpl.txt GNU GPL
+ * @since       PHP 5
+ * @version     0.1
+ * @package     Hoa_Stream
+ * @subpackage  Hoa_Stream_Io_Statable
+ */
+
+interface Hoa_Stream_Io_Statable {
+
+    /**
+     * Get informations about a file.
+     *
+     * @access  public
+     * @return  array
+     */
+    public function stat ( );
+
+    /**
+     * Get last access time of file.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function atime ( );
+
+    /**
+     * Get inode change time of file.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function ctime ( );
+
+    /**
+     * Get file modification time.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function mtime ( );
+
+    /**
+     * Get file group.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function group ( );
+
+    /**
+     * Get file owner.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function owner ( );
+
+    /**
+     * Get file permissions.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function permissions ( );
+
+    /**
+     * Check if the file is readable.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isReadable ( );
+
+    /**
+     * Check if the file is writable.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isWritable ( );
+
+    /**
+     * Check if the file is executable.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isExecutable ( );
+}
