@@ -44,7 +44,7 @@ import('Stream.Exception');
 /**
  * Class Hoa_Stream.
  *
- * A simple stream (i.e. a resource) wrapper.
+ * Static register for all streams (files, sockets etc.).
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2008 Ivan ENDERLIN.
@@ -57,52 +57,124 @@ import('Stream.Exception');
 abstract class Hoa_Stream {
 
     /**
-     * Stream.
+     * Handler register index.
+     *
+     * @const int
+     */
+    const HANDLER  = 0;
+
+    /**
+     * Resource register index.
+     *
+     * @const int
+     */
+    const RESOURCE = 1;
+
+    /**
+     * Current stream.
      *
      * @var Hoa_Stream resource
      */
-    protected $_stream = null;
+    protected      $_stream   = null;
+
+    /**
+     * Static stream register.
+     *
+     * @var Hoa_Stream array
+     */
+    private static $_register = array();
 
 
 
     /**
-     * Constructor.
-     * Save stream.
+     * Set the current stream.
+     * If not exists in the register, try to call the
+     * $this->open() method. Please, see the self::_getStream() method.
      *
      * @access  public
-     * @param   resource  $stream    Stream.
+     * @param   string  $streamName    Stream name (e.g. path or URL).
      * @return  void
      */
-    public function __construct ( $stream ) {
+    public function __construct ( $streamName ) {
 
-        $this->setStream($stream);
+        $this->_stream = self::_getStream($streamName, $this);
 
         return;
     }
 
     /**
-     * Set stream.
+     * Get a stream in the register.
+     * If the stream does not exist, try to open it by calling the
+     * $handler->open() method.
      *
-     * @access  protected
-     * @param   resource   $stream    Stream.
+     * @access  private
+     * @param   string      $streamName    Stream name.
+     * @param   Hoa_Stream  $handler       Stream handler.
      * @return  resource
      */
-    protected function setStream ( $stream ) {
+    final private static function &_getStream ( $streamName, Hoa_Stream $handler ) {
 
-        $old           = $this->_stream;
-        $this->_stream = $stream;
+        $name = md5($streamName);
 
-        return $old;
+        if(!isset(self::$_register[$name]))
+            self::$_register[$name] = array(
+                self::HANDLER  => $handler,
+                self::RESOURCE => $handler->open($streamName)
+            );
+
+        return self::$_register[$name][self::RESOURCE];
     }
 
     /**
-     * Get stream.
+     * Open the stream and return the associated resource.
+     * Note: this method is protected, but do not forget that it could be
+     * overloaded into a public context.
      *
-     * @access  public
+     * @access  protected
+     * @param   string     $streamName    Stream name (e.g. path or URL).
+     * @return  resource
+     * @throw   Hoa_Stream_Exception
+     */
+    abstract protected function &open ( $streamName );
+
+    /**
+     * Close the current stream.
+     * Note: this method is protected, but do not forget that it could be
+     * overloaded into a public context.
+     *
+     * @access  protected
+     * @return  bool
+     */
+    abstract protected function close ( );
+
+    /**
+     * Get the current stream.
+     *
+     * @access  protected
      * @return  resource
      */
-    public function getStream ( ) {
+    protected function getStream ( ) {
 
         return $this->_stream;
     }
+
+    /**
+     * Call the $handler->close() method on each stream in the static stream
+     * register.
+     * This method does not check the $handler->close() return value. Thus, if a
+     * stream is persistent, the $handler->close() should do anything. It is a
+     * very generic method.
+     *
+     * @access  public
+     * @return  void
+     */
+    final public static function _Hoa_Stream ( ) {
+
+        foreach(self::$_register as $i => $entry)
+            $entry[self::HANDLER]->close();
+
+        return;
+    }
 }
+
+Hoa_Framework::registerShutDownFunction('Hoa_Stream', '_Hoa_Stream');
