@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Bucket_Brigade
+ * @subpackage  Hoa_Stream_Bucket
  *
  */
 
@@ -38,12 +38,12 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Bucket_Exception
+ * Hoa_Stream_Exception
  */
-import('Stream.Bucket.Exception');
+import('Stream.Exception');
 
 /**
- * Class Hoa_Stream_Bucket_Brigade.
+ * Class Hoa_Stream_Bucket.
  *
  * Manipulate stream buckets through brigades.
  *
@@ -53,10 +53,10 @@ import('Stream.Bucket.Exception');
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Bucket_Brigade
+ * @subpackage  Hoa_Stream_Bucket
  */
 
-class Hoa_Stream_Bucket_Brigade {
+class Hoa_Stream_Bucket {
 
     /**
      * Whether the stream is already a brigade.
@@ -75,14 +75,14 @@ class Hoa_Stream_Bucket_Brigade {
     /**
      * Brigade.
      *
-     * @var Hoa_Stream_Bucket_Brigade resource
+     * @var Hoa_Stream_Bucket resource
      */
     protected $_brigade = null;
 
     /**
      * Bucket.
      *
-     * @var Hoa_Stream_Bucket_Brigade object
+     * @var Hoa_Stream_Bucket object
      */
     protected $_bucket  = null;
 
@@ -128,10 +128,10 @@ class Hoa_Stream_Bucket_Brigade {
      * Append bucket to the brigade.
      *
      * @access  public
-     * @param   Hoa_Stream_Bucket_Brigade  $bucket    Bucket to add.
+     * @param   Hoa_Stream_Bucket  $bucket    Bucket to add.
      * @return  void
      */
-    public function append ( Hoa_Stream_Bucket_Brigade $bucket ) {
+    public function append ( Hoa_Stream_Bucket $bucket ) {
 
         stream_bucket_append($this->getBrigade(), $bucket->getBucket());
 
@@ -142,10 +142,10 @@ class Hoa_Stream_Bucket_Brigade {
      * Prepend bucket to the brigade.
      *
      * @access  public
-     * @param   Hoa_Stream_Bucket_Brigade  $bucket    Bucket to add.
+     * @param   Hoa_Stream_Bucket  $bucket    Bucket to add.
      * @return  void
      */
-    public function prepend ( Hoa_Stream_Bucket_Brigage $bucket ) {
+    public function prepend ( Hoa_Stream_Bucket $bucket ) {
 
         stream_bucket_prepend($this->getBrigade(), $bucket->getBucket());
 

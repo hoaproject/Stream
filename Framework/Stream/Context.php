@@ -38,9 +38,9 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Context_Exception
+ * Hoa_Stream_Exception
  */
-import('Stream.Context.Exception');
+import('Stream.Exception');
 
 /**
  * Class Hoa_Stream_Context.
@@ -236,12 +236,12 @@ class Hoa_Stream_Context {
      * @access  public
      * @param   string  $option    Option name.
      * @return  mixed
-     * @throw   Hoa_Stream_Context_Exception
+     * @throw   Hoa_Stream_Exception
      */
     public function getOption ( $option ) {
 
         if(false === $this->optionExists($option))
-            throw new Hoa_Stream_Context_Exception(
+            throw new Hoa_Stream_Exception(
                 'Option %s does not exist for the context that wrappes %s, with ' .
                 'id %s.', 0,
                 array($option, $this->getWrapper(), $this->getCurrentId()));

@@ -38,6 +38,11 @@
 require_once 'Framework.php';
 
 /**
+ * Hoa_Stream_Wrapper_Exception
+ */
+import('Stream.Wrapper.Exception');
+
+/**
  * Hoa_Stream_Wrapper_Interface_File
  */
 import('Stream.Wrapper.Interface.File');

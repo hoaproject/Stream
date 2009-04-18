@@ -43,9 +43,9 @@ require_once 'Framework.php';
 import('Stream.Filter.Exception');
 
 /**
- * Hoa_Stream_Bucket_Brigade
+ * Hoa_Stream_Bucket
  */
-import('Stream.Bucket.Brigade');
+import('Stream.Bucket');
 
 /**
  * Class Hoa_Stream_Filter_Default.
@@ -134,8 +134,8 @@ abstract class Hoa_Stream_Filter_Default extends php_user_filter {
      */
     public function filter ( $in, $out, &$consumed, $closing ) {
 
-        $iBucket = new Hoa_Stream_Bucket_Brigade($in);
-        $oBucket = new Hoa_Stream_Bucket_Brigade($out);
+        $iBucket = new Hoa_Stream_Bucket($in);
+        $oBucket = new Hoa_Stream_Bucket($out);
 
         while(true !== $iBucket->eob()) {
 

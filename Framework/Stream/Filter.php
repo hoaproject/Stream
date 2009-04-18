@@ -38,9 +38,9 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Filter_Exception
+ * Hoa_Stream_Exception
  */
-import('Stream.Filter.Exception');
+import('Stream.Exception');
 
 /**
  * Hoa_Stream_Filter_Default
@@ -116,17 +116,17 @@ class Hoa_Stream_Filter {
      * @param   bool    $overwrite    Overwrite filter if alreaady exists or
      *                                not. Given by self::*OVERWRITE constants.
      * @return  bool
-     * @throw   Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Exception
      */
     public static function register ( $name, $class, $overwrite = self::DO_NOT_OVERWRITE ) {
 
         if(   $overwrite === self::DO_NOT_OVERWRITE
            && true       === self::isRegistered($name))
-            throw new Hoa_Stream_Filter_Exception(
+            throw new Hoa_Stream_Exception(
                 'Filter %s is already registered.', 0, $name);
 
         if(empty($name))
-            throw new Hoa_Stream_Filter_Exception(
+            throw new Hoa_Stream_Exception(
                 'Filter name cannot be empty.', 1);
 
         if(is_object($class))
@@ -144,13 +144,13 @@ class Hoa_Stream_Filter {
      * @param   int       $mode          self::READ or self::WRITE.
      * @param   mixed     $parameters    Parameters.
      * @return  resource
-     * @throw   Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Exception
      */
     public static function append ( $stream,            $name,
                                     $mode = self::READ, $parameters = null ) {
 
         if(!is_resource($stream))
-            throw new Hoa_Stream_Filter_Exception(
+            throw new Hoa_Stream_Exception(
                 'The stream must be a resource, given %s.', 2, gettype($stream));
 
         if(null === $parameters)
@@ -170,13 +170,13 @@ class Hoa_Stream_Filter {
      * @param   int       $mode          self::READ or self::WRITE.
      * @param   mixed     $parameters    Parameters.
      * @return  resource
-     * @throw   Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Exception
      */
     public static function prepend ( $stream,            $name,
                                      $mode = self::READ, $parameters = null ) {
 
         if(!is_resource($stream))
-            throw new Hoa_Stream_Filter_Exception(
+            throw new Hoa_Stream_Exception(
                 'The stream must be a resource, given %s.', 3, gettype($stream));
 
         if(null === $parameters)
@@ -193,7 +193,7 @@ class Hoa_Stream_Filter {
      * @access  public
      * @param   mixed   $streamFilter    Stream filter resource or name.
      * @return  bool
-     * @throw   Hoa_Stream_Filter_Exception
+     * @throw   Hoa_Stream_Exception
      */
     public static function remove ( $streamFilter ) {
 
@@ -201,7 +201,7 @@ class Hoa_Stream_Filter {
             if(isset(self::$_resources[$streamFilter]))
                 $stream = self::$_resources[$streamFilter];
             else
-                throw new Hoa_Stream_Filter_Exception(
+                throw new Hoa_Stream_Exception(
                     'Cannot remove the stream filter %s because no resource was ' . 
                     'found with this name.', 4, $streamFilter);
 

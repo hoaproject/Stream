@@ -38,6 +38,11 @@
 require_once 'Framework.php';
 
 /**
+ * Hoa_Stream_Notification_Exception
+ */
+import('Stream.Notification.Exception');
+
+/**
  * Interface Hoa_Stream_Notification_Interface.
  *
  * Interface for notification stream object.

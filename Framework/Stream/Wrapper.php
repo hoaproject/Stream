@@ -38,9 +38,9 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Wrapper_Exception
+ * Hoa_Stream_Exception
  */
-import('Stream.Wrapper.Exception');
+import('Stream.Exception');
 
 /**
  * Hoa_Stream_Wrapper_Interface
@@ -73,16 +73,16 @@ class Hoa_Stream_Wrapper {
      *                                $protocol is a URL protocol. Default is 0,
      *                                local stream.
      * @return  bool
-     * @throw   Hoa_Stream_Wrapper_Exception
+     * @throw   Hoa_Stream_Exception
      */
     public static function register ( $protocol, $classname, $flags = 0 ) {
 
         if(true === self::isRegistered($protocol))
-            throw new Hoa_Stream_Wrapper_Exception(
+            throw new Hoa_Stream_Exception(
                 'The protocol %s is already registered.', 0, $protocol);
 
         if(false === class_exists($classname))
-            throw new Hoa_Stream_Wrapper_Exception(
+            throw new Hoa_Stream_Exception(
                 'Cannot register the %s class because it is not found.',
                 1, $classname);
 
