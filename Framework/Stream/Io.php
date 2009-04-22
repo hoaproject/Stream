@@ -59,6 +59,13 @@ import('Stream.Exception');
 interface Hoa_Stream_Io {
 
     /**
+     * Size is undefined.
+     *
+     * @const int
+     */
+    const SIZE_UNDEFINED = -1;
+
+    /**
      * Read n characters.
      *
      * @access  public
@@ -154,7 +161,7 @@ interface Hoa_Stream_Io {
      * @param   int     $integer    Integer.
      * @return  int
      */
-    public function writeInteger ( $length = 1 );
+    public function writeInteger ( $integer );
 
     /**
      * Write a float.
@@ -163,7 +170,7 @@ interface Hoa_Stream_Io {
      * @param   float   $float    Float.
      * @return  int
      */
-    public function writeFloat ( $length = 1 );
+    public function writeFloat ( $float );
 
     /**
      * Write a line.
@@ -172,7 +179,7 @@ interface Hoa_Stream_Io {
      * @param   string  $line    Line.
      * @return  int
      */
-    public function writeLine ( );
+    public function writeLine ( $line );
 
     /**
      * Write all, i.e. as much as possible.
@@ -181,7 +188,7 @@ interface Hoa_Stream_Io {
      * @param   string  $string    String.
      * @return  int
      */
-    public function writeAll ( );
+    public function writeAll ( $string );
 
     /**
      * Parse input from a file according to a format.
