@@ -141,6 +141,7 @@ abstract class Hoa_Stream {
      * Close the current stream.
      * Note: this method is protected, but do not forget that it could be
      * overloaded into a public context.
+     * @todo : Closing a stream should delete it from the register, isn't it?
      *
      * @access  protected
      * @return  bool
@@ -161,9 +162,9 @@ abstract class Hoa_Stream {
     /**
      * Call the $handler->close() method on each stream in the static stream
      * register.
-     * This method does not check the $handler->close() return value. Thus, if a
-     * stream is persistent, the $handler->close() should do anything. It is a
-     * very generic method.
+     * This method does not check the return value of $handler->close(). Thus,
+     * if a stream is persistent, the $handler->close() should do anything. It
+     * is a very generic method.
      *
      * @access  public
      * @return  void
