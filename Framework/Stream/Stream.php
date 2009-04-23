@@ -160,6 +160,63 @@ abstract class Hoa_Stream {
     }
 
     /**
+     * Set the timeout period.
+     *
+     * @access  public
+     * @param   int     $second    Timeout period.
+     * @return  bool
+     */
+    public function setStreamTimeout ( $second ) {
+
+        return stream_set_timeout($this->getStream());
+    }
+
+    /**
+     * Set blocking/non-blocking mode.
+     *
+     * @access  public
+     * @param   bool    $mode    Blocking mode.
+     * @return  bool
+     */
+    public function setStreamBlocking ( $mode ) {
+
+        return stream_set_blocking($this->getStream(), (int) $mode);
+    }
+
+    /**
+     * Set stream buffer.
+     * Output using fwrite() (or similar function) is normally buffered at 8 Ko.
+     * This means that if there are two processes wanting to write to the same
+     * output stream, each is paused after 8 Ko of data to allow the other to
+     * write.
+     *
+     * @access  public
+     * @param   int     $buffer    Number of bytes to buffer. If zero, write
+     *                             operations are unbuffered. This ensures that
+     *                             all writes are completed before other
+     *                             processes are allowed to write to that output
+     *                             stream.
+     * @return  bool
+     */
+    public function setStreamBuffer ( $buffer ) {
+
+        // Zero means success.
+        return 0 === stream_set_write_buffer($this->getStream(), $buffer);
+    }
+
+    /**
+     * Disable stream buffering.
+     * Alias of $this->setBuffer(0).
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function disableStreamBuffer ( ) {
+
+        return $this->setBuffer(0);
+    }
+
+    /**
      * Call the $handler->close() method on each stream in the static stream
      * register.
      * This method does not check the return value of $handler->close(). Thus,
