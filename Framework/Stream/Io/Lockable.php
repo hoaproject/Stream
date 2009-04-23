@@ -85,6 +85,7 @@ interface Hoa_Stream_Io_Lockable {
 
     /**
      * Portable advisory locking.
+     * Should take a look at stream_supports_lock().
      *
      * @access  public
      * @param   int     $operation    Operation, use the self::LOCK_* constants.

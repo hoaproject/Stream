@@ -131,12 +131,13 @@ interface Hoa_Stream_Io {
      *
      * @access  public
      * @param   string  $string    String.
+     * @param   int     $length    Length.
      * @return  int
      */
-    public function write ( $string );
+    public function write ( $string, $length );
 
     /**
-     * Alias of $this->write().
+     * Write a string.
      *
      * @access  public
      * @param   string  $string    String.
@@ -146,7 +147,6 @@ interface Hoa_Stream_Io {
 
     /**
      * Write a character.
-     * It could be equivalent to $this->write(1).
      *
      * @access  public
      * @param   string  $char    Character.
@@ -191,7 +191,7 @@ interface Hoa_Stream_Io {
     public function writeAll ( $string );
 
     /**
-     * Parse input from a file according to a format.
+     * Parse input from a stream according to a format.
      *
      * @access  public
      * @param   string  $format    Format (see printf's formats).
