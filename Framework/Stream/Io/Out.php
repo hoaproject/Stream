@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io
+ * @subpackage  Hoa_Stream_Io_Out
  *
  */
 
@@ -38,24 +38,9 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
-
-/**
- * Hoa_Stream_Io_In
- */
-import('Stream.Io.In');
-
-/**
- * Hoa_Stream_Io_Out
- */
-import('Stream.Io.Out');
-
-/**
- * Interface Hoa_Stream_Io.
+ * Interface Hoa_Stream_Io_Out.
  *
- * Interface for input/output.
+ * Interface for output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2008 Ivan ENDERLIN.
@@ -63,48 +48,81 @@ import('Stream.Io.Out');
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io
+ * @subpackage  Hoa_Stream_Io_Out
  */
 
-interface Hoa_Stream_Io extends Hoa_Stream_Io_In,
-                                Hoa_Stream_Io_Out {
+interface Hoa_Stream_Io_Out {
 
     /**
-     * Size is undefined.
-     *
-     * @const int
-     */
-    const SIZE_UNDEFINED = -1;
-
-    /**
-     * Test for end-of-file.
+     * Write n characters.
      *
      * @access  public
+     * @param   string  $string    String.
+     * @param   int     $length    Length.
+     * @return  mixed
+     */
+    public function write ( $string, $length );
+
+    /**
+     * Write a string.
+     *
+     * @access  public
+     * @param   string  $string    String.
+     * @return  mixed
+     */
+    public function writeString ( $string );
+
+    /**
+     * Write a character.
+     *
+     * @access  public
+     * @param   string  $char    Character.
+     * @return  mixed
+     */
+    public function writeCharacter ( $char );
+
+    /**
+     * Write an integer.
+     *
+     * @access  public
+     * @param   int     $integer    Integer.
+     * @return  mixed
+     */
+    public function writeInteger ( $integer );
+
+    /**
+     * Write a float.
+     *
+     * @access  public
+     * @param   float   $float    Float.
+     * @return  mixed
+     */
+    public function writeFloat ( $float );
+
+    /**
+     * Write a line.
+     *
+     * @access  public
+     * @param   string  $line    Line.
+     * @return  mixed
+     */
+    public function writeLine ( $line );
+
+    /**
+     * Write all, i.e. as much as possible.
+     *
+     * @access  public
+     * @param   string  $string    String.
+     * @return  mixed
+     */
+    public function writeAll ( $string );
+
+    /**
+     * Truncate a file to a given length.
+     *
+     * @access  public
+     * @param   int     $size    Size.
      * @return  bool
      */
-    public function eof ( );
-
-    /**
-     * Get filename component of path.
-     *
-     * @access  public
-     * @return  string
-     */
-    public function getBasename ( );
-
-    /**
-     * Get directory name component of path.
-     *
-     * @access  public
-     * @return  string
-     */
-    public function getDirname ( );
-
-    /**
-     * Get size.
-     *
-     * @access  public
-     * @return  int
-     */
-    public function getSize ( );
+    public function truncate ( $size );
 }

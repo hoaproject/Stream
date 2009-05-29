@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io
+ * @subpackage  Hoa_Stream_Io_In
  *
  */
 
@@ -38,24 +38,9 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
-
-/**
- * Hoa_Stream_Io_In
- */
-import('Stream.Io.In');
-
-/**
- * Hoa_Stream_Io_Out
- */
-import('Stream.Io.Out');
-
-/**
- * Interface Hoa_Stream_Io.
+ * Interface Hoa_Stream_Io_In.
  *
- * Interface for input/output.
+ * Interface for input.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2008 Ivan ENDERLIN.
@@ -63,48 +48,78 @@ import('Stream.Io.Out');
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io
+ * @subpackage  Hoa_Stream_Io_In
  */
 
-interface Hoa_Stream_Io extends Hoa_Stream_Io_In,
-                                Hoa_Stream_Io_Out {
+interface Hoa_Stream_Io_In {
 
     /**
-     * Size is undefined.
-     *
-     * @const int
-     */
-    const SIZE_UNDEFINED = -1;
-
-    /**
-     * Test for end-of-file.
+     * Read n characters.
      *
      * @access  public
-     * @return  bool
+     * @param   int     $length    Length.
+     * @return  string
      */
-    public function eof ( );
+    public function read ( $length );
 
     /**
-     * Get filename component of path.
+     * Alias of $this->read().
+     *
+     * @access  public
+     * @param   int     $length    Length.
+     * @return  string
+     */
+    public function readString ( $length );
+
+    /**
+     * Read a char.
+     * It could be equivalent to $this->read(1).
      *
      * @access  public
      * @return  string
      */
-    public function getBasename ( );
+    public function readChar ( );
 
     /**
-     * Get directory name component of path.
+     * Read an integer.
      *
      * @access  public
-     * @return  string
-     */
-    public function getDirname ( );
-
-    /**
-     * Get size.
-     *
-     * @access  public
+     * @param   int     $length    Length.
      * @return  int
      */
-    public function getSize ( );
+    public function readInteger ( $length = 1 );
+
+    /**
+     * Read a float.
+     *
+     * @access  public
+     * @param   int     $length    Length.
+     * @return  float
+     */
+    public function readFloat ( $length = 1 );
+
+    /**
+     * Read a line.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function readLine ( );
+
+    /**
+     * Read all, i.e. read as much as possible.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function readAll ( );
+
+    /**
+     * Parse input from a stream according to a format.
+     *
+     * @access  public
+     * @param   string  $format    Format (see printf's formats).
+     * @return  array
+     */
+    public function scanf ( $format );
 }
