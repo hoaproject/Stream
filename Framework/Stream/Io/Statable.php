@@ -59,7 +59,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  array
      */
-    public function stat ( );
+    public function getStatistic ( );
 
     /**
      * Get last access time of file.
@@ -67,7 +67,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  int
      */
-    public function atime ( );
+    public function getATime ( );
 
     /**
      * Get inode change time of file.
@@ -75,7 +75,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  int
      */
-    public function ctime ( );
+    public function getCTime ( );
 
     /**
      * Get file modification time.
@@ -83,7 +83,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  int
      */
-    public function mtime ( );
+    public function getMTime ( );
 
     /**
      * Get file group.
@@ -91,7 +91,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  int
      */
-    public function group ( );
+    public function getGroup ( );
 
     /**
      * Get file owner.
@@ -99,7 +99,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  int
      */
-    public function owner ( );
+    public function getOwner ( );
 
     /**
      * Get file permissions.
@@ -107,7 +107,7 @@ interface Hoa_Stream_Io_Statable {
      * @access  public
      * @return  int
      */
-    public function permissions ( );
+    public function getPermissions ( );
 
     /**
      * Check if the file is readable.
@@ -132,4 +132,20 @@ interface Hoa_Stream_Io_Statable {
      * @return  bool
      */
     public function isExecutable ( );
+
+    /**
+     * Clear file status cache.
+     *
+     * @access  public
+     * @return  void
+     */
+    public function clearStatisticCache ( );
+
+    /**
+     * Clear all files status cache.
+     *
+     * @access  public
+     * @return  void
+     */
+    public static function clearAllStatisticCaches ( );
 }
