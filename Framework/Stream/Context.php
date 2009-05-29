@@ -93,9 +93,14 @@ class Hoa_Stream_Context {
      *
      * @access  private
      * @param   string   $wrapper    Wrapper name.
+     * @throw   Hoa_Stream_Exception
      * @return  void
      */
     private function __construct ( $wrapper ) {
+
+        if(null === $wrapper)
+            throw new Hoa_Stream_Exception(
+                'Wrapper name cannot be null.', 0);
 
         $this->setContext($wrapper);
         $this->setWrapper($wrapper);
@@ -111,9 +116,9 @@ class Hoa_Stream_Context {
      * @param   string  $wrapper    Wrapper name.
      * @return  Hoa_Stream_Context
      */
-    public static function getInstance ( $id, $wrapper ) {
+    public static function getInstance ( $id, $wrapper = null ) {
 
-        if(!isset(self::$_instance[$id]))
+        if(false === self::contextExists($id))
             self::$_instance[$id] = new self($wrapper);
 
         self::$_currentId = $id;
@@ -200,10 +205,10 @@ class Hoa_Stream_Context {
     /**
      * Get the stream context.
      *
-     * @access  protected
+     * @access  public
      * @return  resource
      */
-    protected function getContext ( ) {
+    public function getContext ( ) {
 
         return $this->_context;
     }
@@ -261,5 +266,17 @@ class Hoa_Stream_Context {
     public function optionExists ( $option ) {
 
         return array_key_exists($option, $this->getOptions());
+    }
+
+    /**
+     * Check if a context exists.
+     *
+     * @access  public
+     * @param   string  $id    Context ID.
+     * @return  bool
+     */
+    public static function contextExists ( $id ) {
+
+        return isset(self::$_instance[$id]);
     }
 }
