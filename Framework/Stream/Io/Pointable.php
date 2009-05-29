@@ -65,7 +65,7 @@ interface Hoa_Stream_Io_Pointable {
      *
      * @const int
      */
-    const SEEK_CURRENT = SEEK_CURRENT;
+    const SEEK_CURRENT = SEEK_CUR;
 
     /**
      * Set position to end-of-file plus $offset.
