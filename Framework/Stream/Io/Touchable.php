@@ -54,6 +54,36 @@ require_once 'Framework.php';
 interface Hoa_Stream_Io_Touchable {
 
     /**
+     * Overwrite file if already exists.
+     *
+     * @const bool
+     */
+    const OVERWRITE             = true;
+
+    /**
+     * Do not overwrite file if already exists.
+     *
+     * @const bool
+     */
+    const DO_NOT_OVERWRITE      = false;
+
+    /**
+     * Make directory if does not exist.
+     *
+     * @const bool
+     */
+    const MAKE_DIRECTORY        = true;
+
+    /**
+     * Do not make directory if does not exist.
+     *
+     * @const bool
+     */
+    const DO_NOT_MAKE_DIRECTORY = false;
+
+
+
+    /**
      * Set access and modification time of file.
      *
      * @access  public
@@ -66,13 +96,15 @@ interface Hoa_Stream_Io_Touchable {
 
     /**
      * Copy file.
+     * Return the destination file path if succeed, false otherwise.
      *
      * @access  public
      * @param   string  $to       Destination path.
      * @param   bool    $force    Force to copy if the file $to already exists.
+     *                            Use the self::*OVERWRITE constants.
      * @return  bool
      */
-    public function copy ( $to );
+    public function copy ( $to, $force = self::DO_NOT_OVERWRITE );
 
     /**
      * Move a file.
@@ -81,9 +113,13 @@ interface Hoa_Stream_Io_Touchable {
      * @param   string  $name     New name.
      * @param   bool    $force    Force to move if the file $name already
      *                            exists.
+     *                            Use the self::*OVERWRITE constants.
+     * @param   bool    $mkdir    Force to make directory if does not exist.
+     *                            Use the self::*DIRECTORY constants.
      * @return  bool
      */
-    public function move ( $name );
+    public function move ( $name, $force = self::DO_NOT_OVERWRITE,
+                           $mkdir = self::DO_NOT_MAKE_DIRECTORY );
 
     /**
      * Delete a file.
@@ -92,15 +128,6 @@ interface Hoa_Stream_Io_Touchable {
      * @return  bool
      */
     public function delete ( );
-
-    /**
-     * Truncate a file to a given length.
-     *
-     * @access  public
-     * @param   int     $size    Size.
-     * @return  boom
-     */
-    public function truncate ( $size );
 
     /**
      * Change file group.
@@ -124,7 +151,7 @@ interface Hoa_Stream_Io_Touchable {
      * Change file owner.
      *
      * @access  public
-     * @param   string  $user    User.
+     * @param   mixed   $user    User.
      * @return  bool
      */
     public function changeOwner ( $user );
@@ -133,8 +160,9 @@ interface Hoa_Stream_Io_Touchable {
      * Change the current umask.
      *
      * @access  public
-     * @param   int     $umask    Umask. If null, given the current umask value.
+     * @param   int     $umask    Umask (in octal!). If null, given the current
+     *                            umask value.
      * @return  int
      */
-    public function umask ( $umask = null );
+    public static function umask ( $umask = null );
 }
