@@ -57,8 +57,7 @@ interface Hoa_Stream_Io_Bufferable {
      * Flush the output to a stream.
      *
      * @access  public
-     * @param   Hoa_Stream_Io  $stream    Stream to flush.
      * @return  bool
      */
-    public function flush ( Hoa_Stream_Io $stream );
+    public function flush ( );
 }
