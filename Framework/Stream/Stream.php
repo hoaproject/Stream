@@ -42,6 +42,11 @@ require_once 'Framework.php';
 import('Stream.Exception');
 
 /**
+ * Hoa_Stream_Context
+ */
+import('Stream.Context');
+
+/**
  * Class Hoa_Stream.
  *
  * Static register for all streams (files, sockets etc.).
@@ -57,25 +62,39 @@ import('Stream.Exception');
 abstract class Hoa_Stream {
 
     /**
-     * Handler register index.
+     * Name index in the stream bucket.
      *
      * @const int
      */
-    const HANDLER  = 0;
+    const NAME     = 0;
 
     /**
-     * Resource register index.
+     * Handler index in the stream bucket.
      *
      * @const int
      */
-    const RESOURCE = 1;
+    const HANDLER  = 1;
 
     /**
-     * Current stream.
+     * Resource index in the stream bucket.
      *
-     * @var Hoa_Stream resource
+     * @const int
      */
-    protected      $_stream   = null;
+    const RESOURCE = 2;
+
+    /**
+     * Context index in the stream bucket.
+     *
+     * @const int
+     */
+    const CONTEXT  = 4;
+
+    /**
+     * Current stream bucket.
+     *
+     * @var Hoa_Stream array
+     */
+    protected      $_bucket   = array();
 
     /**
      * Static stream register.
@@ -93,11 +112,13 @@ abstract class Hoa_Stream {
      *
      * @access  public
      * @param   string  $streamName    Stream name (e.g. path or URL).
+     * @param   string  $context       Context ID (please, see the
+     *                                 Hoa_Stream_Context class).
      * @return  void
      */
-    public function __construct ( $streamName ) {
+    public function __construct ( $streamName, $context = null ) {
 
-        $this->_stream = self::_getStream($streamName, $this);
+        $this->_bucket = self::_getStream($streamName, $this, $context);
 
         return;
     }
@@ -110,19 +131,34 @@ abstract class Hoa_Stream {
      * @access  private
      * @param   string      $streamName    Stream name.
      * @param   Hoa_Stream  $handler       Stream handler.
-     * @return  resource
+     * @param   string      $context       Context ID (please, see the
+     *                                     Hoa_Stream_Context class).
+     * @return  array
+     * @throw   Hoa_Stream_Exception
      */
-    final private static function &_getStream ( $streamName, Hoa_Stream $handler ) {
+    final private static function &_getStream ( $streamName, Hoa_Stream $handler, $context = null ) {
 
         $name = md5($streamName);
 
+        if(null !== $context) {
+
+            if(false === Hoa_Stream_Context::contextExists($context))
+                throw new Hoa_Stream_Exception(
+                    'Context %s was not previously declared, cannot retrieve ' .
+                    'this context.', 0, $context);
+
+            $context = Hoa_Stream_Context::getInstance($context);
+        }
+
         if(!isset(self::$_register[$name]))
             self::$_register[$name] = array(
+                self::NAME     => $streamName,
                 self::HANDLER  => $handler,
-                self::RESOURCE => $handler->open($streamName)
+                self::RESOURCE => $handler->open($streamName, $context),
+                self::CONTEXT  => $context
             );
 
-        return self::$_register[$name][self::RESOURCE];
+        return self::$_register[$name];
     }
 
     /**
@@ -131,11 +167,12 @@ abstract class Hoa_Stream {
      * overloaded into a public context.
      *
      * @access  protected
-     * @param   string     $streamName    Stream name (e.g. path or URL).
+     * @param   string              $streamName    Stream name (e.g. path or URL).
+     * @param   Hoa_Stream_Context  $context       Context.
      * @return  resource
-     * @throw   Hoa_Stream_Exception
+     * @throw   Hoa_Exception
      */
-    abstract protected function &open ( $streamName );
+    abstract protected function &open ( $streamName, Hoa_Stream_Context $context = null );
 
     /**
      * Close the current stream.
@@ -149,6 +186,17 @@ abstract class Hoa_Stream {
     abstract protected function close ( );
 
     /**
+     * Get the current stream name.
+     *
+     * @access  protected
+     * @return  string
+     */
+    protected function getStreamName ( ) {
+
+        return $this->_bucket[self::NAME];
+    }
+
+    /**
      * Get the current stream.
      *
      * @access  protected
@@ -156,7 +204,18 @@ abstract class Hoa_Stream {
      */
     protected function getStream ( ) {
 
-        return $this->_stream;
+        return $this->_bucket[self::RESOURCE];
+    }
+
+    /**
+     * Get the current stream context.
+     *
+     * @access  protected
+     * @return  Hoa_Stream_Context
+     */
+    protected function getStreamContext ( ) {
+
+        return $this->_bucket[self::CONTEXT];
     }
 
     /**
@@ -213,7 +272,7 @@ abstract class Hoa_Stream {
      */
     public function disableStreamBuffer ( ) {
 
-        return $this->setBuffer(0);
+        return $this->setStreamBuffer(0);
     }
 
     /**
@@ -232,6 +291,17 @@ abstract class Hoa_Stream {
             $entry[self::HANDLER]->close();
 
         return;
+    }
+
+    /**
+     * Transform object to string.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function __toString ( ) {
+
+        return $this->getStreamName();
     }
 }
 
