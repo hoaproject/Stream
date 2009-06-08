@@ -167,7 +167,10 @@ abstract class Hoa_Stream_Filter_Default extends php_user_filter {
      * @access  public
      * @return  void
      */
-    public function onClose ( ) { }
+    public function onClose ( ) {
+
+        return;
+    }
 
     /**
      * Set the filter name.
@@ -234,3 +237,4 @@ abstract class Hoa_Stream_Filter_Default extends php_user_filter {
         return $this->stream;
     }
 }
+
