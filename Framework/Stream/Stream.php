@@ -94,14 +94,22 @@ abstract class Hoa_Stream {
      *
      * @var Hoa_Stream array
      */
-    protected      $_bucket   = array();
+    protected $_bucket            = array();
 
     /**
      * Static stream register.
      *
      * @var Hoa_Stream array
      */
-    private static $_register = array();
+    private static $_register     = array();
+
+    /**
+     * Always uses stream resource. Please see the
+     * $this->alwaysUseStreamResource() method to get more informations.
+     *
+     * @var Hoa_Stream bool
+     */
+    protected $_useStreamResource = false;
 
 
 
@@ -222,12 +230,13 @@ abstract class Hoa_Stream {
      * Set the timeout period.
      *
      * @access  public
-     * @param   int     $second    Timeout period.
+     * @param   int     $second    Timeout period in seconds.
+     * @param   int     $micro     Timeout period in microseconds.
      * @return  bool
      */
-    public function setStreamTimeout ( $second ) {
+    public function setStreamTimeout ( $seconds, $microseconds = 0 ) {
 
-        return stream_set_timeout($this->getStream());
+        return stream_set_timeout($this->getStream(), $seconds, $microseconds);
     }
 
     /**
@@ -273,6 +282,39 @@ abstract class Hoa_Stream {
     public function disableStreamBuffer ( ) {
 
         return $this->setStreamBuffer(0);
+    }
+
+    /**
+     * Force to use a stream resource instead of a stream name.
+     * For example, the Hoa_File::readAll() method uses file_get_contents() to
+     * get all file datas. But this PHP function uses a stream name to work and
+     * not a stream resource. It is a really big problem in some cases, e.g.
+     * when applying filters, because filters work on a resource and the
+     * file_get_contents() starts a new resource (and of course, resources are
+     * not shared). So this method switches some methods behaviors.
+     *
+     * @access  public
+     * @param   bool    $useResource    Use a stream resource instead of a
+     *                                  stream name in some methods.
+     * @return  bool
+     */
+    public function alwaysUseStreamResource ( $useResource ) {
+
+        $old                      = $this->_useStreamResource;
+        $this->_useStreamResource = $useResource;
+
+        return $old;
+    }
+
+    /**
+     * Know if we must use a stream resource instead of a stream name.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isStreamResourceMustBeUsed ( ) {
+
+        return $this->_useStreamResource;
     }
 
     /**
