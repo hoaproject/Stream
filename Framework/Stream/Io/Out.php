@@ -76,10 +76,10 @@ interface Hoa_Stream_Io_Out {
      * Write a character.
      *
      * @access  public
-     * @param   string  $char    Character.
+     * @param   string  $character    Character.
      * @return  mixed
      */
-    public function writeCharacter ( $char );
+    public function writeCharacter ( $character );
 
     /**
      * Write an integer.

@@ -72,13 +72,13 @@ interface Hoa_Stream_Io_In {
     public function readString ( $length );
 
     /**
-     * Read a char.
+     * Read a character.
      * It could be equivalent to $this->read(1).
      *
      * @access  public
      * @return  string
      */
-    public function readChar ( );
+    public function readCharacter ( );
 
     /**
      * Read an integer.
