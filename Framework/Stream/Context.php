@@ -136,7 +136,7 @@ class Hoa_Stream_Context {
     protected function setContext ( $wrapper ) {
 
         $old            = $this->_context;
-        $this->_context = stream_context_create(array($wrapper => array()));
+        $this->_context = stream_context_create(array(strtolower($wrapper) => array()));
 
         return $old;
     }
@@ -151,7 +151,7 @@ class Hoa_Stream_Context {
     protected function setWrapper ( $wrapper ) {
 
         $old            = $this->_wrapper;
-        $this->_wrapper = $wrapper;
+        $this->_wrapper = strtolower($wrapper);
 
         return $old;
     }
