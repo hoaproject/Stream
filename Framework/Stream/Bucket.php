@@ -161,9 +161,6 @@ class Hoa_Stream_Bucket {
      */
     public function setData ( $data ) {
 
-        if(null === $this->getBucket())
-            return $this->getBucket()->data;
-
         $old                        = $this->getBucket()->data;
         $this->getBucket()->data    = $data;
         $this->getBucket()->datalen = strlen($this->getBucket()->data);
