@@ -148,7 +148,8 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
      *                                     Should be resource or an object
      *                                     Hoa_Stream.
      * @param   string      $name          Filter name.
-     * @param   int         $mode          self::READ or self::WRITE.
+     * @param   int         $mode          self::READ, self::WRITE or
+     *                                     self::READ_AND_WRITE.
      * @param   mixed       $parameters    Parameters.
      * @return  resource
      * @throw   Hoa_Stream_Exception
@@ -185,7 +186,8 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
      *                                     Should be resource or an object
      *                                     Hoa_Stream.
      * @param   string      $name          Filter name.
-     * @param   int         $mode          self::READ or self::WRITE.
+     * @param   int         $mode          self::READ, self::WRITE or
+     *                                     self::READ_AND_WRITE.
      * @param   mixed       $parameters    Parameters.
      * @return  resource
      * @throw   Hoa_Stream_Exception
