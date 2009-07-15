@@ -227,6 +227,17 @@ abstract class Hoa_Stream {
     }
 
     /**
+     * Check if the stream is opened.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isOpened ( ) {
+
+        return is_resource($this->getStream());
+    }
+
+    /**
      * Set the timeout period.
      *
      * @access  public
