@@ -67,7 +67,7 @@ import('Stream.Wrapper.Interface.Stream');
  */
 
 interface   Hoa_Stream_Wrapper_Interface
-    extends Hoa_Stream_Wrapper_Interface_Directory,
+    extends Hoa_Stream_Wrapper_Interface_File,
             Hoa_Stream_Wrapper_Interface_Stream {
 
     /**
