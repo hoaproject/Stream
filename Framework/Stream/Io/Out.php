@@ -100,6 +100,15 @@ interface Hoa_Stream_Io_Out {
     public function writeFloat ( $float );
 
     /**
+     * Write an array.
+     *
+     * @access  public
+     * @param   array   $array    Array.
+     * @return  mixed
+     */
+    public function writeArray ( Array $array );
+
+    /**
      * Write a line.
      *
      * @access  public

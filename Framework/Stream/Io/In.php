@@ -99,6 +99,17 @@ interface Hoa_Stream_Io_In {
     public function readFloat ( $length = 1 );
 
     /**
+     * Read an array.
+     * In most cases, it could be an alias to the $this->scanf() method.
+     *
+     * @access  public
+     * @param   mixed   $argument    Argument (because the behavior is very
+     *                               different according to the implementation).
+     * @return  array
+     */
+    public function readArray ( $argument );
+
+    /**
      * Read a line.
      *
      * @access  public
