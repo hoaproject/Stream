@@ -103,13 +103,13 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      * stream (LOCK_UN).
      *
      * @access  public
-     * @param   int     $operations    Operation is one the following:
-     *                                   * LOCK_SH to acquire a shared lock (reader) ;
-     *                                   * LOCK_EX to acquire an exclusive lock (writer) ;
-     *                                   * LOCK_UN to release a lock (shared or exclusive) ;
-     *                                   * LOCK_NB if we don't want flock() to
-     *                                     block while locking (not supported on
-     *                                     Windows).
+     * @param   int     $operation    Operation is one the following:
+     *                                  * LOCK_SH to acquire a shared lock (reader) ;
+     *                                  * LOCK_EX to acquire an exclusive lock (writer) ;
+     *                                  * LOCK_UN to release a lock (shared or exclusive) ;
+     *                                  * LOCK_NB if we don't want flock() to
+     *                                    block while locking (not supported on
+     *                                    Windows).
      * @return  bool
      */
     public function stream_lock ( $operation );
@@ -120,25 +120,34 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      * by fopen() and file_get_contents()).
      *
      * @access  public
-     * @param   string  $path          Specifies the URL that was passed to the
-     *                                 original function.
-     * @param   string  $mode          The mode used to open the file, as
-     *                                 detailed for fopen().
-     * @param   int     $options       Holds additional flags set by the
-     *                                 streams API. It can hold one or more of
-     *                                 the following values OR'd together.
-     * @param   string  $openedPath    If the $path is opened successfully, and
-     *                                 STREAM_USE_PATH is set in $options,
-     *                                 $openedPath should be set to the full
-     *                                 path of the file/resource that was
-     *                                 actually opened.
+     * @param   string  $path           Specifies the URL that was passed to the
+     *                                  original function.
+     * @param   string  $mode           The mode used to open the file, as
+     *                                  detailed for fopen().
+     * @param   int     $options        Holds additional flags set by the
+     *                                  streams API. It can hold one or more of
+     *                                  the following values OR'd together:
+     *                                    * STREAM_USE_PATH, if path is relative,
+     *                                      search for the resource using the
+     *                                      include_path;
+     *                                    * STREAM_REPORT_ERRORS, if this is set,
+     *                                      you are responsible for raising
+     *                                      errors using trigger_error during
+     *                                      opening the stream. If this is not
+     *                                      set, you should not raise any
+     *                                      errors.
+     * @param   string  &$openedPath    If the $path is opened successfully, and
+     *                                  STREAM_USE_PATH is set in $options,
+     *                                  $openedPath should be set to the full
+     *                                  path of the file/resource that was
+     *                                  actually opened.
      * @return  bool
      */
-    public function stream_open ( $patht, $mode, $options, $openedPath );
+    public function stream_open ( $patht, $mode, $options, &$openedPath );
 
     /**
      * Read from stream.
-     * This method is called in response to frea() and fgets().
+     * This method is called in response to fread() and fgets().
      *
      * @access  public
      * @param   int     $count    How many bytes of data from the current
@@ -181,7 +190,7 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      *                               * STREAM_OPTION_WRITE_BUFFER, the method
      *                                 was called in response to
      *                                 stream_set_write_buffer().
-     * @param   int     $arg1      If $option is
+     * @param   int     $arg1      If $option is:
      *                               * STREAM_OPTION_BLOCKING: requested blocking
      *                                 mode (1 meaning block, 0 not blocking) ;
      *                               * STREAM_OPTION_READ_TIMEOUT: the timeout
@@ -189,7 +198,7 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      *                               * STREAM_OPTION_WRITE_BUFFER: buffer mode
      *                                 (STREAM_BUFFER_NONE or
      *                                 STREAM_BUFFER_FULL).
-     * @param   int     $arg2      If $option is
+     * @param   int     $arg2      If $option is:
      *                               * STREAM_OPTION_BLOCKING: this option is
      *                                 not set ;
      *                               * STREAM_OPTION_READ_TIMEOUT: the timeout
