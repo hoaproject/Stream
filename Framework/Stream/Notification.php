@@ -45,7 +45,7 @@ import('Stream.Notification.Exception');
 /**
  * Class Hoa_Stream_Notification.
  *
- * .
+ * Manage stream notifications.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2008 Ivan ENDERLIN.
