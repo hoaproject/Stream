@@ -95,6 +95,7 @@ class Hoa_Stream_Context {
      * @param   string   $wrapper    Wrapper name.
      * @throw   Hoa_Stream_Exception
      * @return  void
+     * @throw   Hoa_Stream_Exception
      */
     private function __construct ( $wrapper ) {
 
@@ -115,13 +116,19 @@ class Hoa_Stream_Context {
      * @param   string  $id         Singleton ID.
      * @param   string  $wrapper    Wrapper name.
      * @return  Hoa_Stream_Context
+     * @throw   Hoa_Stream_Exception
      */
-    public static function getInstance ( $id, $wrapper = null ) {
+    public static function getInstance ( $id = null, $wrapper = null ) {
+
+        if(null === self:::$_currentId && null === $id)
+            throw new Hoa_Stream_Exception(
+                'Must precise a singleton index once.', 1);
 
         if(false === self::contextExists($id))
             self::$_instance[$id] = new self($wrapper);
 
-        self::$_currentId = $id;
+        if(null !== $id)
+            self::$_currentId = $id;
 
         return self::$_instance[$id];
     }
