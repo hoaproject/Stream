@@ -120,7 +120,7 @@ class Hoa_Stream_Context {
      */
     public static function getInstance ( $id = null, $wrapper = null ) {
 
-        if(null === self:::$_currentId && null === $id)
+        if(null === self::$_currentId && null === $id)
             throw new Hoa_Stream_Exception(
                 'Must precise a singleton index once.', 1);
 
