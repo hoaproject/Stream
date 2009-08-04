@@ -130,28 +130,25 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      *                                    * STREAM_USE_PATH, if path is relative,
      *                                      search for the resource using the
      *                                      include_path;
-     *                                    * STREAM_REPORT_ERRORS, if this is set,
-     *                                      you are responsible for raising
-     *                                      errors using trigger_error during
-     *                                      opening the stream. If this is not
-     *                                      set, you should not raise any
-     *                                      errors.
-     * @param   string  &$openedPath    If the $path is opened successfully, and
-     *                                  STREAM_USE_PATH is set in $options,
-     *                                  $openedPath should be set to the full
-     *                                  path of the file/resource that was
-     *                                  actually opened.
-     * @return  bool
+     *                                    * STREAM_REPORT_ERRORS, if this is
+     *                                    set, you are responsible for raising
+     *                                    errors using trigger_error during
+     *                                    opening the stream. If this is not
+     *                                    set, you should not raise any errors.
+     *                                    @param   string  &$openedPath    If
+     *                                    the $path is opened successfully, and
+     *                                    STREAM_USE_PATH is set in $options,
+     *                                    $openedPath should be set to the full
+     *                                    path of the file/resource that was
+     *                                    actually opened.  @return  bool
      */
-    public function stream_open ( $patht, $mode, $options, &$openedPath );
+    public function stream_open ( $path, $mode, $options, &$openedPath );
 
-    /**
-     * Read from stream.
-     * This method is called in response to fread() and fgets().
+    /** Read from stream.  This method is called in response to fread() and
+     * fgets().
      *
-     * @access  public
-     * @param   int     $count    How many bytes of data from the current
-     *                            position should be returned.
+     * @access  public @param   int     $count    How many bytes of data from
+     * the current position should be returned.
      * @return  string
      */
     public function stream_read ( $count );
