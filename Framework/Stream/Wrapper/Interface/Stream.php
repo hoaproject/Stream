@@ -141,6 +141,7 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      *                                    $openedPath should be set to the full
      *                                    path of the file/resource that was
      *                                    actually opened.  @return  bool
+     * @return  bool
      */
     public function stream_open ( $path, $mode, $options, &$openedPath );
 
