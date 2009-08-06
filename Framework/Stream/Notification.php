@@ -149,10 +149,11 @@ class Hoa_Stream_Notification {
      * Set the stream.
      *
      * @access  public
-     * @param   resource  $stream    Stream.
+     * @param   resource  $stream    Stream (or null to apply the notification
+     *                               to all streams).
      * @return  void
      */
-    public function __construct ( $stream ) {
+    public function __construct ( $stream = null ) {
 
         $this->setStream($stream);
         stream_context_set_params(
@@ -179,7 +180,7 @@ class Hoa_Stream_Notification {
             throw new Hoa_Stream_Notification_Exception(
                 'Notification %s is already registered.', 0, $index);
 
-        self::$_notifiers[$index] = $notifier;
+        $this->_notifiers[$index] = $notifier;
 
         return;
     }
@@ -197,7 +198,7 @@ class Hoa_Stream_Notification {
         if($notifier instanceof Hoa_Stream_Notification_Interface)
             $notifier = get_class($notifier);
 
-        unset(self::$_notifiers[$notifier]);
+        unset($this->_notifiers[$notifier]);
 
         return;
     }
@@ -214,7 +215,7 @@ class Hoa_Stream_Notification {
         if($notifier instanceof Hoa_Stream_Notification_Interface)
             $notifier = get_class($notifier);
 
-        return isset(self::$_notifiers[$notifier]);
+        return isset($this->_notifiers[$notifier]);
     }
 
     /**
@@ -237,6 +238,8 @@ class Hoa_Stream_Notification {
      */
     public function callback ( $notifCode, $severity,    $message,
                                $code,      $transferred, $max ) {
+
+        var_dump('here');
 
         switch($notifCode) {
 
