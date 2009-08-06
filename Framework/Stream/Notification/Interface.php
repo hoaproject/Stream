@@ -82,7 +82,7 @@ interface Hoa_Stream_Notification_Interface {
 
 
     /**
-     * A remove address required for this stream has been resolved, or the
+     * A remote address required for this stream has been resolved, or the
      * resolution failed. See the severity for an indication of which happened.
      *
      * @access  public
