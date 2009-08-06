@@ -66,7 +66,7 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
     public function stream_cast ( $castAs );
 
     /**
-     * Close an resource.
+     * Close a resource.
      * This method is called in response to fclose().
      * All resources that were locked, or allocated, by the wrapper should be
      * released.
@@ -88,7 +88,7 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
     /**
      * Flush the output.
      * This method is called in response to fflush().
-     * If we have cached data in your stream but not yet stored it into the
+     * If we have cached data in our stream but not yet stored it into the
      * underlying storage, we should do so now.
      *
      * @access  public
@@ -144,11 +144,13 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      */
     public function stream_open ( $path, $mode, $options, &$openedPath );
 
-    /** Read from stream.  This method is called in response to fread() and
-     * fgets().
+    /**
+     * Read from stream.
+     * This method is called in response to fread() and fgets().
      *
-     * @access  public @param   int     $count    How many bytes of data from
-     * the current position should be returned.
+     * @access  public
+     * @param   int     $count    How many bytes of data from the current
+     *                            position should be returned.
      * @return  string
      */
     public function stream_read ( $count );
