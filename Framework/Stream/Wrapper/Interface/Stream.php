@@ -135,12 +135,11 @@ interface Hoa_Stream_Wrapper_Interface_Stream {
      *                                    errors using trigger_error during
      *                                    opening the stream. If this is not
      *                                    set, you should not raise any errors.
-     *                                    @param   string  &$openedPath    If
-     *                                    the $path is opened successfully, and
-     *                                    STREAM_USE_PATH is set in $options,
-     *                                    $openedPath should be set to the full
-     *                                    path of the file/resource that was
-     *                                    actually opened.  @return  bool
+     * @param   string  &$openedPath    If the $path is opened successfully, and
+     *                                  STREAM_USE_PATH is set in $options,
+     *                                  $openedPath should be set to the full
+     *                                  path of the file/resource that was
+     *                                  actually opened.
      * @return  bool
      */
     public function stream_open ( $path, $mode, $options, &$openedPath );
