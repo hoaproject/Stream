@@ -358,4 +358,5 @@ abstract class Hoa_Stream {
     }
 }
 
+
 Hoa_Framework::registerShutDownFunction('Hoa_Stream', '_Hoa_Stream');
