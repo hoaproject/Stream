@@ -63,28 +63,28 @@ class Hoa_Stream_Context {
      *
      * @var Hoa_Stream_Context array
      */
-    private static $_instance  = array();
+    protected static $_instance  = array();
 
     /**
      * Current ID.
      *
      * @var Hoa_Stream_Context string
      */
-    private static $_currentId = null;
+    protected static $_currentId = null;
 
     /**
      * Context.
      *
      * @var Hoa_Stream_Context resource
      */
-    protected $_context        = null;
+    protected $_context          = null;
 
     /**
      * Wrapper name.
      *
      * @var Hoa_Stream_Context string
      */
-    protected $_wrapper        = null;
+    protected $_wrapper          = null;
 
 
 
@@ -97,14 +97,10 @@ class Hoa_Stream_Context {
      * @return  void
      * @throw   Hoa_Stream_Exception
      */
-    private function __construct ( $wrapper ) {
+    protected function __construct ( $wrapper ) {
 
-        if(null === $wrapper)
-            throw new Hoa_Stream_Exception(
-                'Wrapper name cannot be null.', 0);
-
-        $this->setContext($wrapper);
         $this->setWrapper($wrapper);
+        $this->setContext();
 
         return;
     }
@@ -116,13 +112,13 @@ class Hoa_Stream_Context {
      * @param   string  $id         Singleton ID.
      * @param   string  $wrapper    Wrapper name.
      * @return  Hoa_Stream_Context
-     * @throw   Hoa_Stream_Exception
+     * @throws  Hoa_Stream_Exception
      */
     public static function getInstance ( $id = null, $wrapper = null ) {
 
         if(null === self::$_currentId && null === $id)
             throw new Hoa_Stream_Exception(
-                'Must precise a singleton index once.', 1);
+                'Must precise a singleton index once.', 0);
 
         if(false === self::contextExists($id))
             self::$_instance[$id] = new self($wrapper);
@@ -137,13 +133,14 @@ class Hoa_Stream_Context {
      * Create the stream context.
      *
      * @access  protected
-     * @param   string     $wrapper    Wrapper name.
      * @return  resource
      */
-    protected function setContext ( $wrapper ) {
+    protected function setContext ( ) {
 
         $old            = $this->_context;
-        $this->_context = stream_context_create(array(strtolower($wrapper) => array()));
+        $this->_context = stream_context_create(array(
+            strtolower($this->getWrapper()) => array()
+        ));
 
         return $old;
     }
@@ -157,6 +154,10 @@ class Hoa_Stream_Context {
      */
     protected function setWrapper ( $wrapper ) {
 
+        if(null === $wrapper)
+            throw new Hoa_Stream_Exception(
+                'Wrapper name cannot be null.', 0);
+
         $old            = $this->_wrapper;
         $this->_wrapper = strtolower($wrapper);
 
@@ -168,16 +169,14 @@ class Hoa_Stream_Context {
      *
      * @access  public
      * @param   array   $options    Options to add.
-     * @return  bool
+     * @return  Hoa_Context
      */
     public function addOptions ( Array $options ) {
 
-        $out = true;
-
         foreach($options as $key => $value)
-            $out &= $this->addOption($key, $value);
+            $this->addOption($key, $value);
 
-        return (bool) $out;
+        return $this;
     }
 
     /**
@@ -186,16 +185,18 @@ class Hoa_Stream_Context {
      * @access  public
      * @param   string  $key      Key.
      * @param   mixed   $value    Value.
-     * @return  bool
+     * @return  Hoa_Context
      */
     public function addOption ( $key, $value ) {
 
-        return stream_context_set_option(
+        stream_context_set_option(
             $this->getContext(),
             $this->getWrapper(),
             $key,
             $value
         );
+
+        return $this;
     }
 
     /**
@@ -248,15 +249,15 @@ class Hoa_Stream_Context {
      * @access  public
      * @param   string  $option    Option name.
      * @return  mixed
-     * @throw   Hoa_Stream_Exception
+     * @throws  Hoa_Stream_Exception
      */
     public function getOption ( $option ) {
 
         if(false === $this->optionExists($option))
             throw new Hoa_Stream_Exception(
                 'Option %s does not exist for the context that wrappes %s, with ' .
-                'id %s.', 0,
-                array($option, $this->getWrapper(), $this->getCurrentId()));
+                'id %s.',
+                1, array($option, $this->getWrapper(), $this->getCurrentId()));
 
         $options = $this->getOptions();
 
