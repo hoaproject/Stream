@@ -43,6 +43,11 @@ require_once 'Framework.php';
 import('Stream.Notification.Exception');
 
 /**
+ * Hoa_Stream_Context
+ */
+import('Stream.Context');
+
+/**
  * Class Hoa_Stream_Notification.
  *
  * Manage stream notifications.
@@ -56,7 +61,7 @@ import('Stream.Notification.Exception');
  * @subpackage  Hoa_Stream_Notification
  */
 
-class Hoa_Stream_Notification {
+class Hoa_Stream_Notification extends Hoa_Stream_Context {
 
     /**
      * A remove address required for this stream has been resolved, or the
@@ -130,13 +135,6 @@ class Hoa_Stream_Notification {
     const AUTH_RESULT   = STREAM_NOTIFY_AUTH_RESULT;
 
     /**
-     * Stream.
-     *
-     * @var Hoa_Stream_Notification resource
-     */
-    protected $_stream  = null;
-
-    /**
      * Notifiers list.
      *
      * @var Hoa_Stream_Notification array
@@ -146,22 +144,78 @@ class Hoa_Stream_Notification {
 
 
     /**
-     * Set the stream.
+     * Static inheritance is not very functional in PHP < 5.3. So rewrite the
+     * getInstance() method here :-).
      *
      * @access  public
-     * @param   resource  $stream    Stream (or null to apply the notification
-     *                               to all streams).
-     * @return  void
+     * @param   string  $id         Singleton ID.
+     * @param   string  $wrapper    Wrapper name (falcultative if just using
+     *                              notification, not the context).
+     * @return  Hoa_Stream_Notification
+     * @throws  Hoa_Stream_Exception
      */
-    public function __construct ( $stream = null ) {
+    public static function getInstance ( $id = null, $wrapper = null ) {
 
-        $this->setStream($stream);
-        stream_context_set_params(
-            $this->getStream(),
+        if(null === parent::$_currentId && null === $id)
+            throw new Hoa_Strem_Exception(
+                'Must precise a singleton index once.', 0);
+
+        if(false === parent::contextExists($id))
+            parent::$_instance[$id] = new self($wrapper);
+
+        if(null !== $id)
+            parent::$_currentId = $id;
+
+        return parent::$_instance[$id];
+    }
+
+    /**
+     * Create the stream context.
+     *
+     * @access  protected
+     * @return  resource
+     */
+    protected function setContext ( ) {
+
+        $old            = $this->_context;
+        $this->_context = stream_context_create(
+            parent::getContext(),
             array('notification' => array($this, 'callback'))
         );
 
-        return;
+        return $old;
+    }
+
+    /**
+     * Set the wrapper value.
+     *
+     * @access  protected
+     * @param   string     $wrapper    Wrapper name.
+     * @return  string
+     */
+    protected function setWrapper ( $wrapper ) {
+
+        $old            = $this->_wrapper;
+        $this->_wrapper = strtolower($wrapper);
+    }
+
+    /**
+     * Get the wrapper value.
+     *
+     * @access  public
+     * @return  string
+     * @throws  Hoa_Stream_Exception
+     */
+    public function getWrapper ( ) {
+
+        $out = parent::getWrapper();
+
+        if(null === $out)
+            throw new Hoa_Stream_Exception(
+                'Wrapper cannot be null. Please, precise a wrapper name if you
+                want to use notification _and_ context.', 1);
+
+        return $out;
     }
 
     /**
@@ -169,20 +223,20 @@ class Hoa_Stream_Notification {
      *
      * @access  public
      * @param   Hoa_Stream_Notification_Interface  $notifier    Notifier.
-     * @return  void
+     * @return  Hoa_Stream_Notification
      * @throw   Hoa_Stream_Notification_Exception
      */
     public function register ( Hoa_Stream_Notification_Interface $notifier ) {
 
-        $index = get_class($index);
+        $index = get_class($notifier);
 
         if(true === self::isRegistered($index))
             throw new Hoa_Stream_Notification_Exception(
-                'Notification %s is already registered.', 0, $index);
+                'Notification %s is already registered.', 2, $index);
 
         $this->_notifiers[$index] = $notifier;
 
-        return;
+        return $this;
     }
 
     /**
@@ -190,7 +244,7 @@ class Hoa_Stream_Notification {
      *
      * @access  public
      * @param   mixed   $notifier    Notifier instance or name (i.e. classname).
-     * @return  void
+     * @return  Hoa_Stream_Notification
      * @throw   Hoa_Stream_Notification_Exception
      */
     public function unregister ( $notifier ) {
@@ -200,7 +254,7 @@ class Hoa_Stream_Notification {
 
         unset($this->_notifiers[$notifier]);
 
-        return;
+        return $this;
     }
 
     /**
@@ -239,91 +293,63 @@ class Hoa_Stream_Notification {
     public function callback ( $notifCode, $severity,    $message,
                                $code,      $transferred, $max ) {
 
-        var_dump('here');
-
         switch($notifCode) {
 
             case self::RESOLVE:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->resolve($severity, $message, $code, $transferred, $max);
               break;
 
             case self::CONNECT:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->connect($severity, $message, $code, $transferred, $max);
               break;
 
             case self::AUTH_REQUIRED:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->authRequired($severity, $message, $code, $transferred, $max);
               break;
 
             case self::MIME_TYPE_IS:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->mimeTypeIs($severity, $message, $code, $transferred, $max);
               break;
 
             case self::SIZE_IS:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->sizeIs($severity, $message, $code, $transferred, $max);
               break;
 
             case self::REDIRECTED:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->redirected($severity, $message, $code, $transferred, $max);
               break;
 
             case self::PROGRESS:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->progress($severity, $message, $code, $transferred, $max);
               break;
 
             case self::COMPLETED:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->completed($severity, $message, $code, $transferred, $max);
               break;
 
             case self::FAILURE:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->failure($severity, $message, $code, $transferred, $max);
               break;
 
             case self::AUTH_RESULT:
-                foreach(self::$_notifiers as $i => $notifier)
+                foreach($this->_notifiers as $i => $notifier)
                     $notifier->authResult($severity, $message, $code, $transferred, $max);
               break;
 
             default:
                 throw new Hoa_Stream_Notification_Exception(
-                    'Unknown notification code : %d.', 1, $notifCode);
+                    'Unknown notification code : %d.', 3, $notifCode);
         }
 
         return;
-    }
-
-    /**
-     * Set the stream.
-     *
-     * @access  protected
-     * @param   resource   $stream    Stream.
-     * @return  resource
-     */
-    protected function setStream ( $stream ) {
-
-        $old           = $this->_stream;
-        $this->_stream = $stream;
-
-        return $old;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @access  protected
-     * @return  resource
-     */
-    protected function getStream ( ) {
-
-        return $this->_stream;
     }
 }
