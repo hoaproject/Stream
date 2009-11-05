@@ -329,6 +329,20 @@ abstract class Hoa_Stream {
     }
 
     /**
+     * Get stream wrapper name.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function getStreamWrapperName ( ) {
+
+        if(false === $pos = strpos($this->getStreamName(), '://'))
+            return 'file';
+
+        return substr($this->getStreamName(), 0, $pos);
+    }
+
+    /**
      * Call the $handler->close() method on each stream in the static stream
      * register.
      * This method does not check the return value of $handler->close(). Thus,
