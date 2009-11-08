@@ -297,9 +297,9 @@ abstract class Hoa_Stream {
 
     /**
      * Force to use a stream resource instead of a stream name.
-     * For example, the Hoa_File::readAll() method uses file_get_contents() to
-     * get all file datas. But this PHP function uses a stream name to work and
-     * not a stream resource. It is a really big problem in some cases, e.g.
+     * For example, the Hoa_File_Read::readAll() method uses file_get_contents()
+     * to get all file datas. But this PHP function uses a stream name to work
+     * and not a stream resource. It is a really big problem in some cases, e.g.
      * when applying filters, because filters work on a resource and the
      * file_get_contents() starts a new resource (and of course, resources are
      * not shared). So this method switches some methods behaviors.
