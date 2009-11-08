@@ -54,6 +54,14 @@ require_once 'Framework.php';
 interface Hoa_Stream_Io_In {
 
     /**
+     * Test for end-of-file.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function eof ( );
+
+    /**
      * Read n characters.
      *
      * @access  public

@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io
+ * @subpackage  Hoa_Stream_Io_Pathable
  *
  */
 
@@ -38,24 +38,9 @@
 require_once 'Framework.php';
 
 /**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
-
-/**
- * Hoa_Stream_Io_In
- */
-import('Stream.Io.In');
-
-/**
- * Hoa_Stream_Io_Out
- */
-import('Stream.Io.Out');
-
-/**
- * Interface Hoa_Stream_Io.
+ * Interface Hoa_Stream_Io_Pathable.
  *
- * Interface for input/output.
+ * Interface for bufferable input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2008 Ivan ENDERLIN.
@@ -63,9 +48,24 @@ import('Stream.Io.Out');
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io
+ * @subpackage  Hoa_Stream_Io_Pathable
  */
 
-interface Hoa_Stream_Io extends Hoa_Stream_Io_In,
-                                Hoa_Stream_Io_Out {
+interface Hoa_Stream_Io_Pathable {
+
+    /**
+     * Get filename component of path.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function getBasename ( );
+
+    /**
+     * Get directory name component of path.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function getDirname ( );
 }

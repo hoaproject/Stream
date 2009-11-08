@@ -54,6 +54,21 @@ require_once 'Framework.php';
 interface Hoa_Stream_Io_Statable {
 
     /**
+     * Size is undefined.
+     *
+     * @const int
+     */
+    const SIZE_UNDEFINED = -1;
+
+    /**
+     * Get size.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getSize ( );
+
+    /**
      * Get informations about a file.
      *
      * @access  public
