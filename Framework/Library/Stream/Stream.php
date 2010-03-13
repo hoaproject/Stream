@@ -166,6 +166,10 @@ abstract class Hoa_Stream {
                 self::CONTEXT  => $context
             );
 
+        if(null === self::$_register[$name][self::RESOURCE])
+            self::$_register[$name][self::RESOURCE] =
+                $handler->open($streamName, $context);
+
         return self::$_register[$name];
     }
 
