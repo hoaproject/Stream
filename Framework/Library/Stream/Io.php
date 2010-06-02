@@ -67,5 +67,4 @@ import('Stream.Io.Out');
  */
 
 interface Hoa_Stream_Io extends Hoa_Stream_Io_In,
-                                Hoa_Stream_Io_Out {
-}
+                                Hoa_Stream_Io_Out { }
