@@ -82,6 +82,15 @@ interface Hoa_Stream_Io_Out {
     public function writeCharacter ( $character );
 
     /**
+     * Write a boolean.
+     *
+     * @access  public
+     * @param   bool    $boolean    Boolean.
+     * @return  mixed
+     */
+    public function writeBoolean ( $boolean );
+
+    /**
      * Write an integer.
      *
      * @access  public
