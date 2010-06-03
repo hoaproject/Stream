@@ -89,6 +89,14 @@ interface Hoa_Stream_Io_In {
     public function readCharacter ( );
 
     /**
+     * Read a boolean.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function readBoolean ( );
+
+    /**
      * Read an integer.
      *
      * @access  public
