@@ -200,10 +200,10 @@ abstract class Hoa_Stream {
     /**
      * Get the current stream name.
      *
-     * @access  protected
+     * @access  public
      * @return  string
      */
-    protected function getStreamName ( ) {
+    public function getStreamName ( ) {
 
         return $this->_bucket[self::NAME];
     }
