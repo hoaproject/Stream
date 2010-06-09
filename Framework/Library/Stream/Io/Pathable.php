@@ -40,7 +40,7 @@ require_once 'Framework.php';
 /**
  * Interface Hoa_Stream_Io_Pathable.
  *
- * Interface for bufferable input/output.
+ * Interface for pathable input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
