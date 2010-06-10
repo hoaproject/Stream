@@ -57,7 +57,7 @@ interface Hoa_Stream_Io_Structural {
      * Select root of the document: :root.
      *
      * @access  public
-     * @return  bool
+     * @return  Hoa_Stream_Io_Structural
      */
     public function selectRoot ( );
 
@@ -65,7 +65,7 @@ interface Hoa_Stream_Io_Structural {
      * Select any element: *.
      *
      * @access  public
-     * @return  bool
+     * @return  array
      */
     public function selectAnyElement ( );
 
@@ -74,47 +74,61 @@ interface Hoa_Stream_Io_Structural {
      *
      * @access  public
      * @param   string  $E    Element E.
-     * @return  bool
+     * @return  array
      */
-    public function selectElement ( $E );
+    public function selectElement ( $E = null );
 
     /**
      * Select an F element descendant of an E element: E F.
      *
      * @access  public
-     * @param   string  $E    Element E.
      * @param   string  $F    Element F.
-     * @return  bool
+     * @return  array
      */
-    public function selectDescendantElement ( $E, $F );
+    public function selectDescendantElement ( $F = null );
 
     /**
      * Select an F element child of an E element: E > F.
      *
      * @access  public
-     * @param   string  $E    Element E.
      * @param   string  $F    Element F.
-     * @return  bool
+     * @return  array
      */
-    public function selectChildElement ( $E, $F );
+    public function selectChildElement ( $F = null );
 
     /**
      * Select an F element immediately preceded by an E element: E + F.
      *
      * @access  public
-     * @param   string  $E    Element E.
      * @param   string  $F    Element F.
-     * @return  bool
+     * @return  Hoa_Stream_Io_Structural
      */
-    public function selectAdjacentSiblingElement ( $E, $F );
+    public function selectAdjacentSiblingElement ( $F );
 
     /**
      * Select an F element preceded by an E element: E ~ F.
      *
      * @access  public
-     * @param   string  $E    Element E.
      * @param   string  $F    Element F.
-     * @return  bool
+     * @return  array
      */
-    public function selectSiblingElement ( $E, $F );
+    public function selectSiblingElement ( $F = null );
+
+    /**
+     * Execute a query selector and return the first result.
+     *
+     * @access  public
+     * @param   string  $query    Query.
+     * @return  Hoa_Stream_Io_Structural
+     */
+    public function querySelector ( $query );
+
+    /**
+     * Execute a query selector and return one or many results.
+     *
+     * @access  public
+     * @param   string  $query    Query.
+     * @return  array
+     */
+    public function querySelectorAll ( $query );
 }
