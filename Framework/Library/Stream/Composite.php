@@ -38,7 +38,7 @@
 require_once 'Framework.php';
 
 /**
- * Class Hoa_Stream_Composite.
+ * Interface Hoa_Stream_Composite.
  *
  * Declare a composite stream, i.e. a stream that use stream.
  *
@@ -51,63 +51,7 @@ require_once 'Framework.php';
  * @subpackage  Hoa_Stream_Composite
  */
 
-abstract class Hoa_Stream_Composite {
-
-    /**
-     * Current stream.
-     *
-     * @var Hoa_Stream_Composite mixed
-     */
-    protected $_stream      = null;
-
-    /**
-     * Inner stream (used stream).
-     *
-     * @var Hoa_Stream object
-     */
-    protected $_innerStream = null;
-
-
-
-    /**
-     * Constructor declares the inner stream.
-     *
-     * @access  public
-     * @param   Hoa_Stream  $innerStream    Inner stream.
-     * @return  void
-     */
-    public function __construct ( Hoa_Stream $innerStream ) {
-
-        $this->setInnerStream($innerStream);
-
-        return;
-    }
-
-    /**
-     * Set current stream.
-     *
-     * @access  protected
-     * @param   mixed  $stream    Current stream.
-     * @return  mixed
-     */
-    protected function setStream ( $stream ) {
-
-        $old           = $this->_stream;
-        $this->_stream = $stream;
-
-        return $old;
-    }
-
-    /**
-     * Get current stream.
-     *
-     * @access  protected
-     * @return  Hoa_Stream
-     */
-    protected function getStream ( ) {
-
-        return $this->_stream;
-    }
+interface Hoa_Stream_Composite {
 
     /**
      * Set inner stream.
@@ -116,13 +60,7 @@ abstract class Hoa_Stream_Composite {
      * @param   Hoa_Stream  $innerStream    Inner stream.
      * @return  Hoa_Stream
      */
-    protected function setInnerStream ( Hoa_Stream $innerStream ) {
-
-        $old                = $this->_innerStream;
-        $this->_innerStream = $innerStream;
-
-        return $old;
-    }
+    protected function setInnerStream ( Hoa_Stream $innerStream );
 
     /**
      * Get inner stream.
@@ -130,8 +68,5 @@ abstract class Hoa_Stream_Composite {
      * @access  protected
      * @return  Hoa_Stream
      */
-    protected function getInnerStream ( ) {
-
-        return $this->_innerStream;
-    }
+    protected function getInnerStream ( );
 }
