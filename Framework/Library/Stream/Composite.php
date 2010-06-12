@@ -38,7 +38,7 @@
 require_once 'Framework.php';
 
 /**
- * Interface Hoa_Stream_Composite.
+ * Class Hoa_Stream_Composite.
  *
  * Declare a composite stream, i.e. a stream that use stream.
  *
@@ -51,7 +51,49 @@ require_once 'Framework.php';
  * @subpackage  Hoa_Stream_Composite
  */
 
-interface Hoa_Stream_Composite {
+abstract class Hoa_Stream_Composite {
+
+    /**
+     * Current stream.
+     *
+     * @var mixed object
+     */
+    protected $_stream      = null;
+
+    /**
+     * Inner stream.
+     *
+     * @var Hoa_Stream object
+     */
+    protected $_innerStream = null;
+
+
+
+    /**
+     * Set current stream.
+     *
+     * @access  protected
+     * @param   object  $stream    Current stream.
+     * @return  object
+     */
+    protected function setStream ( $stream ) {
+
+        $old           = $this->_stream;
+        $this->_stream = $stream;
+
+        return $old;
+    }
+
+    /**
+     * Get current stream.
+     *
+     * @access  protected
+     * @return  object
+     */
+    protected function getStream ( ) {
+
+        return $this->_stream;
+    }
 
     /**
      * Set inner stream.
@@ -60,7 +102,13 @@ interface Hoa_Stream_Composite {
      * @param   Hoa_Stream  $innerStream    Inner stream.
      * @return  Hoa_Stream
      */
-    protected function setInnerStream ( Hoa_Stream $innerStream );
+    protected function setInnerStream ( Hoa_Stream $innerStream ) {
+
+        $old                = $this->_innerStream;
+        $this->_innerStream = $innerStream;
+
+        return $old;
+    }
 
     /**
      * Get inner stream.
@@ -68,5 +116,8 @@ interface Hoa_Stream_Composite {
      * @access  protected
      * @return  Hoa_Stream
      */
-    protected function getInnerStream ( );
+    protected function getInnerStream ( ) {
+
+        return $this->_innerStream;
+    }
 }
