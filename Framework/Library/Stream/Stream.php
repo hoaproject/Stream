@@ -104,7 +104,7 @@ abstract class Hoa_Stream {
     private static $_register     = array();
 
     /**
-     * Always uses stream resource. Please see the
+     * Whether always use stream resource. Please see the
      * $this->alwaysUseStreamResource() method to get more informations.
      *
      * @var Hoa_Stream bool
@@ -144,7 +144,9 @@ abstract class Hoa_Stream {
      * @return  array
      * @throw   Hoa_Stream_Exception
      */
-    final private static function &_getStream ( $streamName, Hoa_Stream $handler, $context = null ) {
+    final private static function &_getStream ( $streamName,
+                                                Hoa_Stream $handler,
+                                                $context = null ) {
 
         $name = md5($streamName);
 
