@@ -32,9 +32,9 @@
  */
 
 /**
- * Hoa_Framework
+ * Hoa_Core
  */
-require_once 'Framework.php';
+require_once 'Core.php';
 
 /**
  * Hoa_Stream_Exception
@@ -379,4 +379,4 @@ abstract class Hoa_Stream {
 }
 
 
-Hoa_Framework::registerShutDownFunction('Hoa_Stream', '_Hoa_Stream');
+Hoa_Core::registerShutDownFunction('Hoa_Stream', '_Hoa_Stream');
