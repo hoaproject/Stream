@@ -59,7 +59,7 @@ import('Stream.Context');
  * @package     Hoa_Stream
  */
 
-abstract class Hoa_Stream {
+abstract class Hoa_Stream implements Hoa_Core_Event_Source {
 
     /**
      * Name index in the stream bucket.
@@ -116,7 +116,7 @@ abstract class Hoa_Stream {
     /**
      * Set the current stream.
      * If not exists in the register, try to call the
-     * $this->open() method. Please, see the self::_getStream() method.
+     * $this->_open() method. Please, see the self::_getStream() method.
      *
      * @access  public
      * @param   string  $streamName    Stream name (e.g. path or URL).
@@ -134,7 +134,7 @@ abstract class Hoa_Stream {
     /**
      * Get a stream in the register.
      * If the stream does not exist, try to open it by calling the
-     * $handler->open() method.
+     * $handler->_open() method.
      *
      * @access  private
      * @param   string      $streamName    Stream name.
@@ -160,17 +160,28 @@ abstract class Hoa_Stream {
             $context = Hoa_Stream_Context::getInstance($context);
         }
 
-        if(!isset(self::$_register[$name]))
+        if(!isset(self::$_register[$name])) {
+
             self::$_register[$name] = array(
                 self::NAME     => $streamName,
                 self::HANDLER  => $handler,
-                self::RESOURCE => $handler->open($streamName, $context),
+                self::RESOURCE => $handler->_open($streamName, $context),
                 self::CONTEXT  => $context
             );
+            Hoa_Core_Event::register(
+                'hoa://Event/Stream/' . $streamName,
+                $handler
+            );
+            // Add :open-ready?
+            Hoa_Core_Event::register(
+                'hoa://Event/Stream/' . $streamName . ':close-before',
+                $handler
+            );
+        }
 
         if(null === self::$_register[$name][self::RESOURCE])
             self::$_register[$name][self::RESOURCE] =
-                $handler->open($streamName, $context);
+                $handler->_open($streamName, $context);
 
         return self::$_register[$name];
     }
@@ -186,18 +197,31 @@ abstract class Hoa_Stream {
      * @return  resource
      * @throw   Hoa_Exception
      */
-    abstract protected function &open ( $streamName, Hoa_Stream_Context $context = null );
+    abstract protected function &_open ( $streamName, Hoa_Stream_Context $context = null );
 
     /**
      * Close the current stream.
      * Note: this method is protected, but do not forget that it could be
      * overloaded into a public context.
-     * @todo : Closing a stream should delete it from the register, isn't it?
      *
      * @access  protected
      * @return  bool
      */
-    abstract protected function close ( );
+    abstract protected function _close ( );
+
+    /**
+     * @todo : Closing a stream should delete it from the register, isn't it?
+     */
+    final public function close ( ) {
+
+        Hoa_Core_Event::notify(
+            'hoa://Event/Stream/' . $this->getStreamName() . ':close-before',
+            $this,
+            new Hoa_Core_Event_Bucket()
+        );
+
+        $this->_close();
+    }
 
     /**
      * Get the current stream name.
