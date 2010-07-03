@@ -123,7 +123,7 @@ interface Hoa_Stream_Io_In {
      *                               different according to the implementation).
      * @return  array
      */
-    public function readArray ( $argument );
+    public function readArray ( $argument = null );
 
     /**
      * Read a line.
