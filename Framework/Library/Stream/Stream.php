@@ -257,6 +257,28 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
     }
 
     /**
+     * Set the current stream. Useful to manage a stack of streams (e.g. socket
+     * and select). Notice that it could be unsafe to use this method without
+     * taking time to think about it two minutes.
+     *
+     * @access  protected
+     * @return  resource
+     * @throw   Hoa_Stream_Exception
+     */
+    protected function _setStream ( $stream ) {
+
+        if(!is_resource($stream))
+            throw new Hoa_Stream_Exception(
+                'Eh! Read the API documentation! You must think two minutes ' .
+                'before using this method…', 1);
+
+        $old                           = $this->_bucket[self::RESOURCE];
+        $this->_bucket[self::RESOURCE] = $stream;
+
+        return $old;
+    }
+
+    /**
      * Check if the stream is opened.
      *
      * @access  public
