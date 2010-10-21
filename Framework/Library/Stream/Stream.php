@@ -211,7 +211,10 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
     abstract protected function _close ( );
 
     /**
-     * @todo : Closing a stream should delete it from the register, isn't it?
+     * Close the current stream.
+     *
+     * @access  public
+     * @return  void
      */
     final public function close ( ) {
 
@@ -222,6 +225,8 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
         );
 
         $this->_close();
+
+        return;
     }
 
     /**
