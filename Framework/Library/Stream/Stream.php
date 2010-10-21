@@ -197,7 +197,8 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * @return  resource
      * @throw   Hoa_Exception
      */
-    abstract protected function &_open ( $streamName, Hoa_Stream_Context $context = null );
+    abstract protected function &_open ( $streamName,
+                                         Hoa_Stream_Context $context = null );
 
     /**
      * Close the current stream.
