@@ -62,39 +62,39 @@ interface Hoa_Stream_Io_Structural {
     public function selectRoot ( );
 
     /**
-     * Select any element: *.
+     * Select any elements: *.
      *
      * @access  public
      * @return  array
      */
-    public function selectAnyElement ( );
+    public function selectAnyElements ( );
 
     /**
-     * Select an element of type E: E.
+     * Select elements of type E: E.
      *
      * @access  public
      * @param   string  $E    Element E.
      * @return  array
      */
-    public function selectElement ( $E = null );
+    public function selectElements ( $E = null );
 
     /**
-     * Select an F element descendant of an E element: E F.
+     * Select F elements descendant of an E element: E F.
      *
      * @access  public
      * @param   string  $F    Element F.
      * @return  array
      */
-    public function selectDescendantElement ( $F = null );
+    public function selectDescendantElements ( $F = null );
 
     /**
-     * Select an F element child of an E element: E > F.
+     * Select F elements children of an E element: E > F.
      *
      * @access  public
      * @param   string  $F    Element F.
      * @return  array
      */
-    public function selectChildElement ( $F = null );
+    public function selectChildElements ( $F = null );
 
     /**
      * Select an F element immediately preceded by an E element: E + F.
@@ -106,13 +106,13 @@ interface Hoa_Stream_Io_Structural {
     public function selectAdjacentSiblingElement ( $F );
 
     /**
-     * Select an F element preceded by an E element: E ~ F.
+     * Select F elements preceded by an E element: E ~ F.
      *
      * @access  public
      * @param   string  $F    Element F.
      * @return  array
      */
-    public function selectSiblingElement ( $F = null );
+    public function selectSiblingElements ( $F = null );
 
     /**
      * Execute a query selector and return the first result.
