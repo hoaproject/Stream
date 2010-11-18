@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Pointable
+ * @subpackage  Hoa_Stream_Interface_Pathable
  *
  */
 
@@ -38,9 +38,9 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_Pointable.
+ * Interface Hoa_Stream_Interface_Pathable.
  *
- * Interface for pointable input/output.
+ * Interface for pathable input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
@@ -48,57 +48,24 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Pointable
+ * @subpackage  Hoa_Stream_Interface_Pathable
  */
 
-interface Hoa_Stream_Io_Pointable {
+interface Hoa_Stream_Interface_Pathable {
 
     /**
-     * Set position equal to $offset bytes.
-     *
-     * @const int
-     */
-    const SEEK_SET     = SEEK_SET;
-
-    /**
-     * Set position to current location plus $offset.
-     *
-     * @const int
-     */
-    const SEEK_CURRENT = SEEK_CUR;
-
-    /**
-     * Set position to end-of-file plus $offset.
-     *
-     * @const int
-     */
-    const SEEK_END     = SEEK_END;
-
-
-
-    /**
-     * Rewind the position of a stream pointer.
+     * Get filename component of path.
      *
      * @access  public
-     * @return  bool
+     * @return  string
      */
-    public function rewind ( );
+    public function getBasename ( );
 
     /**
-     * Seek on a stream pointer.
+     * Get directory name component of path.
      *
      * @access  public
-     * @param   int     $offset    Offset (negative value should be supported).
-     * @param   int     $whence    Whence, use the self::SEEK_* constants.
-     * @return  int
+     * @return  string
      */
-    public function seek ( $offset, $whence = self::SEEK_SET );
-
-    /**
-     * Get the current position of the stream pointer.
-     *
-     * @access  public
-     * @return  int
-     */
-    public function tell ( );
+    public function getDirname ( );
 }

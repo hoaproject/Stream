@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Bufferable
+ * @subpackage  Hoa_Stream_Interface_Lockable
  *
  */
 
@@ -38,9 +38,9 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_Bufferable.
+ * Interface Hoa_Stream_Interface_Lockable.
  *
- * Interface for bufferable input/output.
+ * Interface for lockable input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
@@ -48,16 +48,48 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Bufferable
+ * @subpackage  Hoa_Stream_Interface_Lockable
  */
 
-interface Hoa_Stream_Io_Bufferable {
+interface Hoa_Stream_Interface_Lockable {
 
     /**
-     * Flush the output to a stream.
+     * Acquire a shared lock (reader).
+     *
+     * @const int
+     */
+    const LOCK_SHARED    = LOCK_SH;
+
+    /**
+     * Acquire an exclusive lock (writer).
+     *
+     * @const int
+     */
+    const LOCK_EXCLUSIVE = LOCK_EX;
+
+    /**
+     * Release a lock (shared or exclusive).
+     *
+     * @const int
+     */
+    const LOCK_RELEASE   = LOCK_UN;
+
+    /**
+     * If we do not want $this->lock() to block while locking.
+     *
+     * @const int
+     */
+    const LOCK_NO_BLOCK  = LOCK_NB;
+
+
+
+    /**
+     * Portable advisory locking.
+     * Should take a look at stream_supports_lock().
      *
      * @access  public
+     * @param   int     $operation    Operation, use the self::LOCK_* constants.
      * @return  bool
      */
-    public function flush ( );
+    public function lock ( $operation );
 }

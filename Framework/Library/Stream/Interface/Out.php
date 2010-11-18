@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Statable
+ * @subpackage  Hoa_Stream_Interface_Out
  *
  */
 
@@ -38,9 +38,9 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_Statable.
+ * Interface Hoa_Stream_Interface_Out.
  *
- * Interface for statable input/output.
+ * Interface for output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
@@ -48,119 +48,99 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Statable
+ * @subpackage  Hoa_Stream_Interface_Out
  */
 
-interface Hoa_Stream_Io_Statable {
+interface Hoa_Stream_Interface_Out {
 
     /**
-     * Size is undefined.
-     *
-     * @const int
-     */
-    const SIZE_UNDEFINED = -1;
-
-    /**
-     * Get size.
+     * Write n characters.
      *
      * @access  public
-     * @return  int
+     * @param   string  $string    String.
+     * @param   int     $length    Length.
+     * @return  mixed
      */
-    public function getSize ( );
+    public function write ( $string, $length );
 
     /**
-     * Get informations about a file.
+     * Write a string.
      *
      * @access  public
-     * @return  array
+     * @param   string  $string    String.
+     * @return  mixed
      */
-    public function getStatistic ( );
+    public function writeString ( $string );
 
     /**
-     * Get last access time of file.
+     * Write a character.
      *
      * @access  public
-     * @return  int
+     * @param   string  $character    Character.
+     * @return  mixed
      */
-    public function getATime ( );
+    public function writeCharacter ( $character );
 
     /**
-     * Get inode change time of file.
+     * Write a boolean.
      *
      * @access  public
-     * @return  int
+     * @param   bool    $boolean    Boolean.
+     * @return  mixed
      */
-    public function getCTime ( );
+    public function writeBoolean ( $boolean );
 
     /**
-     * Get file modification time.
+     * Write an integer.
      *
      * @access  public
-     * @return  int
+     * @param   int     $integer    Integer.
+     * @return  mixed
      */
-    public function getMTime ( );
+    public function writeInteger ( $integer );
 
     /**
-     * Get file group.
+     * Write a float.
      *
      * @access  public
-     * @return  int
+     * @param   float   $float    Float.
+     * @return  mixed
      */
-    public function getGroup ( );
+    public function writeFloat ( $float );
 
     /**
-     * Get file owner.
+     * Write an array.
      *
      * @access  public
-     * @return  int
+     * @param   array   $array    Array.
+     * @return  mixed
      */
-    public function getOwner ( );
+    public function writeArray ( Array $array );
 
     /**
-     * Get file permissions.
+     * Write a line.
      *
      * @access  public
-     * @return  int
+     * @param   string  $line    Line.
+     * @return  mixed
      */
-    public function getPermissions ( );
+    public function writeLine ( $line );
 
     /**
-     * Check if the file is readable.
+     * Write all, i.e. as much as possible.
      *
      * @access  public
+     * @param   string  $string    String.
+     * @return  mixed
+     */
+    public function writeAll ( $string );
+
+    /**
+     * Truncate a file to a given length.
+     *
+     * @access  public
+     * @param   int     $size    Size.
      * @return  bool
      */
-    public function isReadable ( );
-
-    /**
-     * Check if the file is writable.
-     *
-     * @access  public
-     * @return  bool
-     */
-    public function isWritable ( );
-
-    /**
-     * Check if the file is executable.
-     *
-     * @access  public
-     * @return  bool
-     */
-    public function isExecutable ( );
-
-    /**
-     * Clear file status cache.
-     *
-     * @access  public
-     * @return  void
-     */
-    public function clearStatisticCache ( );
-
-    /**
-     * Clear all files status cache.
-     *
-     * @access  public
-     * @return  void
-     */
-    public static function clearAllStatisticCaches ( );
+    public function truncate ( $size );
 }

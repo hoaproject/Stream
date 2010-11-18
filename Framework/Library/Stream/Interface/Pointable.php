@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Pathable
+ * @subpackage  Hoa_Stream_Interface_Pointable
  *
  */
 
@@ -38,9 +38,9 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_Pathable.
+ * Interface Hoa_Stream_Interface_Pointable.
  *
- * Interface for pathable input/output.
+ * Interface for pointable input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
@@ -48,24 +48,57 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Pathable
+ * @subpackage  Hoa_Stream_Interface_Pointable
  */
 
-interface Hoa_Stream_Io_Pathable {
+interface Hoa_Stream_Interface_Pointable {
 
     /**
-     * Get filename component of path.
+     * Set position equal to $offset bytes.
      *
-     * @access  public
-     * @return  string
+     * @const int
      */
-    public function getBasename ( );
+    const SEEK_SET     = SEEK_SET;
 
     /**
-     * Get directory name component of path.
+     * Set position to current location plus $offset.
+     *
+     * @const int
+     */
+    const SEEK_CURRENT = SEEK_CUR;
+
+    /**
+     * Set position to end-of-file plus $offset.
+     *
+     * @const int
+     */
+    const SEEK_END     = SEEK_END;
+
+
+
+    /**
+     * Rewind the position of a stream pointer.
      *
      * @access  public
-     * @return  string
+     * @return  bool
      */
-    public function getDirname ( );
+    public function rewind ( );
+
+    /**
+     * Seek on a stream pointer.
+     *
+     * @access  public
+     * @param   int     $offset    Offset (negative value should be supported).
+     * @param   int     $whence    Whence, use the self::SEEK_* constants.
+     * @return  int
+     */
+    public function seek ( $offset, $whence = self::SEEK_SET );
+
+    /**
+     * Get the current position of the stream pointer.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function tell ( );
 }

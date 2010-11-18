@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_In
+ * @subpackage  Hoa_Stream_Interface_Statable
  *
  */
 
@@ -38,9 +38,9 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_In.
+ * Interface Hoa_Stream_Interface_Statable.
  *
- * Interface for input.
+ * Interface for statable input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
@@ -48,105 +48,119 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_In
+ * @subpackage  Hoa_Stream_Interface_Statable
  */
 
-interface Hoa_Stream_Io_In {
+interface Hoa_Stream_Interface_Statable {
 
     /**
-     * Test for end-of-file.
+     * Size is undefined.
      *
-     * @access  public
-     * @return  bool
+     * @const int
      */
-    public function eof ( );
+    const SIZE_UNDEFINED = -1;
 
     /**
-     * Read n characters.
+     * Get size.
      *
      * @access  public
-     * @param   int     $length    Length.
-     * @return  string
-     */
-    public function read ( $length );
-
-    /**
-     * Alias of $this->read().
-     *
-     * @access  public
-     * @param   int     $length    Length.
-     * @return  string
-     */
-    public function readString ( $length );
-
-    /**
-     * Read a character.
-     * It could be equivalent to $this->read(1).
-     *
-     * @access  public
-     * @return  string
-     */
-    public function readCharacter ( );
-
-    /**
-     * Read a boolean.
-     *
-     * @access  public
-     * @return  bool
-     */
-    public function readBoolean ( );
-
-    /**
-     * Read an integer.
-     *
-     * @access  public
-     * @param   int     $length    Length.
      * @return  int
      */
-    public function readInteger ( $length = 1 );
+    public function getSize ( );
 
     /**
-     * Read a float.
+     * Get informations about a file.
      *
      * @access  public
-     * @param   int     $length    Length.
-     * @return  float
-     */
-    public function readFloat ( $length = 1 );
-
-    /**
-     * Read an array.
-     * In most cases, it could be an alias to the $this->scanf() method.
-     *
-     * @access  public
-     * @param   mixed   $argument    Argument (because the behavior is very
-     *                               different according to the implementation).
      * @return  array
      */
-    public function readArray ( $argument = null );
+    public function getStatistic ( );
 
     /**
-     * Read a line.
+     * Get last access time of file.
      *
      * @access  public
-     * @return  string
+     * @return  int
      */
-    public function readLine ( );
+    public function getATime ( );
 
     /**
-     * Read all, i.e. read as much as possible.
+     * Get inode change time of file.
      *
      * @access  public
-     * @return  string
+     * @return  int
      */
-    public function readAll ( );
+    public function getCTime ( );
 
     /**
-     * Parse input from a stream according to a format.
+     * Get file modification time.
      *
      * @access  public
-     * @param   string  $format    Format (see printf's formats).
-     * @return  array
+     * @return  int
      */
-    public function scanf ( $format );
+    public function getMTime ( );
+
+    /**
+     * Get file group.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getGroup ( );
+
+    /**
+     * Get file owner.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getOwner ( );
+
+    /**
+     * Get file permissions.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getPermissions ( );
+
+    /**
+     * Check if the file is readable.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isReadable ( );
+
+    /**
+     * Check if the file is writable.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isWritable ( );
+
+    /**
+     * Check if the file is executable.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isExecutable ( );
+
+    /**
+     * Clear file status cache.
+     *
+     * @access  public
+     * @return  void
+     */
+    public function clearStatisticCache ( );
+
+    /**
+     * Clear all files status cache.
+     *
+     * @access  public
+     * @return  void
+     */
+    public static function clearAllStatisticCaches ( );
 }

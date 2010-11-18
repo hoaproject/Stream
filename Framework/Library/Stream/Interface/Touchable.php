@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Touchable
+ * @subpackage  Hoa_Stream_Interface_Touchable
  *
  */
 
@@ -38,7 +38,7 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_Touchable.
+ * Interface Hoa_Stream_Interface_Touchable.
  *
  * Interface for touchable input/output.
  *
@@ -48,10 +48,10 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Touchable
+ * @subpackage  Hoa_Stream_Interface_Touchable
  */
 
-interface Hoa_Stream_Io_Touchable {
+interface Hoa_Stream_Interface_Touchable {
 
     /**
      * Overwrite file if already exists.

@@ -28,7 +28,7 @@
  *
  * @category    Framework
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Out
+ * @subpackage  Hoa_Stream_Interface_Structural
  *
  */
 
@@ -38,9 +38,9 @@
 require_once 'Core.php';
 
 /**
- * Interface Hoa_Stream_Io_Out.
+ * Interface Hoa_Stream_Interface_Structural.
  *
- * Interface for output.
+ * Interface for structural input/output.
  *
  * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
@@ -48,99 +48,87 @@ require_once 'Core.php';
  * @since       PHP 5
  * @version     0.1
  * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Io_Out
+ * @subpackage  Hoa_Stream_Interface_Structural
  */
 
-interface Hoa_Stream_Io_Out {
+interface Hoa_Stream_Interface_Structural {
 
     /**
-     * Write n characters.
+     * Select root of the document: :root.
      *
      * @access  public
-     * @param   string  $string    String.
-     * @param   int     $length    Length.
-     * @return  mixed
+     * @return  Hoa_Stream_Interface_Structural
      */
-    public function write ( $string, $length );
+    public function selectRoot ( );
 
     /**
-     * Write a string.
+     * Select any elements: *.
      *
      * @access  public
-     * @param   string  $string    String.
-     * @return  mixed
+     * @return  array
      */
-    public function writeString ( $string );
+    public function selectAnyElements ( );
 
     /**
-     * Write a character.
+     * Select elements of type E: E.
      *
      * @access  public
-     * @param   string  $character    Character.
-     * @return  mixed
+     * @param   string  $E    Element E.
+     * @return  array
      */
-    public function writeCharacter ( $character );
+    public function selectElements ( $E = null );
 
     /**
-     * Write a boolean.
+     * Select F elements descendant of an E element: E F.
      *
      * @access  public
-     * @param   bool    $boolean    Boolean.
-     * @return  mixed
+     * @param   string  $F    Element F.
+     * @return  array
      */
-    public function writeBoolean ( $boolean );
+    public function selectDescendantElements ( $F = null );
 
     /**
-     * Write an integer.
+     * Select F elements children of an E element: E > F.
      *
      * @access  public
-     * @param   int     $integer    Integer.
-     * @return  mixed
+     * @param   string  $F    Element F.
+     * @return  array
      */
-    public function writeInteger ( $integer );
+    public function selectChildElements ( $F = null );
 
     /**
-     * Write a float.
+     * Select an F element immediately preceded by an E element: E + F.
      *
      * @access  public
-     * @param   float   $float    Float.
-     * @return  mixed
+     * @param   string  $F    Element F.
+     * @return  Hoa_Stream_Interface_Structural
      */
-    public function writeFloat ( $float );
+    public function selectAdjacentSiblingElement ( $F );
 
     /**
-     * Write an array.
+     * Select F elements preceded by an E element: E ~ F.
      *
      * @access  public
-     * @param   array   $array    Array.
-     * @return  mixed
+     * @param   string  $F    Element F.
+     * @return  array
      */
-    public function writeArray ( Array $array );
+    public function selectSiblingElements ( $F = null );
 
     /**
-     * Write a line.
+     * Execute a query selector and return the first result.
      *
      * @access  public
-     * @param   string  $line    Line.
-     * @return  mixed
+     * @param   string  $query    Query.
+     * @return  Hoa_Stream_Interface_Structural
      */
-    public function writeLine ( $line );
+    public function querySelector ( $query );
 
     /**
-     * Write all, i.e. as much as possible.
+     * Execute a query selector and return one or many results.
      *
      * @access  public
-     * @param   string  $string    String.
-     * @return  mixed
+     * @param   string  $query    Query.
+     * @return  array
      */
-    public function writeAll ( $string );
-
-    /**
-     * Truncate a file to a given length.
-     *
-     * @access  public
-     * @param   int     $size    Size.
-     * @return  bool
-     */
-    public function truncate ( $size );
+    public function querySelectorAll ( $query );
 }
