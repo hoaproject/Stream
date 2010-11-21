@@ -33,11 +33,6 @@
  */
 
 /**
- * Hoa_Core
- */
-require_once 'Core.php';
-
-/**
  * Interface Hoa_Stream_Wrapper_Interface_Stream.
  *
  * Interface for “stream stream wrapper” class.

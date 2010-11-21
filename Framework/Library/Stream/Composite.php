@@ -33,11 +33,6 @@
  */
 
 /**
- * Hoa_Core
- */
-require_once 'Core.php';
-
-/**
  * Class Hoa_Stream_Composite.
  *
  * Declare a composite stream, i.e. a stream that use stream.

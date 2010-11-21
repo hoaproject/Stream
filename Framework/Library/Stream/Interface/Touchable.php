@@ -33,11 +33,6 @@
  */
 
 /**
- * Hoa_Core
- */
-require_once 'Core.php';
-
-/**
  * Interface Hoa_Stream_Interface_Touchable.
  *
  * Interface for touchable input/output.
