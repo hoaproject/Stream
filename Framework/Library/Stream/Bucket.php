@@ -24,34 +24,32 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Bucket
- *
  */
 
-/**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Class Hoa_Stream_Bucket.
+ * \Hoa\Stream\Exception
+ */
+-> import('Stream.Exception');
+
+}
+
+namespace Hoa\Stream {
+
+/**
+ * Class \Hoa\Stream\Bucket.
  *
  * Manipulate stream buckets through brigades.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Bucket
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-class Hoa_Stream_Bucket {
+class Bucket {
 
     /**
      * Whether the stream is already a brigade.
@@ -70,14 +68,14 @@ class Hoa_Stream_Bucket {
     /**
      * Brigade.
      *
-     * @var Hoa_Stream_Bucket resource
+     * @var \Hoa\Stream\Bucket resource
      */
     protected $_brigade = null;
 
     /**
      * Bucket.
      *
-     * @var Hoa_Stream_Bucket object
+     * @var \Hoa\Stream\Bucket object
      */
     protected $_bucket  = null;
 
@@ -116,17 +114,18 @@ class Hoa_Stream_Bucket {
 
         unset($this->_bucket);
 
-        return false == $this->_bucket = stream_bucket_make_writeable($this->getBrigade());
+        return false == $this->_bucket
+                        = stream_bucket_make_writeable($this->getBrigade());
     }
 
     /**
      * Append bucket to the brigade.
      *
      * @access  public
-     * @param   Hoa_Stream_Bucket  $bucket    Bucket to add.
+     * @param   \Hoa\Stream\Bucket  $bucket    Bucket to add.
      * @return  void
      */
-    public function append ( Hoa_Stream_Bucket $bucket ) {
+    public function append ( Bucket $bucket ) {
 
         stream_bucket_append($this->getBrigade(), $bucket->getBucket());
 
@@ -137,10 +136,10 @@ class Hoa_Stream_Bucket {
      * Prepend bucket to the brigade.
      *
      * @access  public
-     * @param   Hoa_Stream_Bucket  $bucket    Bucket to add.
+     * @param   \Hoa\Stream\Bucket  $bucket    Bucket to add.
      * @return  void
      */
-    public function prepend ( Hoa_Stream_Bucket $bucket ) {
+    public function prepend ( Bucket $bucket ) {
 
         stream_bucket_prepend($this->getBrigade(), $bucket->getBucket());
 
@@ -227,4 +226,6 @@ class Hoa_Stream_Bucket {
 
         return $this->_bucket;
     }
+}
+
 }

@@ -24,37 +24,37 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- *
  */
 
-/**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Hoa_Stream_Context
+ * \Hoa\Stream\Exception
  */
-import('Stream.Context');
+-> import('Stream.Exception')
 
 /**
- * Class Hoa_Stream.
+ * \Hoa\Stream\Context
+ */
+-> import('Stream.Context');
+
+}
+
+namespace Hoa\Stream {
+
+/**
+ * Class \Hoa\Stream.
  *
  * Static register for all streams (files, sockets etc.).
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-abstract class Hoa_Stream implements Hoa_Core_Event_Source {
+abstract class Stream implements \Hoa\Core\Event\Source {
 
     /**
      * Name index in the stream bucket.
@@ -87,14 +87,14 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
     /**
      * Current stream bucket.
      *
-     * @var Hoa_Stream array
+     * @var \Hoa\Stream array
      */
     protected $_bucket            = array();
 
     /**
      * Static stream register.
      *
-     * @var Hoa_Stream array
+     * @var \Hoa\Stream array
      */
     private static $_register     = array();
 
@@ -102,7 +102,7 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * Whether always use stream resource. Please see the
      * $this->alwaysUseStreamResource() method to get more informations.
      *
-     * @var Hoa_Stream bool
+     * @var \Hoa\Stream bool
      */
     protected $_useStreamResource = false;
 
@@ -116,7 +116,7 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * @access  public
      * @param   string  $streamName    Stream name (e.g. path or URL).
      * @param   string  $context       Context ID (please, see the
-     *                                 Hoa_Stream_Context class).
+     *                                 \Hoa\Stream\Context class).
      * @return  void
      */
     public function __construct ( $streamName, $context = null ) {
@@ -132,27 +132,27 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * $handler->_open() method.
      *
      * @access  private
-     * @param   string      $streamName    Stream name.
-     * @param   Hoa_Stream  $handler       Stream handler.
-     * @param   string      $context       Context ID (please, see the
-     *                                     Hoa_Stream_Context class).
+     * @param   string       $streamName    Stream name.
+     * @param   \Hoa\Stream  $handler       Stream handler.
+     * @param   string       $context       Context ID (please, see the
+     *                                      \Hoa\Stream\Context class).
      * @return  array
-     * @throw   Hoa_Stream_Exception
+     * @throw   \Hoa\Stream\Exception
      */
     final private static function &_getStream ( $streamName,
-                                                Hoa_Stream $handler,
+                                                \Hoa\Stream $handler,
                                                 $context = null ) {
 
         $name = md5($streamName);
 
         if(null !== $context) {
 
-            if(false === Hoa_Stream_Context::contextExists($context))
-                throw new Hoa_Stream_Exception(
+            if(false === \Hoa\Stream\Context::contextExists($context))
+                throw new Exception(
                     'Context %s was not previously declared, cannot retrieve ' .
                     'this context.', 0, $context);
 
-            $context = Hoa_Stream_Context::getInstance($context);
+            $context = \Hoa\Stream\Context::getInstance($context);
         }
 
         if(!isset(self::$_register[$name])) {
@@ -163,12 +163,12 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
                 self::RESOURCE => $handler->_open($streamName, $context),
                 self::CONTEXT  => $context
             );
-            Hoa_Core_Event::register(
+            \Hoa\Core\Event::register(
                 'hoa://Event/Stream/' . $streamName,
                 $handler
             );
             // Add :open-ready?
-            Hoa_Core_Event::register(
+            \Hoa\Core\Event::register(
                 'hoa://Event/Stream/' . $streamName . ':close-before',
                 $handler
             );
@@ -187,13 +187,13 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * overloaded into a public context.
      *
      * @access  protected
-     * @param   string              $streamName    Stream name (e.g. path or URL).
-     * @param   Hoa_Stream_Context  $context       Context.
+     * @param   string               $streamName    Stream name (e.g. path or URL).
+     * @param   \Hoa\Stream\Context  $context       Context.
      * @return  resource
-     * @throw   Hoa_Core_Exception
+     * @throw   \Hoa\Core\Exception
      */
     abstract protected function &_open ( $streamName,
-                                         Hoa_Stream_Context $context = null );
+                                         \Hoa\Stream\Context $context = null );
 
     /**
      * Close the current stream.
@@ -213,10 +213,10 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      */
     final public function close ( ) {
 
-        Hoa_Core_Event::notify(
+        \Hoa\Core\Event::notify(
             'hoa://Event/Stream/' . $this->getStreamName() . ':close-before',
             $this,
-            new Hoa_Core_Event_Bucket()
+            new \Hoa\Core\Event\Bucket()
         );
 
         $this->_close();
@@ -250,7 +250,7 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * Get the current stream context.
      *
      * @access  protected
-     * @return  Hoa_Stream_Context
+     * @return  \Hoa\Stream\Context
      */
     protected function getStreamContext ( ) {
 
@@ -264,12 +264,12 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      *
      * @access  protected
      * @return  resource
-     * @throw   Hoa_Stream_Exception
+     * @throw   \Hoa\Stream\Exception
      */
     protected function _setStream ( $stream ) {
 
         if(!is_resource($stream))
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Eh! Read the API documentation! You must think two minutes ' .
                 'before using this method…', 1);
 
@@ -350,7 +350,7 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
 
     /**
      * Force to use a stream resource instead of a stream name.
-     * For example, the Hoa_File_Read::readAll() method uses file_get_contents()
+     * For example, the \Hoa\File\Read::readAll() method uses file_get_contents()
      * to get all file datas. But this PHP function uses a stream name to work
      * and not a stream resource. It is a really big problem in some cases, e.g.
      * when applying filters, because filters work on a resource and the
@@ -425,5 +425,10 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
     }
 }
 
+}
 
-Hoa_Core::registerShutDownFunction('Hoa_Stream', '_Hoa_Stream');
+namespace {
+
+\Hoa\Core::registerShutDownFunction('\Hoa\Stream', '_Hoa_Stream');
+
+}

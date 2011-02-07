@@ -24,39 +24,37 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Notification
- *
  */
 
-/**
- * Hoa_Stream_Notification_Exception
- */
-import('Stream.Notification.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Hoa_Stream_Context
+ * \Hoa\Stream\Notification\Exception
  */
-import('Stream.Context');
+-> import('Stream.Notification.Exception')
 
 /**
- * Class Hoa_Stream_Notification.
+ * \Hoa\Stream\Context
+ */
+-> import('Stream.Context');
+
+}
+
+namespace Hoa\Stream\Notification {
+
+/**
+ * Class \Hoa\Stream\Notification.
  *
  * Manage stream notifications.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Notification
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-class Hoa_Stream_Notification extends Hoa_Stream_Context {
+class Notification extends \Hoa\Stream\Context {
 
     /**
      * A remove address required for this stream has been resolved, or the
@@ -132,7 +130,7 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
     /**
      * Notifiers list.
      *
-     * @var Hoa_Stream_Notification array
+     * @var \Hoa\Stream\Notification array
      */
     private $_notifiers = array();
 
@@ -146,13 +144,13 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
      * @param   string  $id         Singleton ID.
      * @param   string  $wrapper    Wrapper name (falcultative if just using
      *                              notification, not the context).
-     * @return  Hoa_Stream_Notification
-     * @throws  Hoa_Stream_Exception
+     * @return  \Hoa\Stream\Notification
+     * @throws  \Hoa\Stream\Notification\Exception
      */
     public static function getInstance ( $id = null, $wrapper = null ) {
 
         if(null === parent::$_currentId && null === $id)
-            throw new Hoa_Strem_Exception(
+            throw new Exception(
                 'Must precise a singleton index once.', 0);
 
         if(false === parent::contextExists($id))
@@ -199,14 +197,14 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
      *
      * @access  public
      * @return  string
-     * @throws  Hoa_Stream_Exception
+     * @throws  \Hoa\Stream\Notification\Exception
      */
     public function getWrapper ( ) {
 
         $out = parent::getWrapper();
 
         if(null === $out)
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Wrapper cannot be null. Please, precise a wrapper name if you
                 want to use notification _and_ context.', 1);
 
@@ -217,16 +215,16 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
      * Register a notifier.
      *
      * @access  public
-     * @param   Hoa_Stream_Notification_Interface  $notifier    Notifier.
-     * @return  Hoa_Stream_Notification
-     * @throw   Hoa_Stream_Notification_Exception
+     * @param   \Hoa\Stream\Notification\Notifiable  $notifier    Notifier.
+     * @return  \Hoa\Stream\Notification
+     * @throw   \Hoa\Stream\Notification\Exception
      */
-    public function register ( Hoa_Stream_Notification_Interface $notifier ) {
+    public function register ( Notifiable $notifier ) {
 
         $index = get_class($notifier);
 
         if(true === self::isRegistered($index))
-            throw new Hoa_Stream_Notification_Exception(
+            throw new Exception(
                 'Notification %s is already registered.', 2, $index);
 
         $this->_notifiers[$index] = $notifier;
@@ -239,12 +237,12 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
      *
      * @access  public
      * @param   mixed   $notifier    Notifier instance or name (i.e. classname).
-     * @return  Hoa_Stream_Notification
-     * @throw   Hoa_Stream_Notification_Exception
+     * @return  \Hoa\Stream\Notification
+     * @throw   \Hoa\Stream\Notification\Exception
      */
     public function unregister ( $notifier ) {
 
-        if($notifier instanceof Hoa_Stream_Notification_Interface)
+        if($notifier instanceof Notifiable)
             $notifier = get_class($notifier);
 
         unset($this->_notifiers[$notifier]);
@@ -261,7 +259,7 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
      */
     public function isRegistered ( $notifier ) {
 
-        if($notifier instanceof Hoa_Stream_Notification_Interface)
+        if($notifier instanceof Notifiable)
             $notifier = get_class($notifier);
 
         return isset($this->_notifiers[$notifier]);
@@ -282,7 +280,7 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
      * @param   int     $transferred    If applicable, the transferred bytes
      *                                  number.
      * @param   int     $max            If applicable, the max bytes number.
-     * @throw   Hoa_Stream_Notification_Exception
+     * @throw   \Hoa\Stream\Notification\Exception
      * @return  void
      */
     public function callback ( $notifCode, $severity,    $message,
@@ -341,10 +339,12 @@ class Hoa_Stream_Notification extends Hoa_Stream_Context {
               break;
 
             default:
-                throw new Hoa_Stream_Notification_Exception(
+                throw new Exception(
                     'Unknown notification code : %d.', 3, $notifCode);
         }
 
         return;
     }
+}
+
 }

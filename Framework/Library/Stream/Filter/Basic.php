@@ -24,40 +24,38 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Filter_Default
- *
  */
 
-/**
- * Hoa_Stream_Filter_Exception
- */
-import('Stream.Filter.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Hoa_Stream_Bucket
+ * \Hoa\Stream\Filter\Exception
  */
-import('Stream.Bucket');
+-> import('Stream.Filter.Exception')
 
 /**
- * Class Hoa_Stream_Filter_Default.
+ * \Hoa\Stream\Bucket
+ */
+-> import('Stream.Bucket');
+
+}
+
+namespace Hoa\Stream\Filter {
+
+/**
+ * Class \Hoa\Stream\Filter\Basic.
  *
- * Default filter. Force to implement some methods.
+ * Basic filter. Force to implement some methods.
  * Actually, it extends the php_user_filter class.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Filter_Default
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-abstract class Hoa_Stream_Filter_Default extends php_user_filter {
+abstract class Basic extends \php_user_filter {
 
     /**
      * Filter processed successfully with data available in the out bucket
@@ -129,8 +127,8 @@ abstract class Hoa_Stream_Filter_Default extends php_user_filter {
      */
     public function filter ( $in, $out, &$consumed, $closing ) {
 
-        $iBucket = new Hoa_Stream_Bucket($in);
-        $oBucket = new Hoa_Stream_Bucket($out);
+        $iBucket = new \Hoa\Stream\Bucket($in);
+        $oBucket = new \Hoa\Stream\Bucket($out);
 
         while(true !== $iBucket->eob()) {
 
@@ -233,3 +231,4 @@ abstract class Hoa_Stream_Filter_Default extends php_user_filter {
     }
 }
 
+}

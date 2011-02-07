@@ -24,60 +24,58 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Context
- *
  */
 
-/**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Class Hoa_Stream_Context.
+ * \Hoa\Stream\Exception
+ */
+-> import('Stream.Exception');
+
+}
+
+namespace Hoa\Stream {
+
+/**
+ * Class \Hoa\Stream\Context.
  *
  * Make a multiton of stream contexts.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Context
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-class Hoa_Stream_Context {
+class Context {
 
     /**
      * Multiton.
      *
-     * @var Hoa_Stream_Context array
+     * @var \Hoa\Stream\Context array
      */
     protected static $_instance  = array();
 
     /**
      * Current ID.
      *
-     * @var Hoa_Stream_Context string
+     * @var \Hoa\Stream\Context string
      */
     protected static $_currentId = null;
 
     /**
      * Context.
      *
-     * @var Hoa_Stream_Context resource
+     * @var \Hoa\Stream\Context resource
      */
     protected $_context          = null;
 
     /**
      * Wrapper name.
      *
-     * @var Hoa_Stream_Context string
+     * @var \Hoa\Stream\Context string
      */
     protected $_wrapper          = null;
 
@@ -88,9 +86,7 @@ class Hoa_Stream_Context {
      *
      * @access  private
      * @param   string   $wrapper    Wrapper name.
-     * @throw   Hoa_Stream_Exception
-     * @return  void
-     * @throw   Hoa_Stream_Exception
+     * @throw   \Hoa\Stream\Exception
      */
     protected function __construct ( $wrapper ) {
 
@@ -106,13 +102,13 @@ class Hoa_Stream_Context {
      * @access  public
      * @param   string  $id         Singleton ID.
      * @param   string  $wrapper    Wrapper name.
-     * @return  Hoa_Stream_Context
-     * @throws  Hoa_Stream_Exception
+     * @return  \Hoa\Stream\Context
+     * @throws  \Hoa\Stream\Exception
      */
     public static function getInstance ( $id = null, $wrapper = null ) {
 
         if(null === self::$_currentId && null === $id)
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Must precise a singleton index once.', 0);
 
         if(false === self::contextExists($id))
@@ -134,7 +130,7 @@ class Hoa_Stream_Context {
 
         $old            = $this->_context;
         $this->_context = stream_context_create(array(
-            strtolower($this->getWrapper()) => array()
+            $this->getWrapper() => array()
         ));
 
         return $old;
@@ -146,11 +142,12 @@ class Hoa_Stream_Context {
      * @access  protected
      * @param   string     $wrapper    Wrapper name.
      * @return  string
+     * @throws  \Hoa\Stream\Exception
      */
     protected function setWrapper ( $wrapper ) {
 
         if(null === $wrapper)
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Wrapper name cannot be null.', 0);
 
         $old            = $this->_wrapper;
@@ -164,7 +161,7 @@ class Hoa_Stream_Context {
      *
      * @access  public
      * @param   array   $options    Options to add.
-     * @return  Hoa_Context
+     * @return  \Hoa\Context
      */
     public function addOptions ( Array $options ) {
 
@@ -180,7 +177,7 @@ class Hoa_Stream_Context {
      * @access  public
      * @param   string  $key      Key.
      * @param   mixed   $value    Value.
-     * @return  Hoa_Context
+     * @return  \Hoa\Context
      */
     public function addOption ( $key, $value ) {
 
@@ -244,12 +241,12 @@ class Hoa_Stream_Context {
      * @access  public
      * @param   string  $option    Option name.
      * @return  mixed
-     * @throws  Hoa_Stream_Exception
+     * @throws  \Hoa\Stream\Exception
      */
     public function getOption ( $option ) {
 
         if(false === $this->optionExists($option))
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Option %s does not exist for the context that wrappes %s, with ' .
                 'id %s.',
                 1, array($option, $this->getWrapper(), $this->getCurrentId()));
@@ -282,4 +279,6 @@ class Hoa_Stream_Context {
 
         return isset(self::$_instance[$id]);
     }
+}
+
 }

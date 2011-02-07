@@ -24,35 +24,27 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Interface_Structural
- *
  */
 
+namespace Hoa\Stream\IStream {
+
 /**
- * Interface Hoa_Stream_Interface_Structural.
+ * Interface \Hoa\Stream\IStream\Structural.
  *
  * Interface for structural input/output.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Interface_Structural
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-interface Hoa_Stream_Interface_Structural {
+interface Structural {
 
     /**
      * Select root of the document: :root.
      *
      * @access  public
-     * @return  Hoa_Stream_Interface_Structural
+     * @return  \Hoa\Stream\IStream\Structural
      */
     public function selectRoot ( );
 
@@ -96,7 +88,7 @@ interface Hoa_Stream_Interface_Structural {
      *
      * @access  public
      * @param   string  $F    Element F.
-     * @return  Hoa_Stream_Interface_Structural
+     * @return  \Hoa\Stream\IStream\Structural
      */
     public function selectAdjacentSiblingElement ( $F );
 
@@ -114,7 +106,7 @@ interface Hoa_Stream_Interface_Structural {
      *
      * @access  public
      * @param   string  $query    Query.
-     * @return  Hoa_Stream_Interface_Structural
+     * @return  \Hoa\Stream\IStream\Structural
      */
     public function querySelector ( $query );
 
@@ -126,4 +118,6 @@ interface Hoa_Stream_Interface_Structural {
      * @return  array
      */
     public function querySelectorAll ( $query );
+}
+
 }

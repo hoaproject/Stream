@@ -24,39 +24,35 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Wrapper
- *
  */
 
-/**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
+namespace {
 
 /**
- * Hoa_Stream_Wrapper_Interface
+ * \Hoa\Stream\Wrapper\Exception
  */
-import('Stream.Wrapper.Interface');
+-> import('Stream.Wrapper.Exception')
 
 /**
- * Class Hoa_Stream_Wrapper.
+ * \Hoa\Stream\Wrapper\IWrapper
+ */
+-> import('Stream.Wrapper.IWrapper.~');
+
+}
+
+namespace Hoa\Stream\Wrapper {
+
+/**
+ * Class \Hoa\Stream\Wrapper.
  *
  * Manipulate wrappers.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Wrapper
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-class Hoa_Stream_Wrapper {
+class Wrapper {
 
     /**
      * Register a wrapper.
@@ -68,16 +64,16 @@ class Hoa_Stream_Wrapper {
      *                                $protocol is a URL protocol. Default is 0,
      *                                local stream.
      * @return  bool
-     * @throw   Hoa_Stream_Exception
+     * @throw   \Hoa\Stream\Wrapper\Exception
      */
     public static function register ( $protocol, $classname, $flags = 0 ) {
 
         if(true === self::isRegistered($protocol))
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'The protocol %s is already registered.', 0, $protocol);
 
         if(false === class_exists($classname))
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Cannot register the %s class because it is not found.',
                 1, $classname);
 
@@ -129,4 +125,6 @@ class Hoa_Stream_Wrapper {
 
         return stream_get_wrappers();
     }
+}
+
 }

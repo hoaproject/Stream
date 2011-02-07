@@ -8,7 +8,7 @@
  *
  * GNU General Public License
  *
- * This file is part of HOA Open Accessibility.
+ * This file is part of Hoa Open Accessibility.
  * Copyright (c) 2007, 2010 Ivan ENDERLIN. All rights reserved.
  *
  * HOA Open Accessibility is free software; you can redistribute it and/or
@@ -26,18 +26,35 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Hoa\Stream {
+namespace Hoa\Stream\IStream {
 
 /**
- * Class \Hoa\Stream\Exception.
+ * Interface \Hoa\Stream\IStream\Pathable.
  *
- * Extending the \Hoa\Core\Exception class.
+ * Interface for pathable input/output.
  *
  * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
  * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
  * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-class Exception extends \Hoa\Core\Exception { }
+interface Pathable {
+
+    /**
+     * Get filename component of path.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function getBasename ( );
+
+    /**
+     * Get directory name component of path.
+     *
+     * @access  public
+     * @return  string
+     */
+    public function getDirname ( );
+}
 
 }

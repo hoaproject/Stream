@@ -24,29 +24,21 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Composite
- *
  */
 
+namespace Hoa\Stream {
+
 /**
- * Class Hoa_Stream_Composite.
+ * Class \Hoa\Stream\Composite.
  *
  * Declare a composite stream, i.e. a stream that use stream.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Composite
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-abstract class Hoa_Stream_Composite {
+abstract class Composite {
 
     /**
      * Current stream.
@@ -58,7 +50,7 @@ abstract class Hoa_Stream_Composite {
     /**
      * Inner stream.
      *
-     * @var Hoa_Stream object
+     * @var \Hoa\Stream object
      */
     protected $_innerStream = null;
 
@@ -94,10 +86,10 @@ abstract class Hoa_Stream_Composite {
      * Set inner stream.
      *
      * @access  protected
-     * @param   Hoa_Stream  $innerStream    Inner stream.
-     * @return  Hoa_Stream
+     * @param   \Hoa\Stream  $innerStream    Inner stream.
+     * @return  \Hoa\Stream
      */
-    protected function setInnerStream ( Hoa_Stream $innerStream ) {
+    protected function setInnerStream ( \Hoa\Stream $innerStream ) {
 
         $old                = $this->_innerStream;
         $this->_innerStream = $innerStream;
@@ -109,10 +101,12 @@ abstract class Hoa_Stream_Composite {
      * Get inner stream.
      *
      * @access  protected
-     * @return  Hoa_Stream
+     * @return  \Hoa\Stream
      */
     protected function getInnerStream ( ) {
 
         return $this->_innerStream;
     }
+}
+
 }

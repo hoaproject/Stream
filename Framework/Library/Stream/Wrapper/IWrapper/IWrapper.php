@@ -24,46 +24,37 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Wrapper_Interface
- *
  */
 
-/**
- * Hoa_Stream_Wrapper_Exception
- */
-import('Stream.Wrapper.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Hoa_Stream_Wrapper_Interface_File
+ * \Hoa\Stream\Wrapper\IWrapper\File
  */
-import('Stream.Wrapper.Interface.File');
+-> import('Stream.Wrapper.I~.File')
 
 /**
- * Hoa_Stream_Wrapper_Interface_Stream
+ * \Hoa\Stream\Wrapper\IWrapper\Stream
  */
-import('Stream.Wrapper.Interface.Stream');
+-> import('Stream.Wrapper.I~.Stream');
+
+}
+
+namespace Hoa\Stream\Wrapper\IWrapper {
 
 /**
- * Interface Hoa_Stream_Wrapper_Interface.
+ * Interface \Hoa\Stream\Wrapper\IWrapper.
  *
  * Interface for stream wrapper class.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Wrapper_Interface
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-interface   Hoa_Stream_Wrapper_Interface
-    extends Hoa_Stream_Wrapper_Interface_File,
-            Hoa_Stream_Wrapper_Interface_Stream {
+interface IWrapper extends File, Stream {
 
     /**
      * Constructs a new stream wrapper.
@@ -73,4 +64,6 @@ interface   Hoa_Stream_Wrapper_Interface
      * @return  void
      */
     public function __construct ( );
+}
+
 }

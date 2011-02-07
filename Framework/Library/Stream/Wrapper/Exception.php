@@ -24,31 +24,31 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Wrapper_Exception
- *
  */
+
+namespace {
+
+from('Hoa')
 
 /**
- * Hoa_Stream_Exception
+ * \Hoa\Stream\Exception
  */
-import('Stream.Exception');
+-> import('Stream.Exception');
+
+}
+
+namespace Hoa\Stream\Wrapper {
 
 /**
- * Class Hoa_Stream_Wrapper_Exception.
+ * Class \Hoa\Stream\Wrapper\Exception.
  *
- * Extending the Hoa_Stream_Exception class.
+ * Extending the \Hoa\Stream\Exception class.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Wrapper_Exception
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-class Hoa_Stream_Wrapper_Exception extends Hoa_Stream_Exception { }
+class Exception extends \Hoa\Stream\Exception { }
+
+}

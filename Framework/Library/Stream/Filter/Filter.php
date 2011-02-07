@@ -24,44 +24,37 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Filter
- *
  */
 
-/**
- * Hoa_Stream_Exception
- */
-import('Stream.Exception');
+namespace {
+
+from('Hoa')
 
 /**
- * Hoa_Stream
+ * \Hoa\Stream\Filter\Exception
  */
-import('Stream.~');
+-> import('Stream.Filter.Exception')
 
 /**
- * Hoa_Stream_Filter_Default
+ * \Hoa\Stream
  */
-import('Stream.Filter.Default');
+-> import('Stream.~');
+
+}
+
+namespace Hoa\Stream\Filter {
 
 /**
- * Class Hoa_Stream_Filter.
+ * Class \Hoa\Stream\Filter.
  *
  * Proposes some methods to handle filter.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Filter
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-abstract class Hoa_Stream_Filter extends Hoa_Stream {
+abstract class Filter extends \Hoa\Stream {
 
     /**
      * Overwrite filter if already exists.
@@ -101,7 +94,7 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
     /**
      * Filters resources register.
      *
-     * @var Hoa_Stream_Filter array
+     * @var \Hoa\Stream\Filter array
      */
     protected static $_resources = array();
 
@@ -116,17 +109,17 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
      * @param   bool    $overwrite    Overwrite filter if alreaady exists or
      *                                not. Given by self::*OVERWRITE constants.
      * @return  bool
-     * @throw   Hoa_Stream_Exception
+     * @throw   \Hoa\Stream\Filter\Exception
      */
     public static function register ( $name, $class, $overwrite = self::DO_NOT_OVERWRITE ) {
 
         if(   $overwrite === self::DO_NOT_OVERWRITE
            && true       === self::isRegistered($name))
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Filter %s is already registered.', 0, $name);
 
         if(empty($name))
-            throw new Hoa_Stream_Exception(
+            throw new Exception(
                 'Filter name cannot be empty.', 1);
 
         if(is_object($class))
@@ -141,18 +134,17 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
      * @access  public
      * @param   mixed       $stream        Stream which received the filter.
      *                                     Should be resource or an object
-     *                                     Hoa_Stream.
+     *                                     \Hoa\Stream.
      * @param   string      $name          Filter name.
      * @param   int         $mode          self::READ, self::WRITE or
      *                                     self::READ_AND_WRITE.
      * @param   mixed       $parameters    Parameters.
      * @return  resource
-     * @throw   Hoa_Stream_Exception
      */
     public static function append ( $stream, $name,
                                     $mode = self::READ, $parameters = null ) {
 
-        if($stream instanceof Hoa_Stream) {
+        if($stream instanceof \Hoa\Stream) {
 
             $stream->alwaysUseStreamResource(true);
             $stream = $stream->getStream();
@@ -179,18 +171,17 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
      * @access  public
      * @param   mixed       $stream        Stream which received the filter.
      *                                     Should be resource or an object
-     *                                     Hoa_Stream.
+     *                                     \Hoa\Stream.
      * @param   string      $name          Filter name.
      * @param   int         $mode          self::READ, self::WRITE or
      *                                     self::READ_AND_WRITE.
      * @param   mixed       $parameters    Parameters.
      * @return  resource
-     * @throw   Hoa_Stream_Exception
      */
     public static function prepend ( $stream, $name,
                                      $mode = self::READ, $parameters = null ) {
 
-        if($stream instanceof Hoa_Stream) {
+        if($stream instanceof \Hoa\Stream) {
 
             $stream->alwaysUseStreamResource(true);
             $stream = $stream->getStream();
@@ -217,7 +208,7 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
      * @access  public
      * @param   mixed   $streamFilter    Stream filter resource or name.
      * @return  bool
-     * @throw   Hoa_Stream_Exception
+     * @throw   \Hoa\Stream\Filter\Exception
      */
     public static function remove ( $streamFilter ) {
 
@@ -225,7 +216,7 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
             if(isset(self::$_resources[$streamFilter]))
                 $streamFilter = self::$_resources[$streamFilter];
             else
-                throw new Hoa_Stream_Exception(
+                throw new Exception(
                     'Cannot remove the stream filter %s because no resource was ' . 
                     'found with this name.', 2, $streamFilter);
 
@@ -254,4 +245,6 @@ abstract class Hoa_Stream_Filter extends Hoa_Stream {
 
         return stream_get_filters();
     }
+}
+
 }

@@ -24,34 +24,21 @@
  * You should have received a copy of the GNU General Public License
  * along with HOA Open Accessibility; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * @category    Framework
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Notification_Interface
- *
  */
 
-/**
- * Hoa_Stream_Notification_Exception
- */
-import('Stream.Notification.Exception');
+namespace Hoa\Stream\Notification {
 
 /**
- * Interface Hoa_Stream_Notification_Interface.
+ * Interface \Hoa\Stream\Notification\Notifiable.
  *
  * Interface for notification stream object.
  *
- * @author      Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright (c) 2007, 2010 Ivan ENDERLIN.
- * @license     http://gnu.org/licenses/gpl.txt GNU GPL
- * @since       PHP 5
- * @version     0.1
- * @package     Hoa_Stream
- * @subpackage  Hoa_Stream_Notification_Interface
+ * @author     Ivan ENDERLIN <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright (c) 2007, 2010 Ivan ENDERLIN.
+ * @license    http://gnu.org/licenses/gpl.txt GNU GPL
  */
 
-interface Hoa_Stream_Notification_Interface {
+interface Notifiable {
 
     /**
      * Severity: normal, non-error related, notification.
@@ -261,4 +248,6 @@ interface Hoa_Stream_Notification_Interface {
      * @return  void
      */
     public function authResult ( $severity, $message, $code, $transferred, $max );
+}
+
 }
