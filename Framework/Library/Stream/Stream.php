@@ -429,6 +429,6 @@ abstract class Stream implements \Hoa\Core\Event\Source {
 
 namespace {
 
-\Hoa\Core::registerShutDownFunction('\Hoa\Stream', '_Hoa_Stream');
+\Hoa\Core::registerShutDownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
 
 }
