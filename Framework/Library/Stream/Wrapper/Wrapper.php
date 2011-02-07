@@ -28,6 +28,8 @@
 
 namespace {
 
+from('Hoa')
+
 /**
  * \Hoa\Stream\Wrapper\Exception
  */
@@ -36,7 +38,7 @@ namespace {
 /**
  * \Hoa\Stream\Wrapper\IWrapper
  */
--> import('Stream.Wrapper.IWrapper.~');
+-> import('Stream.Wrapper.I~.~');
 
 }
 
