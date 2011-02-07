@@ -190,7 +190,7 @@ abstract class Hoa_Stream implements Hoa_Core_Event_Source {
      * @param   string              $streamName    Stream name (e.g. path or URL).
      * @param   Hoa_Stream_Context  $context       Context.
      * @return  resource
-     * @throw   Hoa_Exception
+     * @throw   Hoa_Core_Exception
      */
     abstract protected function &_open ( $streamName,
                                          Hoa_Stream_Context $context = null );
