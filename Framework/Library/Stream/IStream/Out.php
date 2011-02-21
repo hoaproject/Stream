@@ -123,7 +123,7 @@ interface Out {
     public function writeAll ( $string );
 
     /**
-     * Truncate a file to a given length.
+     * Truncate a stream to a given length.
      *
      * @access  public
      * @param   int     $size    Size.

@@ -41,7 +41,7 @@ namespace Hoa\Stream\IStream {
 interface In {
 
     /**
-     * Test for end-of-file.
+     * Test for end-of-stream.
      *
      * @access  public
      * @return  bool
