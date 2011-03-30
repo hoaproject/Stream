@@ -221,13 +221,25 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      */
     final public function close ( ) {
 
+        $streamName = $this->getStreamName();
+        $name       = md5($streamName);
+
         \Hoa\Core\Event::notify(
-            'hoa://Event/Stream/' . $this->getStreamName() . ':close-before',
+            'hoa://Event/Stream/' . $streamName . ':close-before',
             $this,
             new \Hoa\Core\Event\Bucket()
         );
 
-        $this->_close();
+        if(false === $this->_close())
+            return;
+
+        unset(self::$_register[$name]);
+        \Hoa\Core\Event::unregister(
+            'hoa://Event/Stream/' . $streamName
+        );
+        \Hoa\Core\Event::unregister(
+            'hoa://Event/Stream/' . $streamName . ':close-before'
+        );
 
         return;
     }
