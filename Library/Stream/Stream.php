@@ -282,11 +282,11 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      * and select). Notice that it could be unsafe to use this method without
      * taking time to think about it two minutes.
      *
-     * @access  protected
+     * @access  public
      * @return  resource
      * @throw   \Hoa\Stream\Exception
      */
-    protected function _setStream ( $stream ) {
+    public function _setStream ( $stream ) {
 
         if(!is_resource($stream))
             throw new Exception(
