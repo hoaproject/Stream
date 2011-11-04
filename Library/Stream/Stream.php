@@ -114,6 +114,13 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      */
     protected $_useStreamResource = false;
 
+    /**
+     * Buffer size (default is 8Ko).
+     *
+     * @var \Hoa\Stream bool
+     */
+    protected $_bufferSize        = 8192;
+
 
 
     /**
@@ -353,7 +360,12 @@ abstract class Stream implements \Hoa\Core\Event\Source {
     public function setStreamBuffer ( $buffer ) {
 
         // Zero means success.
-        return 0 === stream_set_write_buffer($this->getStream(), $buffer);
+        $out = 0 === stream_set_write_buffer($this->getStream(), $buffer);
+
+        if(true === $out)
+            $this->_bufferSize = $buffer;
+
+        return $out;
     }
 
     /**
@@ -369,13 +381,26 @@ abstract class Stream implements \Hoa\Core\Event\Source {
     }
 
     /**
+     * Get stream buffer size.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getStreamBufferSize ( ) {
+
+        return $this->_bufferSize;
+    }
+
+    /**
      * Force to use a stream resource instead of a stream name.
-     * For example, the \Hoa\File\Read::readAll() method uses file_get_contents()
-     * to get all file datas. But this PHP function uses a stream name to work
-     * and not a stream resource. It is a really big problem in some cases, e.g.
-     * when applying filters, because filters work on a resource and the
-     * file_get_contents() starts a new resource (and of course, resources are
-     * not shared). So this method switches some methods behaviors.
+     *
+     * For example, the \Hoa\File\Read::readAll() method uses
+     * file_get_contents() to get all file datas. But this PHP function uses a
+     * stream name to work and not a stream resource. It is a really big problem
+     * in some cases, e.g.  when applying filters, because filters work on a
+     * resource and the file_get_contents() starts a new resource (and of
+     * course, resources are not shared). So this method switches some methods
+     * behaviors.
      *
      * @access  public
      * @param   bool    $useResource    Use a stream resource instead of a
