@@ -39,7 +39,9 @@ namespace Hoa\Stream\IStream {
 /**
  * Interface \Hoa\Stream\IStream\Bufferable.
  *
- * Interface for bufferable input/output.
+ * Interface for bufferable streams. It's complementary to native buffer support
+ * of Hoa\Stream (please, see *StreamBuffer*() methods). Classes implementing
+ * this interface are able to create nested buffers, flush them etc.
  *
  * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
  * @copyright  Copyright © 2007-2011 Ivan Enderlin.
@@ -49,12 +51,48 @@ namespace Hoa\Stream\IStream {
 interface Bufferable {
 
     /**
-     * Flush the output to a stream.
+     * Start a new buffer.
+     * The callable acts like a light filter.
+     *
+     * @access  public
+     * @param   mixed  $call    First callable part.
+     * @param   mixed  $able    Second callable part (if needed).
+     * @param   int    $size    Size.
+     * @return  int
+     */
+    public function newBuffer ( $call = null, $able = '', $size = null );
+
+    /**
+     * Flush the buffer.
+     *
+     * @access  public
+     * @return  void
+     */
+    public function flush ( );
+
+    /**
+     * Delete buffer.
      *
      * @access  public
      * @return  bool
      */
-    public function flush ( );
+    public function deleteBuffer ( );
+
+    /**
+     * Get bufffer level.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getBufferLevel ( );
+
+    /**
+     * Get buffer size.
+     *
+     * @access  public
+     * @return  int
+     */
+    public function getBufferSize ( );
 }
 
 }
