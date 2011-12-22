@@ -155,19 +155,19 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      * @throw   \Hoa\Stream\Exception
      */
     final private static function &_getStream ( $streamName,
-                                                \Hoa\Stream $handler,
+                                                Stream $handler,
                                                 $context = null ) {
 
         $name = md5($streamName);
 
         if(null !== $context) {
 
-            if(false === \Hoa\Stream\Context::contextExists($context))
+            if(false === Context::contextExists($context))
                 throw new Exception(
                     'Context %s was not previously declared, cannot retrieve ' .
                     'this context.', 0, $context);
 
-            $context = \Hoa\Stream\Context::getInstance($context);
+            $context = Context::getInstance($context);
         }
 
         if(!isset(self::$_register[$name])) {
@@ -207,8 +207,7 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      * @return  resource
      * @throw   \Hoa\Core\Exception
      */
-    abstract protected function &_open ( $streamName,
-                                         \Hoa\Stream\Context $context = null );
+    abstract protected function &_open ( $streamName, Context $context = null );
 
     /**
      * Close the current stream.

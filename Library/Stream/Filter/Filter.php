@@ -119,7 +119,9 @@ abstract class Filter extends \Hoa\Stream {
      * @return  bool
      * @throw   \Hoa\Stream\Filter\Exception
      */
-    public static function register ( $name, $class, $overwrite = self::DO_NOT_OVERWRITE ) {
+    public static function register ( $name,
+                                      $class,
+                                      $overwrite = self::DO_NOT_OVERWRITE ) {
 
         if(   $overwrite === self::DO_NOT_OVERWRITE
            && true       === self::isRegistered($name))

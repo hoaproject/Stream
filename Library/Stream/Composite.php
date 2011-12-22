@@ -97,7 +97,7 @@ abstract class Composite {
      * @param   \Hoa\Stream  $innerStream    Inner stream.
      * @return  \Hoa\Stream
      */
-    protected function setInnerStream ( \Hoa\Stream $innerStream ) {
+    protected function setInnerStream ( Stream $innerStream ) {
 
         $old                = $this->_innerStream;
         $this->_innerStream = $innerStream;
