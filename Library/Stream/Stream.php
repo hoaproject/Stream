@@ -451,7 +451,7 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      */
     final public static function _Hoa_Stream ( ) {
 
-        foreach(self::$_register as $i => $entry)
+        foreach(self::$_register as $entry)
             $entry[self::HANDLER]->close();
 
         return;
