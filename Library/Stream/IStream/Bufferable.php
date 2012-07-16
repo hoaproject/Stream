@@ -55,12 +55,11 @@ interface Bufferable {
      * The callable acts like a light filter.
      *
      * @access  public
-     * @param   mixed  $call    First callable part.
-     * @param   mixed  $able    Second callable part (if needed).
-     * @param   int    $size    Size.
+     * @param   \XCallable  $callable    Callable.
+     * @param   int         $size        Size.
      * @return  int
      */
-    public function newBuffer ( $call = null, $able = '', $size = null );
+    public function newBuffer ( \XCallable $callable, $size = null );
 
     /**
      * Flush the buffer.
