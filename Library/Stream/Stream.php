@@ -62,7 +62,7 @@ namespace Hoa\Stream {
  * @license    New BSD License
  */
 
-abstract class Stream implements \Hoa\Core\Event\Source {
+abstract class Stream implements \Hoa\Core\Event\Listenable {
 
     /**
      * Name index in the stream bucket.
@@ -121,6 +121,34 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      */
     protected $_bufferSize        = 8192;
 
+    /**
+     * Original stream name, given to the stream constructor.
+     *
+     * @var \Hoa\Stream string
+     */
+    protected $_streamName        = null;
+
+    /**
+     * Context name.
+     *
+     * @var \Hoa\Stream string
+     */
+    protected $_context           = null;
+
+    /**
+     * Whether the opening has been differed.
+     *
+     * @var \Hoa\Stream bool
+     */
+    protected $_hasBeenDiffered   = false;
+
+    /**
+     * Listeners.
+     *
+     * @var \Hoa\Core\Event\Listener object
+     */
+    protected $_on                = null;
+
 
 
     /**
@@ -132,11 +160,31 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      * @param   string  $streamName    Stream name (e.g. path or URL).
      * @param   string  $context       Context ID (please, see the
      *                                 \Hoa\Stream\Context class).
+     * @param   bool    $wait          Differ opening or not.
      * @return  void
      */
-    public function __construct ( $streamName, $context = null ) {
+    public function __construct ( $streamName, $context = null, $wait = false ) {
 
-        $this->_bucket = self::_getStream($streamName, $this, $context);
+        $this->_streamName      = $streamName;
+        $this->_context         = $context;
+        $this->_hasBeenDiffered = $wait;
+        $this->_on              = new \Hoa\Core\Event\Listener($this, array(
+            'authrequire',
+            'authresult',
+            'complete',
+            'connect',
+            'failure',
+            'mimetype',
+            'progress',
+            'redirect',
+            'resolve',
+            'size'
+        ));
+
+        if(true === $wait)
+            return;
+
+        $this->open();
 
         return;
     }
@@ -220,6 +268,53 @@ abstract class Stream implements \Hoa\Core\Event\Source {
     abstract protected function _close ( );
 
     /**
+     * Open the stream.
+     *
+     * @access  public
+     * @return  \Hoa\Stream
+     * @throw   \Hoa\Stream\Exception
+     */
+    final public function open ( ) {
+
+        if(!empty($this->_bucket))
+            throw new Exception(
+                'Stream %s is already opened, cannot re-open it.',
+                1, $this->_streamName);
+
+        $context = $this->_context;
+
+        if(true === $this->_hasBeenDiffered) {
+
+            if(null === $context) {
+
+                $handle = Context::getInstance(uniqid());
+                $handle->setParameters(array(
+                    'notification' => array($this, '_notify')
+                ));
+                $context = $handle->getId();
+            }
+            elseif(true === Context::contextExists($context)) {
+
+                $handle     = Context::getInstance($context);
+                $parameters = $handle->getParameters();
+
+                if(!isset($parameters['notification']))
+                    $handle->setParameters(array(
+                        'notification' => array($this, '_notify')
+                    ));
+            }
+        }
+
+        $this->_bucket = self::_getStream(
+            $this->_streamName,
+            $this,
+            $context
+        );
+
+        return $this;
+    }
+
+    /**
      * Close the current stream.
      *
      * @access  public
@@ -258,6 +353,9 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      */
     public function getStreamName ( ) {
 
+        if(empty($this->_bucket))
+            return null;
+
         return $this->_bucket[self::NAME];
     }
 
@@ -269,6 +367,9 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      */
     protected function getStream ( ) {
 
+        if(empty($this->_bucket))
+            return null;
+
         return $this->_bucket[self::RESOURCE];
     }
 
@@ -278,7 +379,10 @@ abstract class Stream implements \Hoa\Core\Event\Source {
      * @access  protected
      * @return  \Hoa\Stream\Context
      */
-    protected function getStreamContext ( ) {
+    public function getStreamContext ( ) {
+
+        if(empty($this->_bucket))
+            return null;
 
         return $this->_bucket[self::CONTEXT];
     }
@@ -297,7 +401,7 @@ abstract class Stream implements \Hoa\Core\Event\Source {
         if(!is_resource($stream))
             throw new Exception(
                 'Eh! Read the API documentation! You must think two minutes ' .
-                'before using this method…', 1);
+                'before using this method…', 2);
 
         $old                           = $this->_bucket[self::RESOURCE];
         $this->_bucket[self::RESOURCE] = $stream;
@@ -437,6 +541,65 @@ abstract class Stream implements \Hoa\Core\Event\Source {
             return 'file';
 
         return substr($this->getStreamName(), 0, $pos);
+    }
+
+    /**
+     * Attach a callable to this listenable object.
+     *
+     * @access  public
+     * @param   string  $listenerId    Listener ID.
+     * @param   mixed   $callable      Callable.
+     * @return  \Hoa\Stream
+     * @return  \Hoa\Core\Exception
+     */
+    public function on ( $listenerId, $callable ) {
+
+        $this->_on->attach($listenerId, $callable);
+
+        return $this;
+    }
+
+    /**
+     * Notification callback.
+     *
+     * @access  public
+     * @param   int     $ncode          Notification code. Please, see
+     *                                  STREAM_NOTIFY_* constants.
+     * @param   int     $severity       Severity. Please, see
+     *                                  STREAM_NOTIFY_SEVERITY_* constants.
+     * @param   string  $message        Message.
+     * @param   int     $code           Message code.
+     * @param   int     $transferred    If applicable, the number of transferred
+     *                                  bytes.
+     * @param   int     $max            If applicable, the number of max bytes.
+     * @return  void
+     */
+    public function _notify ( $ncode, $severity, $message, $code, $transferred,
+                              $max ) {
+
+        static $_map = array(
+            STREAM_NOTIFY_AUTH_REQUIRED => 'authrequire',
+            STREAM_NOTIFY_AUTH_RESULT   => 'authresult',
+            STREAM_NOTIFY_COMPLETED     => 'complete',
+            STREAM_NOTIFY_CONNECT       => 'connect',
+            STREAM_NOTIFY_FAILURE       => 'failure',
+            STREAM_NOTIFY_MIME_TYPE_IS  => 'mimetype',
+            STREAM_NOTIFY_PROGRESS      => 'progress',
+            STREAM_NOTIFY_REDIRECTED    => 'redirect',
+            STREAM_NOTIFY_RESOLVE       => 'resolve',
+            STREAM_NOTIFY_FILE_SIZE_IS  => 'size'
+        );
+
+        $this->_on->fire($_map[$ncode], new \Hoa\Core\Event\Bucket(array(
+            'code'        => $code,
+            'severity'    => $severity,
+            'message'     => $message,
+            'code'        => $code,
+            'transferred' => $transferred,
+            'max'         => $max
+        )));
+
+        return;
     }
 
     /**
