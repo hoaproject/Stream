@@ -60,46 +60,31 @@ namespace Hoa\Stream {
 class Context {
 
     /**
+     * Context ID.
+     *
+     * @var \Hoa\Stream\Context string
+     */
+    protected $_id               = null;
+
+    /**
      * Multiton.
      *
      * @var \Hoa\Stream\Context array
      */
-    protected static $_instance  = array();
-
-    /**
-     * Current ID.
-     *
-     * @var \Hoa\Stream\Context string
-     */
-    protected static $_currentId = null;
-
-    /**
-     * Context.
-     *
-     * @var \Hoa\Stream\Context resource
-     */
-    protected $_context          = null;
-
-    /**
-     * Wrapper name.
-     *
-     * @var \Hoa\Stream\Context string
-     */
-    protected $_wrapper          = null;
+    protected static $_instances = array();
 
 
 
     /**
-     * Build a stream context for a specific wrapper.
+     * Construct a context.
      *
-     * @access  private
-     * @param   string   $wrapper    Wrapper name.
-     * @throw   \Hoa\Stream\Exception
+     * @access  public
+     * @return  void
      */
-    protected function __construct ( $wrapper ) {
+    protected function __construct ( $id ) {
 
-        $this->setWrapper($wrapper);
-        $this->setContext();
+        $this->_id      = $id;
+        $this->_context = stream_context_create();
 
         return;
     }
@@ -108,132 +93,73 @@ class Context {
      * Multiton.
      *
      * @access  public
-     * @param   string  $id         Singleton ID.
-     * @param   string  $wrapper    Wrapper name.
+     * @param   string  $id    ID.
      * @return  \Hoa\Stream\Context
-     * @throws  \Hoa\Stream\Exception
+     * @throw   \Hoa\Stream\Exception
      */
-    public static function getInstance ( $id = null, $wrapper = null ) {
+    public static function getInstance ( $id ) {
 
-        if(null === self::$_currentId && null === $id)
+        if(empty($id))
             throw new Exception(
-                'Must precise a singleton index once.', 0);
+                'Context ID must not be null.', 0);
 
-        if(false === self::contextExists($id))
-            self::$_instance[$id] = new self($wrapper);
+        if(false === static::contextExists($id))
+            static::$_instances[$id] = new static($id);
 
-        if(null !== $id)
-            self::$_currentId = $id;
-
-        return self::$_instance[$id];
+        return static::$_instances[$id];
     }
 
     /**
-     * Create the stream context.
-     *
-     * @access  protected
-     * @return  resource
-     */
-    protected function setContext ( ) {
-
-        $old            = $this->_context;
-        $this->_context = stream_context_create(array(
-            $this->getWrapper() => array()
-        ));
-
-        return $old;
-    }
-
-    /**
-     * Set the wrapper value.
-     *
-     * @access  protected
-     * @param   string     $wrapper    Wrapper name.
-     * @return  string
-     * @throws  \Hoa\Stream\Exception
-     */
-    protected function setWrapper ( $wrapper ) {
-
-        if(null === $wrapper)
-            throw new Exception(
-                'Wrapper name cannot be null.', 0);
-
-        $old            = $this->_wrapper;
-        $this->_wrapper = strtolower($wrapper);
-
-        return $old;
-    }
-
-    /**
-     * Add many options to a stream context.
-     *
-     * @access  public
-     * @param   array   $options    Options to add.
-     * @return  \Hoa\Context
-     */
-    public function addOptions ( Array $options ) {
-
-        foreach($options as $key => $value)
-            $this->addOption($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Add an option to a stream context.
-     *
-     * @access  public
-     * @param   string  $key      Key.
-     * @param   mixed   $value    Value.
-     * @return  \Hoa\Context
-     */
-    public function addOption ( $key, $value ) {
-
-        stream_context_set_option(
-            $this->getContext(),
-            $this->getWrapper(),
-            $key,
-            $value
-        );
-
-        return $this;
-    }
-
-    /**
-     * Get current ID.
+     * Get context ID.
      *
      * @access  public
      * @return  string
      */
-    public function getCurrentId ( ) {
+    public function getId ( ) {
 
-        return self::$_currentId;
+        return $this->_id;
     }
 
     /**
-     * Get the stream context.
+     * Check if a context exists.
      *
      * @access  public
-     * @return  resource
+     * @param   string  $id    ID.
+     * @return  bool
      */
-    public function getContext ( ) {
+    public static function contextExists ( $id ) {
 
-        return $this->_context;
+        return array_key_exists($id, static::$_instances);
     }
 
     /**
-     * Get the wrapper value.
+     * Set options.
+     * Please, see http://php.net/context.
      *
      * @access  public
-     * @return  string
+     * @param   array   $options    Options.
+     * @return  bool
      */
-    public function getWrapper ( ) {
+    public function setOptions ( Array $options ) {
 
-        return $this->_wrapper;
+        return stream_context_set_option($this->getContext(), $options);
     }
 
     /**
-     * Get stream context options.
+     * Set parameters.
+     * Please, see http://php.net/context.params.
+     *
+     * @access  public
+     * @param   array   $parameters    Parameters.
+     * @return  bool
+     */
+    public function setParameters ( Array $parameters ) {
+
+        return stream_context_set_params($this->getContext(), $parameters);
+    }
+
+    /**
+     * Get options.
      *
      * @access  public
      * @return  array
@@ -244,48 +170,25 @@ class Context {
     }
 
     /**
-     * Get a specific stream context option.
-     *
+     * Get parameters.
+     * .
      * @access  public
-     * @param   string  $option    Option name.
-     * @return  mixed
-     * @throws  \Hoa\Stream\Exception
+     * @return  array
      */
-    public function getOption ( $option ) {
+    public function getParameters ( ) {
 
-        if(false === $this->optionExists($option))
-            throw new Exception(
-                'Option %s does not exist for the context that wrappes %s, with ' .
-                'id %s.',
-                1, array($option, $this->getWrapper(), $this->getCurrentId()));
-
-        $options = $this->getOptions();
-
-        return $options[$option];
+        return stream_context_get_params($this->getContext());
     }
 
     /**
-     * Check if an option exists.
+     * Get context as a resource.
      *
      * @access  public
-     * @param   string  $option    Option name.
-     * @return  bool
+     * @return  resource
      */
-    public function optionExists ( $option ) {
+    public function getContext ( ) {
 
-        return array_key_exists($option, $this->getOptions());
-    }
-
-    /**
-     * Check if a context exists.
-     *
-     * @access  public
-     * @param   string  $id    Context ID.
-     * @return  bool
-     */
-    public static function contextExists ( $id ) {
-
-        return isset(self::$_instance[$id]);
+        return $this->_context;
     }
 }
 
