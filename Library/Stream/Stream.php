@@ -276,11 +276,6 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
      */
     final public function open ( ) {
 
-        if(!empty($this->_bucket))
-            throw new Exception(
-                'Stream %s is already opened, cannot re-open it.',
-                1, $this->_streamName);
-
         $context = $this->_context;
 
         if(true === $this->_hasBeenDiffered) {
@@ -401,7 +396,7 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
         if(!is_resource($stream))
             throw new Exception(
                 'Eh! Read the API documentation! You must think two minutes ' .
-                'before using this method…', 2);
+                'before using this method…', 1);
 
         $old                           = $this->_bucket[self::RESOURCE];
         $this->_bucket[self::RESOURCE] = $stream;
