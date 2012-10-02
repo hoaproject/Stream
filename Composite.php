@@ -108,10 +108,10 @@ abstract class Composite {
     /**
      * Get inner stream.
      *
-     * @access  protected
+     * @access  public
      * @return  \Hoa\Stream
      */
-    protected function getInnerStream ( ) {
+    public function getInnerStream ( ) {
 
         return $this->_innerStream;
     }
