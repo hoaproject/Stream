@@ -154,11 +154,8 @@ abstract class Filter extends \Hoa\Stream {
     public static function append ( $stream, $name,
                                     $mode = self::READ, $parameters = null ) {
 
-        if($stream instanceof \Hoa\Stream) {
-
-            $stream->alwaysUseStreamResource(true);
+        if($stream instanceof \Hoa\Stream)
             $stream = $stream->getStream();
-        }
 
         if(null === $parameters)
             return self::$_resources[$name] = stream_filter_append(
@@ -191,11 +188,8 @@ abstract class Filter extends \Hoa\Stream {
     public static function prepend ( $stream, $name,
                                      $mode = self::READ, $parameters = null ) {
 
-        if($stream instanceof \Hoa\Stream) {
-
-            $stream->alwaysUseStreamResource(true);
+        if($stream instanceof \Hoa\Stream)
             $stream = $stream->getStream();
-        }
 
         if(null === $parameters)
             return self::$_resources[$name] = stream_filter_prepend(

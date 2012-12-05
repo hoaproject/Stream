@@ -97,57 +97,49 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
      *
      * @var \Hoa\Stream array
      */
-    protected $_bucket            = array();
+    protected $_bucket          = array();
 
     /**
      * Static stream register.
      *
      * @var \Hoa\Stream array
      */
-    private static $_register     = array();
-
-    /**
-     * Whether always use stream resource. Please see the
-     * $this->alwaysUseStreamResource() method to get more informations.
-     *
-     * @var \Hoa\Stream bool
-     */
-    protected $_useStreamResource = false;
+    private static $_register   = array();
 
     /**
      * Buffer size (default is 8Ko).
      *
      * @var \Hoa\Stream bool
      */
-    protected $_bufferSize        = 8192;
+    protected $_bufferSize      = 8192;
 
     /**
      * Original stream name, given to the stream constructor.
      *
      * @var \Hoa\Stream string
      */
-    protected $_streamName        = null;
+    protected $_streamName      = null;
 
     /**
      * Context name.
      *
      * @var \Hoa\Stream string
      */
-    protected $_context           = null;
+    protected $_context         = null;
 
     /**
      * Whether the opening has been differed.
      *
      * @var \Hoa\Stream bool
      */
-    protected $_hasBeenDiffered   = false;
+    protected $_hasBeenDiffered = false;
 
     /**
      * Listeners.
      *
      * @var \Hoa\Core\Event\Listener object
      */
-    protected $_on                = null;
+    protected $_on              = null;
 
 
 
@@ -487,41 +479,6 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     public function getStreamBufferSize ( ) {
 
         return $this->_bufferSize;
-    }
-
-    /**
-     * Force to use a stream resource instead of a stream name.
-     *
-     * For example, the \Hoa\File\Read::readAll() method uses
-     * file_get_contents() to get all file datas. But this PHP function uses a
-     * stream name to work and not a stream resource. It is a really big problem
-     * in some cases, e.g.  when applying filters, because filters work on a
-     * resource and the file_get_contents() starts a new resource (and of
-     * course, resources are not shared). So this method switches some methods
-     * behaviors.
-     *
-     * @access  public
-     * @param   bool    $useResource    Use a stream resource instead of a
-     *                                  stream name in some methods.
-     * @return  bool
-     */
-    public function alwaysUseStreamResource ( $useResource ) {
-
-        $old                      = $this->_useStreamResource;
-        $this->_useStreamResource = $useResource;
-
-        return $old;
-    }
-
-    /**
-     * Know if we must use a stream resource instead of a stream name.
-     *
-     * @access  public
-     * @return  bool
-     */
-    public function isStreamResourceMustBeUsed ( ) {
-
-        return $this->_useStreamResource;
     }
 
     /**
