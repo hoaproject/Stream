@@ -312,6 +312,9 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
         $streamName = $this->getStreamName();
         $name       = md5($streamName);
 
+        if(!isset(self::$_register[$name]))
+            return;
+
         \Hoa\Core\Event::notify(
             'hoa://Event/Stream/' . $streamName . ':close-before',
             $this,
