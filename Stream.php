@@ -585,6 +585,19 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
 
         return $this->getStreamName();
     }
+
+    /**
+     * Close the stream when destructing.
+     *
+     * @access  public
+     * @return  void
+     */
+    public function __destruct ( ) {
+
+        $this->close();
+
+        return;
+    }
 }
 
 }
