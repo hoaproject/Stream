@@ -325,6 +325,8 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
             return;
 
         unset(self::$_register[$name]);
+        $this->_bucket[self::HANDLER] = null;
+        unset($this->_on);
         \Hoa\Core\Event::unregister(
             'hoa://Event/Stream/' . $streamName
         );
