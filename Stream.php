@@ -380,6 +380,23 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     }
 
     /**
+     * Get stream handler according to its name.
+     *
+     * @access  public
+     * @param   string  $streamName    Stream name.
+     * @return  \Hoa\Stream
+     */
+    public static function getStreamHandler ( $streamName ) {
+
+        $name = md5($streamName);
+
+        if(!isset(self::$_register[$name]))
+            return null;
+
+        return self::$_register[$name][self::HANDLER];
+    }
+
+    /**
      * Set the current stream. Useful to manage a stack of streams (e.g. socket
      * and select). Notice that it could be unsafe to use this method without
      * taking time to think about it two minutes.
@@ -613,10 +630,51 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     }
 }
 
+/**
+ * Class \Hoa\Stream\_Protocol.
+ *
+ * hoa://Library/Stream component.
+ *
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
+ * @license    New BSD License
+ */
+
+class _Protocol extends \Hoa\Core\Protocol {
+
+    /**
+     * Component's name.
+     *
+     * @var \Hoa\Core\Protocol string
+     */
+    protected $_name = 'Stream';
+
+
+
+    /**
+     * ID of the component.
+     *
+     * @access  public
+     * @param   string  $id    ID of the component.
+     * @return  mixed
+     */
+    public function reachId ( $id ) {
+
+        return Stream::getStreamHandler($id);
+    }
+}
+
 }
 
 namespace {
 
 \Hoa\Core::registerShutDownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
+
+/**
+ * Add the hoa://Library/Stream component. Should be use to reach/get an entry
+ * in the \Hoa\Stream register.
+ */
+$protocol              = \Hoa\Core::getInstance()->getProtocol();
+$protocol['Library'][] = new \Hoa\Stream\_Protocol();
 
 }
