@@ -501,6 +501,17 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     }
 
     /**
+     * Get stream meta data.
+     *
+     * @access  public
+     * @return  array
+     */
+    public function getStreamMetaData ( ) {
+
+        return stream_get_meta_data($this->getStream());
+    }
+
+    /**
      * Attach a callable to this listenable object.
      *
      * @access  public
