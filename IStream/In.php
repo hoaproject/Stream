@@ -132,9 +132,10 @@ interface In {
      * Read all, i.e. read as much as possible.
      *
      * @access  public
+     * @param   int  $offset    Offset.
      * @return  string
      */
-    public function readAll ( );
+    public function readAll ( $offset = 0 );
 
     /**
      * Parse input from a stream according to a format.
