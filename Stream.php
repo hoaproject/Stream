@@ -90,7 +90,7 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
      *
      * @const int
      */
-    const CONTEXT  = 4;
+    const CONTEXT  = 3;
 
     /**
      * Current stream bucket.
