@@ -138,7 +138,7 @@ abstract class Basic extends \php_user_filter {
         $iBucket = new \Hoa\Stream\Bucket($in);
         $oBucket = new \Hoa\Stream\Bucket($out);
 
-        while(true !== $iBucket->eob()) {
+        while(false === $iBucket->eob()) {
 
             $consumed += $iBucket->getLength();
             $oBucket->append($iBucket);
