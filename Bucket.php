@@ -74,6 +74,13 @@ class Bucket {
     const IS_A_STREAM  = false;
 
     /**
+     * Type of the bucket.
+     *
+     * @var \Hoa\Stream\Bucket bool
+     */
+    protected $_type    = null;
+
+    /**
      * Brigade.
      *
      * @var \Hoa\Stream\Bucket resource
@@ -103,10 +110,16 @@ class Bucket {
      */
     public function __construct ( &$brigade, $is = self::IS_A_BRIGADE, $buffer = '' ) {
 
-        if($is === self::IS_A_BRIGADE)
+        $this->setType($is);
+
+        if(self::IS_A_BRIGADE === $this->getType())
             $this->setBrigade($brigade);
-        else
-            $this->setBrigade(stream_bucket_new($brigade, $buffer));
+        else {
+
+            $this->setBucket(stream_bucket_new($brigade, $buffer));
+            $bucket = $this->getBucket();
+            $this->setBrigade($bucket);
+        }
 
         return;
     }
@@ -120,10 +133,9 @@ class Bucket {
      */
     public function eob ( ) {
 
-        unset($this->_bucket);
+        $this->_bucket = null;
 
-        return false == $this->_bucket
-                        = stream_bucket_make_writeable($this->getBrigade());
+        return false == $this->getBucket();
     }
 
     /**
@@ -152,6 +164,32 @@ class Bucket {
         stream_bucket_prepend($this->getBrigade(), $bucket->getBucket());
 
         return;
+    }
+
+    /**
+     * Set type.
+     *
+     * @access  protected
+     * @param   bool  $type    Type. Please, see self::IS_A_* constants.
+     * @return  bool
+     */
+    protected function setType ( $type ) {
+
+        $old         = $this->_type;
+        $this->_type = $type;
+
+        return $old;
+    }
+
+    /**
+     * Get type.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function getType ( ) {
+
+        return $this->_type;
     }
 
     /**
@@ -225,12 +263,30 @@ class Bucket {
     }
 
     /**
+     * Set bucket.
+     *
+     * @access  protected
+     * @param   resource  $bucket    Bucket.
+     * @return  resource
+     */
+    protected function setBucket ( $bucket ) {
+
+        $old           = $this->_bucket;
+        $this->_bucket = $bucket;
+
+        return $old;
+    }
+
+    /**
      * Get the current bucket.
      *
      * @access  protected
-     * @return  object
+     * @return  mixed
      */
     protected function getBucket ( ) {
+
+        if(null === $this->_bucket && self::IS_A_BRIGADE === $this->getType())
+            $this->_bucket = stream_bucket_make_writeable($this->getBrigade());
 
         return $this->_bucket;
     }
