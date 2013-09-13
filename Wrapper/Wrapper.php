@@ -122,7 +122,7 @@ class Wrapper {
      */
     public static function isRegistered ( $protocol ) {
 
-        return in_array($name, self::getRegistered());
+        return in_array($protocol, self::getRegistered());
     }
 
     /**
