@@ -252,3 +252,12 @@ abstract class Filter extends \Hoa\Stream {
 }
 
 }
+
+namespace {
+
+/**
+ * Flex entity.
+ */
+Hoa\Core\Consistency::flexEntity('Hoa\Stream\Filter\Filter');
+
+}

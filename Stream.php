@@ -668,13 +668,21 @@ class _Protocol extends \Hoa\Core\Protocol {
 
 namespace {
 
-\Hoa\Core::registerShutDownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
+/**
+ * Flex entity.
+ */
+Hoa\Core\Consistency::flexEntity('Hoa\Stream\Stream');
+
+/**
+ * Shutdown method.
+ */
+Hoa\Core::registerShutdownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
 
 /**
  * Add the hoa://Library/Stream component. Should be use to reach/get an entry
  * in the \Hoa\Stream register.
  */
-$protocol              = \Hoa\Core::getInstance()->getProtocol();
-$protocol['Library'][] = new \Hoa\Stream\_Protocol();
+$protocol              = Hoa\Core::getInstance()->getProtocol();
+$protocol['Library'][] = new Hoa\Stream\_Protocol();
 
 }

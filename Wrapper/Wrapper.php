@@ -138,3 +138,12 @@ class Wrapper {
 }
 
 }
+
+namespace {
+
+/**
+ * Flex entity.
+ */
+Hoa\Core\Consistency::flexEntity('Hoa\Stream\Wrapper\Wrapper');
+
+}
