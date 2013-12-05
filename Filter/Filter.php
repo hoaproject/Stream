@@ -114,7 +114,7 @@ abstract class Filter extends \Hoa\Stream {
      * @access  public
      * @param   string  $name         Filter name.
      * @param   mixed   $class        Class name or instance.
-     * @param   bool    $overwrite    Overwrite filter if alreaady exists or
+     * @param   bool    $overwrite    Overwrite filter if already exists or
      *                                not. Given by self::*OVERWRITE constants.
      * @return  bool
      * @throw   \Hoa\Stream\Filter\Exception
