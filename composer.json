@@ -25,10 +25,6 @@
         "hoa/core": "dev-master"
     },
     "minimum-stability": "dev",
-    "target-dir": "Hoa/Stream",
-    "autoload": {
-        "psr-0": {
-            "Hoa\\Stream": "."
-        }
-    }
+    "target-dir"       : "Hoa/Stream",
+    "autoload"         : { "psr-0": { "Hoa\\Stream": "." } }
 }
