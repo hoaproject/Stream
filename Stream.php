@@ -409,8 +409,8 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
 
         if(!is_resource($stream))
             throw new Exception(
-                'Eh! Read the API documentation! You must think two minutes ' .
-                'before using this method…', 1);
+                'Try to change the stream resource with an invalid one; ' .
+                'given %s.', 1, gettype($stream));
 
         $old                           = $this->_bucket[self::RESOURCE];
         $this->_bucket[self::RESOURCE] = $stream;
