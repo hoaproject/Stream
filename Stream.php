@@ -399,7 +399,8 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     /**
      * Set the current stream. Useful to manage a stack of streams (e.g. socket
      * and select). Notice that it could be unsafe to use this method without
-     * taking time to think about it two minutes.
+     * taking time to think about it two minutes. Resource of type “Unknown” is
+     * considered as valid.
      *
      * @access  public
      * @return  resource
@@ -407,7 +408,9 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
      */
     public function _setStream ( $stream ) {
 
-        if(!is_resource($stream))
+        if(   false === is_resource($stream)
+           && (   'resource' === gettype($stream)
+               && 'Unknown'  !== get_resource_type($stream)))
             throw new Exception(
                 'Try to change the stream resource with an invalid one; ' .
                 'given %s.', 1, gettype($stream));
