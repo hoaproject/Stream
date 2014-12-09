@@ -24,9 +24,12 @@
     "require": {
         "hoa/core": "~2.0"
     },
-    "target-dir": "Hoa/Stream",
-    "autoload"  : { "psr-0": { "Hoa\\Stream": "." } },
-    "extra"     : {
+    "autoload": {
+        "psr-4": {
+            "Hoa\\Stream\\": "."
+        }
+    },
+    "extra": {
         "branch-alias": {
             "dev-master": "0.x-dev"
         }
