@@ -141,6 +141,13 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
      */
     protected $_on              = null;
 
+    /**
+     * Whether this stream is already opened by another handler.
+     *
+     * @var \Hoa\Stream bool
+     */
+    protected $_borrowed        = false;
+
 
 
     /**
@@ -228,6 +235,8 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
                 $handler
             );
         }
+        else
+            $handler->_borrowed = true;
 
         if(null === self::$_register[$name][self::RESOURCE])
             self::$_register[$name][self::RESOURCE] =
@@ -529,6 +538,17 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     public function getStreamMetaData ( ) {
 
         return stream_get_meta_data($this->getStream());
+    }
+
+    /**
+     * Whether this stream is already opened by another handler.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function isBorrowing ( ) {
+
+        return $this->_borrowed;
     }
 
     /**
