@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\In.
@@ -145,6 +145,4 @@ interface In {
      * @return  array
      */
     public function scanf ( $format );
-}
-
 }

@@ -34,18 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
-
-from('Hoa')
-
-/**
- * \Hoa\Stream\Exception
- */
--> import('Stream.Exception');
-
-}
-
-namespace Hoa\Stream {
+namespace Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Bucket.
@@ -290,6 +279,4 @@ class Bucket {
 
         return $this->_bucket;
     }
-}
-
 }

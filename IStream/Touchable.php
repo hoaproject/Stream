@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Touchable.
@@ -160,6 +160,4 @@ interface Touchable {
      * @return  int
      */
     public static function umask ( $umask = null );
-}
-
 }

@@ -34,18 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream\Wrapper;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Exception
- */
--> import('Stream.Exception');
-
-}
-
-namespace Hoa\Stream\Wrapper {
+use Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Wrapper\Exception.
@@ -57,6 +48,4 @@ namespace Hoa\Stream\Wrapper {
  * @license    New BSD License
  */
 
-class Exception extends \Hoa\Stream\Exception { }
-
-}
+class Exception extends Stream\Exception { }

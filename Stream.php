@@ -34,23 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Exception
- */
--> import('Stream.Exception')
-
-/**
- * \Hoa\Stream\Context
- */
--> import('Stream.Context');
-
-}
-
-namespace Hoa\Stream {
+use Hoa\Core;
 
 /**
  * Class \Hoa\Stream.
@@ -62,7 +48,7 @@ namespace Hoa\Stream {
  * @license    New BSD License
  */
 
-abstract class Stream implements \Hoa\Core\Event\Listenable {
+abstract class Stream implements Core\Event\Listenable {
 
     /**
      * Name index in the stream bucket.
@@ -97,14 +83,14 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
      *
      * @var \Hoa\Stream array
      */
-    protected $_bucket          = array();
+    protected $_bucket          = [];
 
     /**
      * Static stream register.
      *
      * @var \Hoa\Stream array
      */
-    private static $_register   = array();
+    private static $_register   = [];
 
     /**
      * Buffer size (default is 8Ko).
@@ -167,7 +153,7 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
         $this->_streamName      = $streamName;
         $this->_context         = $context;
         $this->_hasBeenDiffered = $wait;
-        $this->_on              = new \Hoa\Core\Event\Listener($this, array(
+        $this->_on              = new Core\Event\Listener($this, [
             'authrequire',
             'authresult',
             'complete',
@@ -178,7 +164,7 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
             'redirect',
             'resolve',
             'size'
-        ));
+        ]);
 
         if(true === $wait)
             return;
@@ -219,18 +205,18 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
 
         if(!isset(self::$_register[$name])) {
 
-            self::$_register[$name] = array(
+            self::$_register[$name] = [
                 self::NAME     => $streamName,
                 self::HANDLER  => $handler,
                 self::RESOURCE => $handler->_open($streamName, $context),
                 self::CONTEXT  => $context
-            );
-            \Hoa\Core\Event::register(
+            ];
+            Core\Event::register(
                 'hoa://Event/Stream/' . $streamName,
                 $handler
             );
             // Add :open-ready?
-            \Hoa\Core\Event::register(
+            Core\Event::register(
                 'hoa://Event/Stream/' . $streamName . ':close-before',
                 $handler
             );
@@ -284,9 +270,9 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
             if(null === $context) {
 
                 $handle = Context::getInstance(uniqid());
-                $handle->setParameters(array(
-                    'notification' => array($this, '_notify')
-                ));
+                $handle->setParameters([
+                    'notification' => [$this, '_notify']
+                ]);
                 $context = $handle->getId();
             }
             elseif(true === Context::contextExists($context)) {
@@ -295,9 +281,9 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
                 $parameters = $handle->getParameters();
 
                 if(!isset($parameters['notification']))
-                    $handle->setParameters(array(
-                        'notification' => array($this, '_notify')
-                    ));
+                    $handle->setParameters([
+                        'notification' => [$this, '_notify']
+                    ]);
             }
         }
 
@@ -324,10 +310,10 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
         if(!isset(self::$_register[$name]))
             return;
 
-        \Hoa\Core\Event::notify(
+        Core\Event::notify(
             'hoa://Event/Stream/' . $streamName . ':close-before',
             $this,
-            new \Hoa\Core\Event\Bucket()
+            new Core\Event\Bucket()
         );
 
         if(false === $this->_close())
@@ -336,10 +322,10 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
         unset(self::$_register[$name]);
         $this->_bucket[self::HANDLER] = null;
         unset($this->_on);
-        \Hoa\Core\Event::unregister(
+        Core\Event::unregister(
             'hoa://Event/Stream/' . $streamName
         );
-        \Hoa\Core\Event::unregister(
+        Core\Event::unregister(
             'hoa://Event/Stream/' . $streamName . ':close-before'
         );
 
@@ -585,7 +571,7 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
     public function _notify ( $ncode, $severity, $message, $code, $transferred,
                               $max ) {
 
-        static $_map = array(
+        static $_map = [
             STREAM_NOTIFY_AUTH_REQUIRED => 'authrequire',
             STREAM_NOTIFY_AUTH_RESULT   => 'authresult',
             STREAM_NOTIFY_COMPLETED     => 'complete',
@@ -596,16 +582,16 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
             STREAM_NOTIFY_REDIRECTED    => 'redirect',
             STREAM_NOTIFY_RESOLVE       => 'resolve',
             STREAM_NOTIFY_FILE_SIZE_IS  => 'size'
-        );
+        ];
 
-        $this->_on->fire($_map[$ncode], new \Hoa\Core\Event\Bucket(array(
+        $this->_on->fire($_map[$ncode], new Core\Event\Bucket([
             'code'        => $code,
             'severity'    => $severity,
             'message'     => $message,
             'code'        => $code,
             'transferred' => $transferred,
             'max'         => $max
-        )));
+        ]));
 
         return;
     }
@@ -663,7 +649,7 @@ abstract class Stream implements \Hoa\Core\Event\Listenable {
  * @license    New BSD License
  */
 
-class _Protocol extends \Hoa\Core\Protocol {
+class _Protocol extends Core\Protocol {
 
     /**
      * Component's name.
@@ -687,25 +673,19 @@ class _Protocol extends \Hoa\Core\Protocol {
     }
 }
 
-}
-
-namespace {
-
 /**
  * Flex entity.
  */
-Hoa\Core\Consistency::flexEntity('Hoa\Stream\Stream');
+Core\Consistency::flexEntity('Hoa\Stream\Stream');
 
 /**
  * Shutdown method.
  */
-Hoa\Core::registerShutdownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
+Core::registerShutdownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
 
 /**
  * Add the hoa://Library/Stream component. Should be use to reach/get an entry
  * in the \Hoa\Stream register.
  */
-$protocol              = Hoa\Core::getInstance()->getProtocol();
-$protocol['Library'][] = new Hoa\Stream\_Protocol();
-
-}
+$protocol              = Core::getInstance()->getProtocol();
+$protocol['Library'][] = new _Protocol();

@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Lockable.
@@ -87,6 +87,4 @@ interface Lockable {
      * @return  bool
      */
     public function lock ( $operation );
-}
-
 }

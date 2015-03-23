@@ -34,23 +34,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream\Filter;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Filter\Exception
- */
--> import('Stream.Filter.Exception')
-
-/**
- * \Hoa\Stream
- */
--> import('Stream.~');
-
-}
-
-namespace Hoa\Stream\Filter {
+use Hoa\Core;
+use Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Filter.
@@ -62,7 +49,7 @@ namespace Hoa\Stream\Filter {
  * @license    New BSD License
  */
 
-abstract class Filter extends \Hoa\Stream {
+abstract class Filter extends Stream {
 
     /**
      * Overwrite filter if already exists.
@@ -104,7 +91,7 @@ abstract class Filter extends \Hoa\Stream {
      *
      * @var \Hoa\Stream\Filter array
      */
-    protected static $_resources = array();
+    protected static $_resources = [];
 
 
 
@@ -154,7 +141,7 @@ abstract class Filter extends \Hoa\Stream {
     public static function append ( $stream, $name,
                                     $mode = self::READ, $parameters = null ) {
 
-        if($stream instanceof \Hoa\Stream)
+        if($stream instanceof Stream)
             $stream = $stream->getStream();
 
         if(null === $parameters)
@@ -188,7 +175,7 @@ abstract class Filter extends \Hoa\Stream {
     public static function prepend ( $stream, $name,
                                      $mode = self::READ, $parameters = null ) {
 
-        if($stream instanceof \Hoa\Stream)
+        if($stream instanceof Stream)
             $stream = $stream->getStream();
 
         if(null === $parameters)
@@ -251,13 +238,7 @@ abstract class Filter extends \Hoa\Stream {
     }
 }
 
-}
-
-namespace {
-
 /**
  * Flex entity.
  */
-Hoa\Core\Consistency::flexEntity('Hoa\Stream\Filter\Filter');
-
-}
+Core\Consistency::flexEntity('Hoa\Stream\Filter\Filter');

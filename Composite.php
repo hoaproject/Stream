@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream {
+namespace Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Composite.
@@ -115,6 +115,4 @@ abstract class Composite {
 
         return $this->_innerStream;
     }
-}
-
 }

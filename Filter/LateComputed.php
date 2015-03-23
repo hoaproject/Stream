@@ -34,18 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream\Filter;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Filter\Basic
- */
--> import('Stream.Filter.Basic');
-
-}
-
-namespace Hoa\Stream\Filter {
+use Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Filter\LateComputed.
@@ -93,7 +84,7 @@ abstract class LateComputed extends Basic {
     public function filter ( $in, $out, &$consumed, $closing ) {
 
         $return  = self::FEED_ME;
-        $iBucket = new \Hoa\Stream\Bucket($in);
+        $iBucket = new Stream\Bucket($in);
 
         while(false === $iBucket->eob()) {
 
@@ -108,12 +99,12 @@ abstract class LateComputed extends Basic {
 
             $stream = $this->getStream();
             $this->compute();
-            $bucket = new \Hoa\Stream\Bucket(
+            $bucket = new Stream\Bucket(
                 $stream,
-                \Hoa\Stream\Bucket::IS_A_STREAM,
+                Stream\Bucket::IS_A_STREAM,
                 $this->_buffer
             );
-            $oBucket = new \Hoa\Stream\Bucket($out);
+            $oBucket = new Stream\Bucket($out);
             $oBucket->append($bucket);
 
             $return        = self::PASS_ON;
@@ -130,6 +121,4 @@ abstract class LateComputed extends Basic {
      * @return  string
      */
     abstract protected function compute ( );
-}
-
 }

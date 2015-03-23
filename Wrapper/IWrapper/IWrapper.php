@@ -34,23 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream\Wrapper\IWrapper;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Wrapper\IWrapper\File
- */
--> import('Stream.Wrapper.I~.File')
-
-/**
- * \Hoa\Stream\Wrapper\IWrapper\Stream
- */
--> import('Stream.Wrapper.I~.Stream');
-
-}
-
-namespace Hoa\Stream\Wrapper\IWrapper {
+use Hoa\Core;
 
 /**
  * Interface \Hoa\Stream\Wrapper\IWrapper.
@@ -74,13 +60,7 @@ interface IWrapper extends File, Stream {
     public function __construct ( );
 }
 
-}
-
-namespace {
-
 /**
  * Flex entity.
  */
-Hoa\Core\Consistency::flexEntity('Hoa\Stream\Wrapper\IWrapper\IWrapper');
-
-}
+Core\Consistency::flexEntity('Hoa\Stream\Wrapper\IWrapper\IWrapper');

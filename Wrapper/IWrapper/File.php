@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\Wrapper\IWrapper {
+namespace Hoa\Stream\Wrapper\IWrapper;
 
 /**
  * Interface \Hoa\Stream\Wrapper\IWrapper\File.
@@ -162,6 +162,4 @@ interface File {
      * @return  array
      */
     public function url_stat ( $path, $flags );
-}
-
 }

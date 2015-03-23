@@ -34,23 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream\Filter;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Filter\Exception
- */
--> import('Stream.Filter.Exception')
-
-/**
- * \Hoa\Stream\Bucket
- */
--> import('Stream.Bucket');
-
-}
-
-namespace Hoa\Stream\Filter {
+use Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Filter\Basic.
@@ -135,8 +121,8 @@ abstract class Basic extends \php_user_filter {
      */
     public function filter ( $in, $out, &$consumed, $closing ) {
 
-        $iBucket = new \Hoa\Stream\Bucket($in);
-        $oBucket = new \Hoa\Stream\Bucket($out);
+        $iBucket = new Stream\Bucket($in);
+        $oBucket = new Stream\Bucket($out);
 
         while(false === $iBucket->eob()) {
 
@@ -237,6 +223,4 @@ abstract class Basic extends \php_user_filter {
 
         return $this->stream;
     }
-}
-
 }

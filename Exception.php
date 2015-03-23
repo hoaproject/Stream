@@ -34,7 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream {
+namespace Hoa\Stream;
+
+use Hoa\Core;
 
 /**
  * Class \Hoa\Stream\Exception.
@@ -46,6 +48,4 @@ namespace Hoa\Stream {
  * @license    New BSD License
  */
 
-class Exception extends \Hoa\Core\Exception { }
-
-}
+class Exception extends Core\Exception { }

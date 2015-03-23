@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Pathable.
@@ -63,6 +63,4 @@ interface Pathable {
      * @return  string
      */
     public function getDirname ( );
-}
-
 }

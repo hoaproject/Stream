@@ -34,18 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
-
-from('Hoa')
-
-/**
- * \Hoa\Stream\Exception
- */
--> import('Stream.Exception');
-
-}
-
-namespace Hoa\Stream {
+namespace Hoa\Stream;
 
 /**
  * Class \Hoa\Stream\Context.
@@ -71,7 +60,7 @@ class Context {
      *
      * @var \Hoa\Stream\Context array
      */
-    protected static $_instances = array();
+    protected static $_instances = [];
 
 
 
@@ -190,6 +179,4 @@ class Context {
 
         return $this->_context;
     }
-}
-
 }

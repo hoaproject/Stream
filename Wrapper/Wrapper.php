@@ -34,23 +34,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace {
+namespace Hoa\Stream\Wrapper;
 
-from('Hoa')
-
-/**
- * \Hoa\Stream\Wrapper\Exception
- */
--> import('Stream.Wrapper.Exception')
-
-/**
- * \Hoa\Stream\Wrapper\IWrapper
- */
--> import('Stream.Wrapper.I~.~');
-
-}
-
-namespace Hoa\Stream\Wrapper {
+use Hoa\Core;
 
 /**
  * Class \Hoa\Stream\Wrapper.
@@ -137,13 +123,7 @@ class Wrapper {
     }
 }
 
-}
-
-namespace {
-
 /**
  * Flex entity.
  */
-Hoa\Core\Consistency::flexEntity('Hoa\Stream\Wrapper\Wrapper');
-
-}
+Core\Consistency::flexEntity('Hoa\Stream\Wrapper\Wrapper');

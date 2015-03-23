@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Out.
@@ -138,6 +138,4 @@ interface Out {
      * @return  bool
      */
     public function truncate ( $size );
-}
-
 }

@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Structural.
@@ -126,6 +126,4 @@ interface Structural {
      * @return  array
      */
     public function querySelectorAll ( $query );
-}
-
 }

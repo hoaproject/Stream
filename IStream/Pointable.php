@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Pointable.
@@ -96,6 +96,4 @@ interface Pointable {
      * @return  int
      */
     public function tell ( );
-}
-
 }

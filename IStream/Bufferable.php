@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\IStream {
+namespace Hoa\Stream\IStream;
 
 /**
  * Interface \Hoa\Stream\IStream\Bufferable.
@@ -92,6 +92,4 @@ interface Bufferable {
      * @return  int
      */
     public function getBufferSize ( );
-}
-
 }

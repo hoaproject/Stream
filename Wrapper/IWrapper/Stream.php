@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\Wrapper\IWrapper {
+namespace Hoa\Stream\Wrapper\IWrapper;
 
 /**
  * Interface \Hoa\Stream\Wrapper\IWrapper\Stream.
@@ -239,6 +239,4 @@ interface Stream {
      * @return  int
      */
     public function stream_write ( $data );
-}
-
 }
