@@ -110,6 +110,26 @@ interface Stream {
     public function stream_lock ( $operation );
 
     /**
+     * Change stream options.
+     * This method is called to set metadata on the stream. It is called when
+     * one of the following functions is called one a stream URL: touch, chmod,
+     * chown or chgrp.
+     *
+     * @access  public
+     * @param   string  $path      The file path or URL to set metadata.
+     * @param   int     $option    One of the following:
+     *                               * STREAM_META_TOUCH,
+     *                               * STREAM_META_OWNER_NAME,
+     *                               * STREAM_META_OWNER,
+     *                               * STREAM_META_GROUP_NAME,
+     *                               * STREAM_META_GROUP,
+     *                               * STREAM_META_ACCESS.
+     * @param   mixed   $value     An array or a scalar depending of the option.
+     * @return  bool
+     */
+    public function stream_metadata ( $path, $option, $value );
+
+    /**
      * Open file or URL.
      * This method is called immediately after the wrapper is initialized (f.e.
      * by fopen() and file_get_contents()).
