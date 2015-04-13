@@ -1,3 +1,9 @@
+# 0.15.04.13
+
+  * Add `stream_metadata` in the stream wrapper. (Ivan Enderlin, 2015-03-24T10:05:41+01:00)
+  * Remove `from`/`import` and drop PHP5.3. (Ivan Enderlin, 2015-03-23T08:54:42+01:00)
+  * Add the `isBorrowing` method. (Ivan Enderlin, 2015-03-03T10:25:18+01:00)
+
 # 0.15.02.25
 
   * Add the `CHANGELOG.md` file. (Ivan Enderlin, 2015-02-25T09:43:41+01:00)
