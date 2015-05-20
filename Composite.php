@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,24 +41,22 @@ namespace Hoa\Stream;
  *
  * Declare a composite stream, i.e. a stream that use stream.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-abstract class Composite {
-
+abstract class Composite
+{
     /**
      * Current stream.
      *
-     * @var mixed object
+     * @var mixed
      */
     protected $_stream      = null;
 
     /**
      * Inner stream.
      *
-     * @var \Hoa\Stream object
+     * @var \Hoa\Stream
      */
     protected $_innerStream = null;
 
@@ -67,12 +65,11 @@ abstract class Composite {
     /**
      * Set current stream.
      *
-     * @access  protected
      * @param   object  $stream    Current stream.
      * @return  object
      */
-    protected function setStream ( $stream ) {
-
+    protected function setStream($stream)
+    {
         $old           = $this->_stream;
         $this->_stream = $stream;
 
@@ -82,23 +79,21 @@ abstract class Composite {
     /**
      * Get current stream.
      *
-     * @access  protected
      * @return  object
      */
-    protected function getStream ( ) {
-
+    protected function getStream()
+    {
         return $this->_stream;
     }
 
     /**
      * Set inner stream.
      *
-     * @access  protected
      * @param   \Hoa\Stream  $innerStream    Inner stream.
      * @return  \Hoa\Stream
      */
-    protected function setInnerStream ( Stream $innerStream ) {
-
+    protected function setInnerStream(Stream $innerStream)
+    {
         $old                = $this->_innerStream;
         $this->_innerStream = $innerStream;
 
@@ -108,11 +103,10 @@ abstract class Composite {
     /**
      * Get inner stream.
      *
-     * @access  public
      * @return  \Hoa\Stream
      */
-    public function getInnerStream ( ) {
-
+    public function getInnerStream()
+    {
         return $this->_innerStream;
     }
 }

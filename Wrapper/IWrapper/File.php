@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,43 +41,38 @@ namespace Hoa\Stream\Wrapper\IWrapper;
  *
  * Interface for “file stream wrapper” class.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-interface File {
-
+interface File
+{
     /**
      * Close directory handle.
      * This method is called in to closedir().
      * Any resources which were locked, or allocated, during opening and use of
      * the directory stream should be released.
      *
-     * @access  public
      * @return  bool
      */
-    public function dir_closedir ( );
+    public function dir_closedir();
 
     /**
      * Open directory handle.
      * This method is called in response to opendir().
      *
-     * @access  public
      * @param   string  $path       Specifies the URL that was passed to opendir().
      * @param   int     $options    Whether or not to enforce safe_mode (0x04).
      * @return  bool
      */
-    public function dir_opendir ( $path, $options );
+    public function dir_opendir($path, $options);
 
     /**
      * Read entry from directory handle.
      * This method is called in response to readdir().
      *
-     * @access  public
      * @return  mixed
      */
-    public function dir_readdir ( );
+    public function dir_readdir();
 
     /**
      * Rewind directory handle.
@@ -86,61 +81,55 @@ interface File {
      * call to self::dir_readdir should return the first entry in the location
      * returned by self::dir_opendir.
      *
-     * @access  public
      * @return  bool
      */
-    public function dir_rewinddir ( );
+    public function dir_rewinddir();
 
     /**
      * Create a directory.
      * This method is called in response to mkdir().
      *
-     * @access  public
      * @param   string  $path       Directory which should be created.
      * @param   int     $mode       The value passed to mkdir().
      * @param   int     $options    A bitwise mask of values.
      * @return  bool
      */
-    public function mkdir ( $path, $mode, $options );
+    public function mkdir($path, $mode, $options);
 
     /**
      * Rename a file or directory.
      * This method is called in response to rename().
      * Should attempt to rename $from to $to.
      *
-     * @access  public
      * @param   string  $from    The URL to current file.
      * @param   string  $to      The URL which $from should be renamed to.
      * @return  bool
      */
-    public function rename ( $from, $to );
+    public function rename($from, $to);
 
     /**
      * Remove a directory.
      * This method is called in response to rmdir().
      *
-     * @access  public
      * @param   string  $path       The directory URL which should be removed.
      * @param   int     $options    A bitwise mask of values.
      * @return  bool
      */
-    public function rmdir ( $path, $options );
+    public function rmdir($path, $options);
 
     /**
      * Delete a file.
      * This method is called in response to unlink().
      *
-     * @access  public
      * @param   string  $path    The file URL which should be deleted.
      * @return  bool
      */
-    public function unlink ( $path );
+    public function unlink($path);
 
     /**
      * Retrieve information about a file.
      * This method is called in response to all stat() related functions.
      *
-     * @access  public
      * @param   string  $path     The file URL which should be retrieve
      *                            information about.
      * @param   int     $flags    Holds additional flags set by the streams API.
@@ -161,5 +150,5 @@ interface File {
      *                            function during stating of the path.
      * @return  array
      */
-    public function url_stat ( $path, $flags );
+    public function url_stat($path, $flags);
 }

@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,24 +41,21 @@ namespace Hoa\Stream\Wrapper\IWrapper;
  *
  * Interface for “stream stream wrapper” class.
  *
- * @author      Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright   Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license     New BSD License
  */
-
-interface Stream {
-
+interface Stream
+{
     /**
      * Retrieve the underlaying resource.
      *
-     * @access  public
      * @param   int     $castAs    Can be STREAM_CAST_FOR_SELECT when
      *                             stream_select() is calling stream_cast() or
      *                             STREAM_CAST_AS_STREAM when stream_cast() is
      *                             called for other uses.
      * @return  resource
      */
-    public function stream_cast ( $castAs );
+    public function stream_cast($castAs);
 
     /**
      * Close a resource.
@@ -66,19 +63,17 @@ interface Stream {
      * All resources that were locked, or allocated, by the wrapper should be
      * released.
      *
-     * @access  public
      * @return  void
      */
-    public function stream_close ( );
+    public function stream_close();
 
     /**
      * Tests for end-of-file on a file pointer.
      * This method is called in response to feof().
      *
-     * @access  public
      * @return  bool
      */
-    public function stream_eof ( );
+    public function stream_eof();
 
     /**
      * Flush the output.
@@ -86,10 +81,9 @@ interface Stream {
      * If we have cached data in our stream but not yet stored it into the
      * underlying storage, we should do so now.
      *
-     * @access  public
      * @return  bool
      */
-    public function stream_flush ( );
+    public function stream_flush();
 
     /**
      * Advisory file locking.
@@ -97,7 +91,6 @@ interface Stream {
      * (when flags contains LOCK_EX), stream_set_blocking() and when closing the
      * stream (LOCK_UN).
      *
-     * @access  public
      * @param   int     $operation    Operation is one the following:
      *                                  * LOCK_SH to acquire a shared lock (reader) ;
      *                                  * LOCK_EX to acquire an exclusive lock (writer) ;
@@ -107,7 +100,7 @@ interface Stream {
      *                                    Windows).
      * @return  bool
      */
-    public function stream_lock ( $operation );
+    public function stream_lock($operation);
 
     /**
      * Change stream options.
@@ -115,7 +108,6 @@ interface Stream {
      * one of the following functions is called one a stream URL: touch, chmod,
      * chown or chgrp.
      *
-     * @access  public
      * @param   string  $path      The file path or URL to set metadata.
      * @param   int     $option    One of the following:
      *                               * STREAM_META_TOUCH,
@@ -127,14 +119,13 @@ interface Stream {
      * @param   mixed   $value     An array or a scalar depending of the option.
      * @return  bool
      */
-    public function stream_metadata ( $path, $option, $value );
+    public function stream_metadata($path, $option, $value);
 
     /**
      * Open file or URL.
      * This method is called immediately after the wrapper is initialized (f.e.
      * by fopen() and file_get_contents()).
      *
-     * @access  public
      * @param   string  $path           Specifies the URL that was passed to the
      *                                  original function.
      * @param   string  $mode           The mode used to open the file, as
@@ -157,18 +148,17 @@ interface Stream {
      *                                  actually opened.
      * @return  bool
      */
-    public function stream_open ( $path, $mode, $options, &$openedPath );
+    public function stream_open($path, $mode, $options, &$openedPath);
 
     /**
      * Read from stream.
      * This method is called in response to fread() and fgets().
      *
-     * @access  public
      * @param   int     $count    How many bytes of data from the current
      *                            position should be returned.
      * @return  string
      */
-    public function stream_read ( $count );
+    public function stream_read($count);
 
     /**
      * Seek to specific location in a stream.
@@ -176,7 +166,6 @@ interface Stream {
      * The read/write position of the stream should be updated according to the
      * $offset and $whence.
      *
-     * @access  public
      * @param   int     $offset    The stream offset to seek to.
      * @param   int     $whence    Possible values:
      *                               * SEEK_SET to set position equal to $offset
@@ -187,13 +176,12 @@ interface Stream {
      *                                 plus $offset.
      * @return  bool
      */
-    public function stream_seek ( $offset, $whence = SEEK_SET );
+    public function stream_seek($offset, $whence = SEEK_SET);
 
     /**
      * Change stream options.
      * This method is called to set options on the stream.
      *
-     * @access  public
      * @param   int     $option    One of:
      *                               * STREAM_OPTION_BLOCKING, the method was
      *                                 called in response to
@@ -221,42 +209,38 @@ interface Stream {
      *                                 buffer size.
      * @return  bool
      */
-    public function stream_set_option ( $option, $arg1, $arg2 );
+    public function stream_set_option($option, $arg1, $arg2);
 
     /**
      * Retrieve information about a file resource.
      * This method is called in response to fstat().
      *
-     * @access  public
      * @return  array
      */
-    public function stream_stat ( );
+    public function stream_stat();
 
     /**
      * Retrieve the current position of a stream.
      * This method is called in response to ftell().
      *
-     * @access  public
      * @return  int
      */
-    public function stream_tell ( );
+    public function stream_tell();
 
     /**
      * Truncate a stream to a given length.
      *
-     * @access  public
      * @param   int     $size    Size.
      * @return  bool
      */
-    public function stream_truncate ( $size );
+    public function stream_truncate($size);
 
     /**
      * Write to stream.
      * This method is called in response to fwrite().
      *
-     * @access  public
      * @param   string  $data    Should be stored into the underlying stream.
      * @return  int
      */
-    public function stream_write ( $data );
+    public function stream_write($data);
 }

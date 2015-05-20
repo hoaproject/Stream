@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,17 +43,15 @@ use Hoa\Stream;
  *
  * A late computed filter computes the data when closing the filtering.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-abstract class LateComputed extends Basic {
-
+abstract class LateComputed extends Basic
+{
     /**
      * Buffer.
      *
-     * @var \Hoa\Stream\Filter\LateComputed string
+     * @var string
      */
     protected $_buffer = null;
 
@@ -64,7 +62,6 @@ abstract class LateComputed extends Basic {
      * This method is called whenever data is read from or written to the attach
      * stream.
      *
-     * @access  public
      * @param   resource  $in           A resource pointing to a bucket brigade
      *                                  which contains one or more bucket
      *                                  objects containing data to be filtered.
@@ -81,22 +78,21 @@ abstract class LateComputed extends Basic {
      *                                  closing parameter will be set to true.
      * @return  int
      */
-    public function filter ( $in, $out, &$consumed, $closing ) {
-
+    public function filter($in, $out, &$consumed, $closing)
+    {
         $return  = self::FEED_ME;
         $iBucket = new Stream\Bucket($in);
 
-        while(false === $iBucket->eob()) {
-
+        while (false === $iBucket->eob()) {
             $this->_buffer .= $iBucket->getData();
             $consumed      += $iBucket->getLength();
         }
 
-        if(null !== $consumed)
+        if (null !== $consumed) {
             $return = self::PASS_ON;
+        }
 
-        if(true === $closing) {
-
+        if (true === $closing) {
             $stream = $this->getStream();
             $this->compute();
             $bucket = new Stream\Bucket(
@@ -117,8 +113,7 @@ abstract class LateComputed extends Basic {
     /**
      * Compute the whole data (stored in $this->_buffer).
      *
-     * @access  protected
      * @return  string
      */
-    abstract protected function compute ( );
+    abstract protected function compute();
 }

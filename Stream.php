@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,13 +43,11 @@ use Hoa\Core;
  *
  * Static register for all streams (files, sockets etc.).
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-abstract class Stream implements Core\Event\Listenable {
-
+abstract class Stream implements Core\Event\Listenable
+{
     /**
      * Name index in the stream bucket.
      *
@@ -81,56 +79,56 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Current stream bucket.
      *
-     * @var \Hoa\Stream array
+     * @var array
      */
     protected $_bucket          = [];
 
     /**
      * Static stream register.
      *
-     * @var \Hoa\Stream array
+     * @var array
      */
     private static $_register   = [];
 
     /**
      * Buffer size (default is 8Ko).
      *
-     * @var \Hoa\Stream bool
+     * @var bool
      */
     protected $_bufferSize      = 8192;
 
     /**
      * Original stream name, given to the stream constructor.
      *
-     * @var \Hoa\Stream string
+     * @var string
      */
     protected $_streamName      = null;
 
     /**
      * Context name.
      *
-     * @var \Hoa\Stream string
+     * @var string
      */
     protected $_context         = null;
 
     /**
      * Whether the opening has been differed.
      *
-     * @var \Hoa\Stream bool
+     * @var bool
      */
     protected $_hasBeenDiffered = false;
 
     /**
      * Listeners.
      *
-     * @var \Hoa\Core\Event\Listener object
+     * @var \Hoa\Core\Event\Listener
      */
     protected $_on              = null;
 
     /**
      * Whether this stream is already opened by another handler.
      *
-     * @var \Hoa\Stream bool
+     * @var bool
      */
     protected $_borrowed        = false;
 
@@ -141,15 +139,14 @@ abstract class Stream implements Core\Event\Listenable {
      * If not exists in the register, try to call the
      * $this->_open() method. Please, see the self::_getStream() method.
      *
-     * @access  public
      * @param   string  $streamName    Stream name (e.g. path or URL).
      * @param   string  $context       Context ID (please, see the
      *                                 \Hoa\Stream\Context class).
      * @param   bool    $wait          Differ opening or not.
      * @return  void
      */
-    public function __construct ( $streamName, $context = null, $wait = false ) {
-
+    public function __construct($streamName, $context = null, $wait = false)
+    {
         $this->_streamName      = $streamName;
         $this->_context         = $context;
         $this->_hasBeenDiffered = $wait;
@@ -166,8 +163,9 @@ abstract class Stream implements Core\Event\Listenable {
             'size'
         ]);
 
-        if(true === $wait)
+        if (true === $wait) {
             return;
+        }
 
         $this->open();
 
@@ -179,32 +177,34 @@ abstract class Stream implements Core\Event\Listenable {
      * If the stream does not exist, try to open it by calling the
      * $handler->_open() method.
      *
-     * @access  private
      * @param   string       $streamName    Stream name.
      * @param   \Hoa\Stream  $handler       Stream handler.
      * @param   string       $context       Context ID (please, see the
      *                                      \Hoa\Stream\Context class).
      * @return  array
-     * @throw   \Hoa\Stream\Exception
+     * @throws  \Hoa\Stream\Exception
      */
-    final private static function &_getStream ( $streamName,
-                                                Stream $handler,
-                                                $context = null ) {
-
+    final private static function &_getStream(
+        $streamName,
+        Stream $handler,
+        $context = null
+    ) {
         $name = md5($streamName);
 
-        if(null !== $context) {
-
-            if(false === Context::contextExists($context))
+        if (null !== $context) {
+            if (false === Context::contextExists($context)) {
                 throw new Exception(
                     'Context %s was not previously declared, cannot retrieve ' .
-                    'this context.', 0, $context);
+                    'this context.',
+                    0,
+                    $context
+                );
+            }
 
             $context = Context::getInstance($context);
         }
 
-        if(!isset(self::$_register[$name])) {
-
+        if (!isset(self::$_register[$name])) {
             self::$_register[$name] = [
                 self::NAME     => $streamName,
                 self::HANDLER  => $handler,
@@ -220,13 +220,14 @@ abstract class Stream implements Core\Event\Listenable {
                 'hoa://Event/Stream/' . $streamName . ':close-before',
                 $handler
             );
-        }
-        else
+        } else {
             $handler->_borrowed = true;
+        }
 
-        if(null === self::$_register[$name][self::RESOURCE])
-            self::$_register[$name][self::RESOURCE] =
-                $handler->_open($streamName, $context);
+        if (null === self::$_register[$name][self::RESOURCE]) {
+            self::$_register[$name][self::RESOURCE]
+                = $handler->_open($streamName, $context);
+        }
 
         return self::$_register[$name];
     }
@@ -236,54 +237,48 @@ abstract class Stream implements Core\Event\Listenable {
      * Note: this method is protected, but do not forget that it could be
      * overloaded into a public context.
      *
-     * @access  protected
      * @param   string               $streamName    Stream name (e.g. path or URL).
      * @param   \Hoa\Stream\Context  $context       Context.
      * @return  resource
-     * @throw   \Hoa\Core\Exception
+     * @throws  \Hoa\Core\Exception
      */
-    abstract protected function &_open ( $streamName, Context $context = null );
+    abstract protected function &_open($streamName, Context $context = null);
 
     /**
      * Close the current stream.
      * Note: this method is protected, but do not forget that it could be
      * overloaded into a public context.
      *
-     * @access  protected
      * @return  bool
      */
-    abstract protected function _close ( );
+    abstract protected function _close();
 
     /**
      * Open the stream.
      *
-     * @access  public
      * @return  \Hoa\Stream
-     * @throw   \Hoa\Stream\Exception
+     * @throws  \Hoa\Stream\Exception
      */
-    final public function open ( ) {
-
+    final public function open()
+    {
         $context = $this->_context;
 
-        if(true === $this->_hasBeenDiffered) {
-
-            if(null === $context) {
-
+        if (true === $this->_hasBeenDiffered) {
+            if (null === $context) {
                 $handle = Context::getInstance(uniqid());
                 $handle->setParameters([
                     'notification' => [$this, '_notify']
                 ]);
                 $context = $handle->getId();
-            }
-            elseif(true === Context::contextExists($context)) {
-
+            } elseif (true === Context::contextExists($context)) {
                 $handle     = Context::getInstance($context);
                 $parameters = $handle->getParameters();
 
-                if(!isset($parameters['notification']))
+                if (!isset($parameters['notification'])) {
                     $handle->setParameters([
                         'notification' => [$this, '_notify']
                     ]);
+                }
             }
         }
 
@@ -299,16 +294,16 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Close the current stream.
      *
-     * @access  public
      * @return  void
      */
-    final public function close ( ) {
-
+    final public function close()
+    {
         $streamName = $this->getStreamName();
         $name       = md5($streamName);
 
-        if(!isset(self::$_register[$name]))
+        if (!isset(self::$_register[$name])) {
             return;
+        }
 
         Core\Event::notify(
             'hoa://Event/Stream/' . $streamName . ':close-before',
@@ -316,8 +311,9 @@ abstract class Stream implements Core\Event\Listenable {
             new Core\Event\Bucket()
         );
 
-        if(false === $this->_close())
+        if (false === $this->_close()) {
             return;
+        }
 
         unset(self::$_register[$name]);
         $this->_bucket[self::HANDLER] = null;
@@ -335,13 +331,13 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Get the current stream name.
      *
-     * @access  public
      * @return  string
      */
-    public function getStreamName ( ) {
-
-        if(empty($this->_bucket))
+    public function getStreamName()
+    {
+        if (empty($this->_bucket)) {
             return null;
+        }
 
         return $this->_bucket[self::NAME];
     }
@@ -349,13 +345,13 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Get the current stream.
      *
-     * @access  protected
      * @return  resource
      */
-    protected function getStream ( ) {
-
-        if(empty($this->_bucket))
+    protected function getStream()
+    {
+        if (empty($this->_bucket)) {
             return null;
+        }
 
         return $this->_bucket[self::RESOURCE];
     }
@@ -363,13 +359,13 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Get the current stream context.
      *
-     * @access  protected
      * @return  \Hoa\Stream\Context
      */
-    public function getStreamContext ( ) {
-
-        if(empty($this->_bucket))
+    public function getStreamContext()
+    {
+        if (empty($this->_bucket)) {
             return null;
+        }
 
         return $this->_bucket[self::CONTEXT];
     }
@@ -377,16 +373,16 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Get stream handler according to its name.
      *
-     * @access  public
      * @param   string  $streamName    Stream name.
      * @return  \Hoa\Stream
      */
-    public static function getStreamHandler ( $streamName ) {
-
+    public static function getStreamHandler($streamName)
+    {
         $name = md5($streamName);
 
-        if(!isset(self::$_register[$name]))
+        if (!isset(self::$_register[$name])) {
             return null;
+        }
 
         return self::$_register[$name][self::HANDLER];
     }
@@ -397,18 +393,21 @@ abstract class Stream implements Core\Event\Listenable {
      * taking time to think about it two minutes. Resource of type “Unknown” is
      * considered as valid.
      *
-     * @access  public
      * @return  resource
-     * @throw   \Hoa\Stream\Exception
+     * @throws  \Hoa\Stream\Exception
      */
-    public function _setStream ( $stream ) {
-
-        if(   false === is_resource($stream)
-           && (   'resource' === gettype($stream)
-               && 'Unknown'  !== get_resource_type($stream)))
+    public function _setStream($stream)
+    {
+        if (false === is_resource($stream) &&
+            ('resource' === gettype($stream) &&
+             'Unknown'  !== get_resource_type($stream))) {
             throw new Exception(
                 'Try to change the stream resource with an invalid one; ' .
-                'given %s.', 1, gettype($stream));
+                'given %s.',
+                1,
+                gettype($stream)
+            );
+        }
 
         $old                           = $this->_bucket[self::RESOURCE];
         $this->_bucket[self::RESOURCE] = $stream;
@@ -419,36 +418,33 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Check if the stream is opened.
      *
-     * @access  public
      * @return  bool
      */
-    public function isOpened ( ) {
-
+    public function isOpened()
+    {
         return is_resource($this->getStream());
     }
 
     /**
      * Set the timeout period.
      *
-     * @access  public
      * @param   int     $second    Timeout period in seconds.
      * @param   int     $micro     Timeout period in microseconds.
      * @return  bool
      */
-    public function setStreamTimeout ( $seconds, $microseconds = 0 ) {
-
+    public function setStreamTimeout($seconds, $microseconds = 0)
+    {
         return stream_set_timeout($this->getStream(), $seconds, $microseconds);
     }
 
     /**
      * Set blocking/non-blocking mode.
      *
-     * @access  public
      * @param   bool    $mode    Blocking mode.
      * @return  bool
      */
-    public function setStreamBlocking ( $mode ) {
-
+    public function setStreamBlocking($mode)
+    {
         return stream_set_blocking($this->getStream(), (int) $mode);
     }
 
@@ -459,7 +455,6 @@ abstract class Stream implements Core\Event\Listenable {
      * output stream, each is paused after 8 Ko of data to allow the other to
      * write.
      *
-     * @access  public
      * @param   int     $buffer    Number of bytes to buffer. If zero, write
      *                             operations are unbuffered. This ensures that
      *                             all writes are completed before other
@@ -467,13 +462,14 @@ abstract class Stream implements Core\Event\Listenable {
      *                             stream.
      * @return  bool
      */
-    public function setStreamBuffer ( $buffer ) {
-
+    public function setStreamBuffer($buffer)
+    {
         // Zero means success.
         $out = 0 === stream_set_write_buffer($this->getStream(), $buffer);
 
-        if(true === $out)
+        if (true === $out) {
             $this->_bufferSize = $buffer;
+        }
 
         return $out;
     }
@@ -482,35 +478,33 @@ abstract class Stream implements Core\Event\Listenable {
      * Disable stream buffering.
      * Alias of $this->setBuffer(0).
      *
-     * @access  public
      * @return  bool
      */
-    public function disableStreamBuffer ( ) {
-
+    public function disableStreamBuffer()
+    {
         return $this->setStreamBuffer(0);
     }
 
     /**
      * Get stream buffer size.
      *
-     * @access  public
      * @return  int
      */
-    public function getStreamBufferSize ( ) {
-
+    public function getStreamBufferSize()
+    {
         return $this->_bufferSize;
     }
 
     /**
      * Get stream wrapper name.
      *
-     * @access  public
      * @return  string
      */
-    public function getStreamWrapperName ( ) {
-
-        if(false === $pos = strpos($this->getStreamName(), '://'))
+    public function getStreamWrapperName()
+    {
+        if (false === $pos = strpos($this->getStreamName(), '://')) {
             return 'file';
+        }
 
         return substr($this->getStreamName(), 0, $pos);
     }
@@ -518,36 +512,33 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Get stream meta data.
      *
-     * @access  public
      * @return  array
      */
-    public function getStreamMetaData ( ) {
-
+    public function getStreamMetaData()
+    {
         return stream_get_meta_data($this->getStream());
     }
 
     /**
      * Whether this stream is already opened by another handler.
      *
-     * @access  public
      * @return  bool
      */
-    public function isBorrowing ( ) {
-
+    public function isBorrowing()
+    {
         return $this->_borrowed;
     }
 
     /**
      * Attach a callable to this listenable object.
      *
-     * @access  public
      * @param   string  $listenerId    Listener ID.
      * @param   mixed   $callable      Callable.
      * @return  \Hoa\Stream
      * @return  \Hoa\Core\Exception
      */
-    public function on ( $listenerId, $callable ) {
-
+    public function on($listenerId, $callable)
+    {
         $this->_on->attach($listenerId, $callable);
 
         return $this;
@@ -556,7 +547,6 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Notification callback.
      *
-     * @access  public
      * @param   int     $ncode          Notification code. Please, see
      *                                  STREAM_NOTIFY_* constants.
      * @param   int     $severity       Severity. Please, see
@@ -568,9 +558,14 @@ abstract class Stream implements Core\Event\Listenable {
      * @param   int     $max            If applicable, the number of max bytes.
      * @return  void
      */
-    public function _notify ( $ncode, $severity, $message, $code, $transferred,
-                              $max ) {
-
+    public function _notify(
+        $ncode,
+        $severity,
+        $message,
+        $code,
+        $transferred,
+        $max
+    ) {
         static $_map = [
             STREAM_NOTIFY_AUTH_REQUIRED => 'authrequire',
             STREAM_NOTIFY_AUTH_RESULT   => 'authresult',
@@ -603,13 +598,13 @@ abstract class Stream implements Core\Event\Listenable {
      * if a stream is persistent, the $handler->close() should do anything. It
      * is a very generic method.
      *
-     * @access  public
      * @return  void
      */
-    final public static function _Hoa_Stream ( ) {
-
-        foreach(self::$_register as $entry)
+    final public static function _Hoa_Stream()
+    {
+        foreach (self::$_register as $entry) {
             $entry[self::HANDLER]->close();
+        }
 
         return;
     }
@@ -617,22 +612,20 @@ abstract class Stream implements Core\Event\Listenable {
     /**
      * Transform object to string.
      *
-     * @access  public
      * @return  string
      */
-    public function __toString ( ) {
-
+    public function __toString()
+    {
         return $this->getStreamName();
     }
 
     /**
      * Close the stream when destructing.
      *
-     * @access  public
      * @return  void
      */
-    public function __destruct ( ) {
-
+    public function __destruct()
+    {
         $this->close();
 
         return;
@@ -644,17 +637,15 @@ abstract class Stream implements Core\Event\Listenable {
  *
  * hoa://Library/Stream component.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-class _Protocol extends Core\Protocol {
-
+class _Protocol extends Core\Protocol
+{
     /**
      * Component's name.
      *
-     * @var \Hoa\Core\Protocol string
+     * @var string
      */
     protected $_name = 'Stream';
 
@@ -663,12 +654,11 @@ class _Protocol extends Core\Protocol {
     /**
      * ID of the component.
      *
-     * @access  public
      * @param   string  $id    ID of the component.
      * @return  mixed
      */
-    public function reachId ( $id ) {
-
+    public function reachId($id)
+    {
         return Stream::getStreamHandler($id);
     }
 }

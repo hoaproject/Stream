@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,21 +43,18 @@ use Hoa\Core;
  *
  * Interface for stream wrapper class.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-interface IWrapper extends File, Stream {
-
+interface IWrapper extends File, Stream
+{
     /**
      * Constructs a new stream wrapper.
      * Called when opening the stream wrapper, right before self::stream_open().
      *
-     * @access  public
      * @return  void
      */
-    public function __construct ( );
+    public function __construct();
 }
 
 /**

@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,13 +44,11 @@ use Hoa\Stream;
  * Basic filter. Force to implement some methods.
  * Actually, it extends the php_user_filter class.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-abstract class Basic extends \php_user_filter {
-
+abstract class Basic extends \php_user_filter
+{
     /**
      * Filter processed successfully with data available in the out bucket
      * brigade.
@@ -102,7 +100,6 @@ abstract class Basic extends \php_user_filter {
      * This method is called whenever data is read from or written to the attach
      * stream.
      *
-     * @access  public
      * @param   resource  $in           A resource pointing to a bucket brigade
      *                                  which contains one or more bucket
      *                                  objects containing data to be filtered.
@@ -119,13 +116,12 @@ abstract class Basic extends \php_user_filter {
      *                                  closing parameter will be set to true.
      * @return  int
      */
-    public function filter ( $in, $out, &$consumed, $closing ) {
-
+    public function filter($in, $out, &$consumed, $closing)
+    {
         $iBucket = new Stream\Bucket($in);
         $oBucket = new Stream\Bucket($out);
 
-        while(false === $iBucket->eob()) {
-
+        while (false === $iBucket->eob()) {
             $consumed += $iBucket->getLength();
             $oBucket->append($iBucket);
         }
@@ -139,11 +135,10 @@ abstract class Basic extends \php_user_filter {
     /**
      * Called during instanciation of the filter class object.
      *
-     * @access  public
      * @return  bool
      */
-    public function onCreate ( ) {
-
+    public function onCreate()
+    {
         return true;
     }
 
@@ -151,23 +146,21 @@ abstract class Basic extends \php_user_filter {
      * Called upon filter shutdown (typically, this is also during stream
      * shutdown), and is executed after the flush method is called.
      *
-     * @access  public
      * @return  void
      */
-    public function onClose ( ) {
-
+    public function onClose()
+    {
         return;
     }
 
     /**
      * Set the filter name.
      *
-     * @access  public
      * @param   string  $name    Filter name.
      * @return  string
      */
-    public function setName ( $name ) {
-
+    public function setName($name)
+    {
         $old              = $this->filtername;
         $this->filtername = $name;
 
@@ -177,12 +170,11 @@ abstract class Basic extends \php_user_filter {
     /**
      * Set the filter parameters.
      *
-     * @access  public
      * @param   mixed   $parameters    Filter parameters.
      * @return  mixed
      */
-    public function setParameters ( $parameters ) {
-
+    public function setParameters($parameters)
+    {
         $old          = $this->params;
         $this->params = $parameters;
 
@@ -192,22 +184,20 @@ abstract class Basic extends \php_user_filter {
     /**
      * Get the filter name.
      *
-     * @access  public
      * @return  string
      */
-    public function getName ( ) {
-
+    public function getName()
+    {
         return $this->filtername;
     }
 
     /**
      * Get the filter parameters.
      *
-     * @access  public
      * @return  mixed
      */
-    public function getParameters ( ) {
-
+    public function getParameters()
+    {
         return $this->params;
     }
 
@@ -216,11 +206,10 @@ abstract class Basic extends \php_user_filter {
      * Maybe available only during filter calls when the closing parameter is
      * set to false.
      *
-     * @access  public
      * @return  resource
      */
-    public function getStream ( ) {
-
+    public function getStream()
+    {
         return $this->stream;
     }
 }

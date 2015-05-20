@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,13 +41,11 @@ namespace Hoa\Stream\IStream;
  *
  * Interface for touchable input/output.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-interface Touchable {
-
+interface Touchable
+{
     /**
      * Overwrite file if already exists.
      *
@@ -81,30 +79,27 @@ interface Touchable {
     /**
      * Set access and modification time of file.
      *
-     * @access  public
      * @param   int     $time     Time. If equals to -1, time() should be used.
      * @param   int     $atime    Access time. If equals to -1, $time should be
      *                            used.
      * @return  bool
      */
-    public function touch ( $time = -1, $atime = -1 );
+    public function touch($time = -1, $atime = -1);
 
     /**
      * Copy file.
      * Return the destination file path if succeed, false otherwise.
      *
-     * @access  public
      * @param   string  $to       Destination path.
      * @param   bool    $force    Force to copy if the file $to already exists.
      *                            Use the self::*OVERWRITE constants.
      * @return  bool
      */
-    public function copy ( $to, $force = self::DO_NOT_OVERWRITE );
+    public function copy($to, $force = self::DO_NOT_OVERWRITE);
 
     /**
      * Move a file.
      *
-     * @access  public
      * @param   string  $name     New name.
      * @param   bool    $force    Force to move if the file $name already
      *                            exists.
@@ -113,51 +108,49 @@ interface Touchable {
      *                            Use the self::*DIRECTORY constants.
      * @return  bool
      */
-    public function move ( $name, $force = self::DO_NOT_OVERWRITE,
-                           $mkdir = self::DO_NOT_MAKE_DIRECTORY );
+    public function move(
+        $name,
+        $force = self::DO_NOT_OVERWRITE,
+        $mkdir = self::DO_NOT_MAKE_DIRECTORY
+    );
 
     /**
      * Delete a file.
      *
-     * @access  public
      * @return  bool
      */
-    public function delete ( );
+    public function delete();
 
     /**
      * Change file group.
      *
-     * @access  public
      * @param   mixed   $group    Group name or number.
      * @return  bool
      */
-    public function changeGroup ( $group );
+    public function changeGroup($group);
 
     /**
      * Change file mode.
      *
-     * @access  public
      * @param   int     $mode    Mode (in octal!).
      * @return  bool
      */
-    public function changeMode ( $mode );
+    public function changeMode($mode);
 
     /**
      * Change file owner.
      *
-     * @access  public
      * @param   mixed   $user    User.
      * @return  bool
      */
-    public function changeOwner ( $user );
+    public function changeOwner($user);
 
     /**
      * Change the current umask.
      *
-     * @access  public
      * @param   int     $umask    Umask (in octal!). If null, given the current
      *                            umask value.
      * @return  int
      */
-    public static function umask ( $umask = null );
+    public static function umask($umask = null);
 }

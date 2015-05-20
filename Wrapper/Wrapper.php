@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,35 +43,39 @@ use Hoa\Core;
  *
  * Manipulate wrappers.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-class Wrapper {
-
+class Wrapper
+{
     /**
      * Register a wrapper.
      *
-     * @access  public
      * @param   string  $protocol     The wrapper name to be registered.
      * @param   string  $classname    Classname which implements the $protocol.
      * @param   int     $flags        Should be set to STREAM_IS_URL if
      *                                $protocol is a URL protocol. Default is 0,
      *                                local stream.
      * @return  bool
-     * @throw   \Hoa\Stream\Wrapper\Exception
+     * @throws  \Hoa\Stream\Wrapper\Exception
      */
-    public static function register ( $protocol, $classname, $flags = 0 ) {
-
-        if(true === self::isRegistered($protocol))
+    public static function register($protocol, $classname, $flags = 0)
+    {
+        if (true === self::isRegistered($protocol)) {
             throw new Exception(
-                'The protocol %s is already registered.', 0, $protocol);
+                'The protocol %s is already registered.',
+                0,
+                $protocol
+            );
+        }
 
-        if(false === class_exists($classname))
+        if (false === class_exists($classname)) {
             throw new Exception(
                 'Cannot register the %s class because it is not found.',
-                1, $classname);
+                1,
+                $classname
+            );
+        }
 
         return stream_wrapper_register($protocol, $classname, $flags);
     }
@@ -79,46 +83,42 @@ class Wrapper {
     /**
      * Unregister a wrapper.
      *
-     * @access  public
      * @param   string  $protocol    The wrapper name to be unregistered.
      * @return  bool
      */
-    public static function unregister ( $protocol ) {
-
+    public static function unregister($protocol)
+    {
         return stream_wrapper_unregister($protocol);
     }
 
     /**
      * Restore a previously unregistered build-in wrapper.
      *
-     * @access  public
      * @param   string  $protocol    The wrapper name to be restored.
      * @return  bool
      */
-    public static function restore ( $protocol ) {
-
+    public static function restore($protocol)
+    {
         return stream_wrapper_restore($protocol);
     }
 
     /**
      * Check if a protocol is registered or not.
      *
-     * @access  public
      * @param   string  $protocol    Protocol name.
      */
-    public static function isRegistered ( $protocol ) {
-
+    public static function isRegistered($protocol)
+    {
         return in_array($protocol, self::getRegistered());
     }
 
     /**
      * Get all registered wrapper.
      *
-     * @access  public
      * @return  array
      */
-    public static function getRegistered ( ) {
-
+    public static function getRegistered()
+    {
         return stream_get_wrappers();
     }
 }

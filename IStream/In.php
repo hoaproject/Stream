@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,108 +41,95 @@ namespace Hoa\Stream\IStream;
  *
  * Interface for input.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-interface In {
-
+interface In
+{
     /**
      * Test for end-of-stream.
      *
-     * @access  public
      * @return  bool
      */
-    public function eof ( );
+    public function eof();
 
     /**
      * Read n characters.
      *
-     * @access  public
      * @param   int     $length    Length.
      * @return  string
      */
-    public function read ( $length );
+    public function read($length);
 
     /**
      * Alias of $this->read().
      *
-     * @access  public
      * @param   int     $length    Length.
      * @return  string
      */
-    public function readString ( $length );
+    public function readString($length);
 
     /**
      * Read a character.
      * It could be equivalent to $this->read(1).
      *
-     * @access  public
      * @return  string
      */
-    public function readCharacter ( );
+    public function readCharacter();
 
     /**
      * Read a boolean.
      *
-     * @access  public
      * @return  bool
      */
-    public function readBoolean ( );
+    public function readBoolean();
 
     /**
      * Read an integer.
      *
-     * @access  public
      * @param   int     $length    Length.
      * @return  int
      */
-    public function readInteger ( $length = 1 );
+    public function readInteger($length = 1);
 
     /**
      * Read a float.
      *
-     * @access  public
      * @param   int     $length    Length.
      * @return  float
      */
-    public function readFloat ( $length = 1 );
+    public function readFloat($length = 1);
 
     /**
      * Read an array.
      * In most cases, it could be an alias to the $this->scanf() method.
      *
-     * @access  public
      * @param   mixed   $argument    Argument (because the behavior is very
      *                               different according to the implementation).
      * @return  array
      */
-    public function readArray ( $argument = null );
+    public function readArray($argument = null);
 
     /**
      * Read a line.
      *
-     * @access  public
      * @return  string
      */
-    public function readLine ( );
+    public function readLine();
 
     /**
      * Read all, i.e. read as much as possible.
      *
-     * @access  public
      * @param   int  $offset    Offset.
      * @return  string
      */
-    public function readAll ( $offset = 0 );
+    public function readAll($offset = 0);
 
     /**
      * Parse input from a stream according to a format.
      *
-     * @access  public
      * @param   string  $format    Format (see printf's formats).
      * @return  array
      */
-    public function scanf ( $format );
+    public function scanf($format);
 }

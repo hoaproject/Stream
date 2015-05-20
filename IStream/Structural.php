@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2015, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,89 +41,78 @@ namespace Hoa\Stream\IStream;
  *
  * Interface for structural input/output.
  *
- * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
- * @copyright  Copyright © 2007-2015 Ivan Enderlin.
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-
-interface Structural {
-
+interface Structural
+{
     /**
      * Select root of the document: :root.
      *
-     * @access  public
      * @return  \Hoa\Stream\IStream\Structural
      */
-    public function selectRoot ( );
+    public function selectRoot();
 
     /**
      * Select any elements: *.
      *
-     * @access  public
      * @return  array
      */
-    public function selectAnyElements ( );
+    public function selectAnyElements();
 
     /**
      * Select elements of type E: E.
      *
-     * @access  public
      * @param   string  $E    Element E.
      * @return  array
      */
-    public function selectElements ( $E = null );
+    public function selectElements($E = null);
 
     /**
      * Select F elements descendant of an E element: E F.
      *
-     * @access  public
      * @param   string  $F    Element F.
      * @return  array
      */
-    public function selectDescendantElements ( $F = null );
+    public function selectDescendantElements($F = null);
 
     /**
      * Select F elements children of an E element: E > F.
      *
-     * @access  public
      * @param   string  $F    Element F.
      * @return  array
      */
-    public function selectChildElements ( $F = null );
+    public function selectChildElements($F = null);
 
     /**
      * Select an F element immediately preceded by an E element: E + F.
      *
-     * @access  public
      * @param   string  $F    Element F.
      * @return  \Hoa\Stream\IStream\Structural
      */
-    public function selectAdjacentSiblingElement ( $F );
+    public function selectAdjacentSiblingElement($F);
 
     /**
      * Select F elements preceded by an E element: E ~ F.
      *
-     * @access  public
      * @param   string  $F    Element F.
      * @return  array
      */
-    public function selectSiblingElements ( $F = null );
+    public function selectSiblingElements($F = null);
 
     /**
      * Execute a query selector and return the first result.
      *
-     * @access  public
      * @param   string  $query    Query.
      * @return  \Hoa\Stream\IStream\Structural
      */
-    public function querySelector ( $query );
+    public function querySelector($query);
 
     /**
      * Execute a query selector and return one or many results.
      *
-     * @access  public
      * @param   string  $query    Query.
      * @return  array
      */
-    public function querySelectorAll ( $query );
+    public function querySelectorAll($query);
 }
