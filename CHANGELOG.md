@@ -1,3 +1,7 @@
+# 0.15.05.29
+
+  * Move to PSR-1 and PSR-2. (Ivan Enderlin, 2015-05-20T10:18:53+02:00)
+
 # 0.15.04.13
 
   * Add `stream_metadata` in the stream wrapper. (Ivan Enderlin, 2015-03-24T10:05:41+01:00)
