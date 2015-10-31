@@ -44,7 +44,7 @@ namespace Hoa\Stream\IStream;
  * @copyright  Copyright © 2007-2016 Hoa community
  * @license    New BSD License
  */
-interface Out
+interface Out extends Stream
 {
     /**
      * Write n characters.

@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2016, Hoa community. All rights reserved.
+ * Copyright © 2007-2015, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,58 +37,19 @@
 namespace Hoa\Stream\IStream;
 
 /**
- * Interface \Hoa\Stream\IStream\Pointable.
+ * Interface \Hoa\Stream\IStream\Stream.
  *
- * Interface for pointable input/output.
+ * Interface for all streams.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-interface Pointable extends Stream
+interface Stream
 {
     /**
-     * Set position equal to $offset bytes.
+     * Get the current stream.
      *
-     * @const int
+     * @return  resource
      */
-    const SEEK_SET     = SEEK_SET;
-
-    /**
-     * Set position to current location plus $offset.
-     *
-     * @const int
-     */
-    const SEEK_CURRENT = SEEK_CUR;
-
-    /**
-     * Set position to end-of-file plus $offset.
-     *
-     * @const int
-     */
-    const SEEK_END     = SEEK_END;
-
-
-
-    /**
-     * Rewind the position of a stream pointer.
-     *
-     * @return  bool
-     */
-    public function rewind();
-
-    /**
-     * Seek on a stream pointer.
-     *
-     * @param   int     $offset    Offset (negative value should be supported).
-     * @param   int     $whence    Whence, use the self::SEEK_* constants.
-     * @return  int
-     */
-    public function seek($offset, $whence = self::SEEK_SET);
-
-    /**
-     * Get the current position of the stream pointer.
-     *
-     * @return  int
-     */
-    public function tell();
+    public function getStream();
 }

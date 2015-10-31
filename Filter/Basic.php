@@ -47,7 +47,7 @@ use Hoa\Stream;
  * @copyright  Copyright © 2007-2016 Hoa community
  * @license    New BSD License
  */
-abstract class Basic extends \php_user_filter
+abstract class Basic extends \php_user_filter implements Stream\IStream\Stream
 {
     /**
      * Filter processed successfully with data available in the out bucket
@@ -203,13 +203,13 @@ abstract class Basic extends \php_user_filter
 
     /**
      * Get the stream resource being filtered.
-     * Maybe available only during filter calls when the closing parameter is
-     * set to false.
+     * Maybe available only during **filter** calls when the closing parameter
+     * is set to false.
      *
      * @return  resource
      */
     public function getStream()
     {
-        return $this->stream;
+        return isset($this->stream) ? $this->stream : null;
     }
 }

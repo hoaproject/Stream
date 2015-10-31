@@ -81,7 +81,7 @@ abstract class Composite
      *
      * @return  object
      */
-    protected function getStream()
+    public function getStream()
     {
         return $this->_stream;
     }

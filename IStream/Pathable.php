@@ -44,7 +44,7 @@ namespace Hoa\Stream\IStream;
  * @copyright  Copyright © 2007-2016 Hoa community
  * @license    New BSD License
  */
-interface Pathable
+interface Pathable extends Stream
 {
     /**
      * Get filename component of path.
