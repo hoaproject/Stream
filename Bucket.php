@@ -77,7 +77,7 @@ class Bucket
     /**
      * Bucket.
      *
-     * @var \Hoa\Stream\Bucket
+     * @var resource
      */
     protected $_bucket  = null;
 
@@ -176,7 +176,7 @@ class Bucket
      * Set bucket data.
      *
      * @param   string  $data    Data to set.
-     * @retun   string
+     * @return  string
      */
     public function setData($data)
     {

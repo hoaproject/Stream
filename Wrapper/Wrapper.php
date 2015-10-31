@@ -52,14 +52,14 @@ class Wrapper
      * Register a wrapper.
      *
      * @param   string  $protocol     The wrapper name to be registered.
-     * @param   string  $classname    Classname which implements the $protocol.
+     * @param   string  $className    Class name which implements the $protocol.
      * @param   int     $flags        Should be set to STREAM_IS_URL if
      *                                $protocol is a URL protocol. Default is 0,
      *                                local stream.
      * @return  bool
      * @throws  \Hoa\Stream\Wrapper\Exception
      */
-    public static function register($protocol, $classname, $flags = 0)
+    public static function register($protocol, $className, $flags = 0)
     {
         if (true === self::isRegistered($protocol)) {
             throw new Exception(
@@ -69,15 +69,15 @@ class Wrapper
             );
         }
 
-        if (false === class_exists($classname)) {
+        if (false === class_exists($className)) {
             throw new Exception(
                 'Cannot register the %s class because it is not found.',
                 1,
-                $classname
+                $className
             );
         }
 
-        return stream_wrapper_register($protocol, $classname, $flags);
+        return stream_wrapper_register($protocol, $className, $flags);
     }
 
     /**
@@ -106,6 +106,7 @@ class Wrapper
      * Check if a protocol is registered or not.
      *
      * @param   string  $protocol    Protocol name.
+     * @return  bool
      */
     public static function isRegistered($protocol)
     {
