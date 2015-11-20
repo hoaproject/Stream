@@ -240,7 +240,7 @@ abstract class Stream implements Core\Event\Listenable
      * @param   string               $streamName    Stream name (e.g. path or URL).
      * @param   \Hoa\Stream\Context  $context       Context.
      * @return  resource
-     * @throws  \Hoa\Core\Exception
+     * @throws  \Hoa\Exception\Exception
      */
     abstract protected function &_open($streamName, Context $context = null);
 
@@ -549,7 +549,6 @@ abstract class Stream implements Core\Event\Listenable
      * @param   string  $listenerId    Listener ID.
      * @param   mixed   $callable      Callable.
      * @return  \Hoa\Stream
-     * @return  \Hoa\Core\Exception
      */
     public function on($listenerId, $callable)
     {
