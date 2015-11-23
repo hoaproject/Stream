@@ -37,6 +37,7 @@
 namespace Hoa\Stream;
 
 use Hoa\Core;
+use Hoa\Event;
 
 /**
  * Class \Hoa\Stream.
@@ -46,8 +47,10 @@ use Hoa\Core;
  * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-abstract class Stream implements Core\Event\Listenable
+abstract class Stream implements Event\Listenable
 {
+    use Event\Listens;
+
     /**
      * Name index in the stream bucket.
      *
@@ -119,13 +122,6 @@ abstract class Stream implements Core\Event\Listenable
     protected $_hasBeenDiffered = false;
 
     /**
-     * Listeners.
-     *
-     * @var \Hoa\Core\Event\Listener
-     */
-    protected $_on              = null;
-
-    /**
      * Whether this stream is already opened by another handler.
      *
      * @var bool
@@ -150,18 +146,23 @@ abstract class Stream implements Core\Event\Listenable
         $this->_streamName      = $streamName;
         $this->_context         = $context;
         $this->_hasBeenDiffered = $wait;
-        $this->_on              = new Core\Event\Listener($this, [
-            'authrequire',
-            'authresult',
-            'complete',
-            'connect',
-            'failure',
-            'mimetype',
-            'progress',
-            'redirect',
-            'resolve',
-            'size'
-        ]);
+        $this->setListener(
+            new Event\Listener(
+                $this,
+                [
+                    'authrequire',
+                    'authresult',
+                    'complete',
+                    'connect',
+                    'failure',
+                    'mimetype',
+                    'progress',
+                    'redirect',
+                    'resolve',
+                    'size'
+                ]
+            )
+        );
 
         if (true === $wait) {
             return;
@@ -211,12 +212,12 @@ abstract class Stream implements Core\Event\Listenable
                 self::RESOURCE => $handler->_open($streamName, $context),
                 self::CONTEXT  => $context
             ];
-            Core\Event::register(
+            Event::register(
                 'hoa://Event/Stream/' . $streamName,
                 $handler
             );
             // Add :open-ready?
-            Core\Event::register(
+            Event::register(
                 'hoa://Event/Stream/' . $streamName . ':close-before',
                 $handler
             );
@@ -305,10 +306,10 @@ abstract class Stream implements Core\Event\Listenable
             return;
         }
 
-        Core\Event::notify(
+        Event::notify(
             'hoa://Event/Stream/' . $streamName . ':close-before',
             $this,
-            new Core\Event\Bucket()
+            new Event\Bucket()
         );
 
         if (false === $this->_close()) {
@@ -317,11 +318,10 @@ abstract class Stream implements Core\Event\Listenable
 
         unset(self::$_register[$name]);
         $this->_bucket[self::HANDLER] = null;
-        unset($this->_on);
-        Core\Event::unregister(
+        Event::unregister(
             'hoa://Event/Stream/' . $streamName
         );
-        Core\Event::unregister(
+        Event::unregister(
             'hoa://Event/Stream/' . $streamName . ':close-before'
         );
 
@@ -544,20 +544,6 @@ abstract class Stream implements Core\Event\Listenable
     }
 
     /**
-     * Attach a callable to this listenable object.
-     *
-     * @param   string  $listenerId    Listener ID.
-     * @param   mixed   $callable      Callable.
-     * @return  \Hoa\Stream
-     */
-    public function on($listenerId, $callable)
-    {
-        $this->_on->attach($listenerId, $callable);
-
-        return $this;
-    }
-
-    /**
      * Notification callback.
      *
      * @param   int     $ncode          Notification code. Please, see
@@ -592,7 +578,7 @@ abstract class Stream implements Core\Event\Listenable
             STREAM_NOTIFY_FILE_SIZE_IS  => 'size'
         ];
 
-        $this->_on->fire($_map[$ncode], new Core\Event\Bucket([
+        $this->getListener()->fire($_map[$ncode], new Event\Bucket([
             'code'        => $code,
             'severity'    => $severity,
             'message'     => $message,
