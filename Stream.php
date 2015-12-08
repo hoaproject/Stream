@@ -671,7 +671,7 @@ Consistency::flexEntity('Hoa\Stream\Stream');
 /**
  * Shutdown method.
  */
-Core::registerShutdownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
+Consistency::registerShutdownFunction('\Hoa\Stream\Stream', '_Hoa_Stream');
 
 /**
  * Add the hoa://Library/Stream component. Should be use to reach/get an entry
