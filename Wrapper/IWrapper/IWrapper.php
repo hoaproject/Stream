@@ -36,7 +36,7 @@
 
 namespace Hoa\Stream\Wrapper\IWrapper;
 
-use Hoa\Core;
+use Hoa\Consistency;
 
 /**
  * Interface \Hoa\Stream\Wrapper\IWrapper.
@@ -60,4 +60,4 @@ interface IWrapper extends File, Stream
 /**
  * Flex entity.
  */
-Core\Consistency::flexEntity('Hoa\Stream\Wrapper\IWrapper\IWrapper');
+Consistency::flexEntity('Hoa\Stream\Wrapper\IWrapper\IWrapper');

@@ -36,7 +36,7 @@
 
 namespace Hoa\Stream\Wrapper;
 
-use Hoa\Core;
+use Hoa\Consistency;
 
 /**
  * Class \Hoa\Stream\Wrapper.
@@ -126,4 +126,4 @@ class Wrapper
 /**
  * Flex entity.
  */
-Core\Consistency::flexEntity('Hoa\Stream\Wrapper\Wrapper');
+Consistency::flexEntity('Hoa\Stream\Wrapper\Wrapper');

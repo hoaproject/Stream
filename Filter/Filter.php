@@ -36,7 +36,7 @@
 
 namespace Hoa\Stream\Filter;
 
-use Hoa\Core;
+use Hoa\Consistency;
 use Hoa\Stream;
 
 /**
@@ -248,4 +248,4 @@ abstract class Filter extends Stream
 /**
  * Flex entity.
  */
-Core\Consistency::flexEntity('Hoa\Stream\Filter\Filter');
+Consistency::flexEntity('Hoa\Stream\Filter\Filter');

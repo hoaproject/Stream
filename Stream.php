@@ -36,6 +36,7 @@
 
 namespace Hoa\Stream;
 
+use Hoa\Consistency;
 use Hoa\Core;
 use Hoa\Event;
 
@@ -665,7 +666,7 @@ class _Protocol extends Core\Protocol
 /**
  * Flex entity.
  */
-Core\Consistency::flexEntity('Hoa\Stream\Stream');
+Consistency::flexEntity('Hoa\Stream\Stream');
 
 /**
  * Shutdown method.
