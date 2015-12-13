@@ -37,8 +37,8 @@
 namespace Hoa\Stream;
 
 use Hoa\Consistency;
-use Hoa\Core;
 use Hoa\Event;
+use Hoa\Protocol;
 
 /**
  * Class \Hoa\Stream.
@@ -635,12 +635,12 @@ abstract class Stream implements Event\Listenable
 /**
  * Class \Hoa\Stream\_Protocol.
  *
- * hoa://Library/Stream component.
+ * The `hoa://Library/Stream` node.
  *
  * @copyright  Copyright © 2007-2015 Hoa community
  * @license    New BSD License
  */
-class _Protocol extends Core\Protocol
+class _Protocol extends Protocol\Node
 {
     /**
      * Component's name.
@@ -674,8 +674,8 @@ Consistency::flexEntity('Hoa\Stream\Stream');
 Consistency::registerShutdownFunction(xcallable('Hoa\Stream\Stream::_Hoa_Stream'));
 
 /**
- * Add the hoa://Library/Stream component. Should be use to reach/get an entry
- * in the \Hoa\Stream register.
+ * Add the `hoa://Library/Stream` node. Should be use to reach/get an entry
+ * in the stream register.
  */
-$protocol              = Core::getInstance()->getProtocol();
+$protocol              = Protocol::getInstance();
 $protocol['Library'][] = new _Protocol();
