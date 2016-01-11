@@ -1,3 +1,15 @@
+# 0.16.01.11
+
+  * Quality: Drop PHP5.4. (Ivan Enderlin, 2016-01-11T09:15:26+01:00)
+  * Quality: Run devtools:cs. (Ivan Enderlin, 2016-01-09T09:09:29+01:00)
+  * Core: Remove `Hoa\Core`. (Ivan Enderlin, 2016-01-09T08:25:15+01:00)
+  * Protocol: Use `Hoa\Protocol`. (Ivan Enderlin, 2015-12-13T22:58:59+01:00)
+  * Consistency: Update `registerShutdownFunction`. (Ivan Enderlin, 2015-12-09T06:57:42+01:00)
+  * Consistency: Update `registerShutdownFunction`. (Ivan Enderlin, 2015-12-08T23:49:54+01:00)
+  * Consistency: Use `Hoa\Consistency`. (Ivan Enderlin, 2015-12-08T21:55:00+01:00)
+  * Event: Use `Hoa\Event`. (Ivan Enderlin, 2015-11-23T21:43:51+01:00)
+  * Exception: Use `Hoa\Exception`. (Ivan Enderlin, 2015-11-20T13:16:44+01:00)
+
 # 0.15.10.26
 
   * Change the visibility of `getStream` to `public`. (Ivan Enderlin, 2015-10-22T08:30:43+02:00)
