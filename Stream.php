@@ -48,7 +48,7 @@ use Hoa\Protocol;
  * @copyright  Copyright © 2007-2016 Hoa community
  * @license    New BSD License
  */
-abstract class Stream implements Event\Listenable, IStream\Stream
+abstract class Stream implements IStream\Stream, Event\Listenable
 {
     use Event\Listens;
 
