@@ -1,3 +1,8 @@
+# 1.16.11.08
+
+  * Avoid closing a closed stream (Jeremy Benoist, 2016-11-08T13:46:47+01:00)
+  * Documentation: Update `support` properties. (Ivan Enderlin, 2016-10-11T11:49:15+02:00)
+
 # 1.16.09.06
 
   * Quality: Run `hoa devtools:cs`. (Ivan Enderlin, 2016-02-24T07:36:19+01:00)
