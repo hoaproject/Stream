@@ -625,6 +625,10 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      */
     public function __destruct()
     {
+        if (false === $this->isOpened()) {
+            return;
+        }
+
         $this->close();
 
         return;
