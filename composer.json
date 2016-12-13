@@ -29,6 +29,9 @@
         "hoa/exception"  : "~1.0",
         "hoa/protocol"   : "~1.0"
     },
+    "require-dev": {
+        "hoa/test": "~2.0"
+    },
     "autoload": {
         "psr-4": {
             "Hoa\\Stream\\": "."
