@@ -36,6 +36,7 @@
 
 namespace Hoa\Stream\Test\Unit;
 
+use Hoa\Exception as HoaException;
 use Hoa\Stream\Exception as SUT;
 use Hoa\Test;
 
@@ -55,6 +56,6 @@ class Exception extends Test\Unit\Suite
             ->when($result = new SUT('foo', 0))
             ->then
                 ->object($result)
-                    ->isInstanceOf('Hoa\Exception\Exception');
+                    ->isInstanceOf(HoaException::class);
     }
 }
