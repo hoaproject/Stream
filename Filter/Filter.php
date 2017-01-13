@@ -139,7 +139,8 @@ abstract class Filter extends Stream
     public static function append(
         $stream,
         $name,
-        $mode = self::READ, $parameters = null
+        $mode       = self::READ,
+        $parameters = null
     ) {
         if ($stream instanceof Stream) {
             $stream = $stream->getStream();
