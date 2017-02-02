@@ -71,9 +71,10 @@ class Wrapper
 
         if (false === class_exists($className)) {
             throw new Exception(
-                'Cannot register the %s class because it is not found.',
+                'Cannot use the %s class for the implementation of ' .
+                'the %s protocol because it is not found.',
                 1,
-                $className
+                [$className, $protocol]
             );
         }
 
