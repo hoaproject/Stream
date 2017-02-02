@@ -85,7 +85,7 @@ abstract class Filter extends Stream
     const READ_AND_WRITE   = STREAM_FILTER_ALL;
 
     /**
-     * Filters resources register.
+     * All resources with at least one filter registered.
      *
      * @var array
      */
@@ -113,12 +113,25 @@ abstract class Filter extends Stream
             throw new Exception('Filter %s is already registered.', 0, $name);
         }
 
-        if (empty($name)) {
-            throw new Exception('Filter name cannot be empty.', 1);
-        }
-
         if (is_object($class)) {
             $class = get_class($class);
+        }
+
+        if (empty($name)) {
+            throw new Exception(
+                'Filter name cannot be empty (implementation class is %s).',
+                1,
+                $class
+            );
+        }
+
+        if (false === class_exists($class, false)) {
+            throw new Exception(
+                'Cannot register the %s class for the filter %s ' .
+                'because it does not exist.',
+                2,
+                [$class, $name]
+            );
         }
 
         return stream_filter_register($name, $class);
@@ -129,10 +142,10 @@ abstract class Filter extends Stream
      *
      * @param   mixed       $stream        Stream which received the filter.
      *                                     Should be resource or an object
-     *                                     \Hoa\Stream.
+     *                                     of kind `Hoa\Stream`.
      * @param   string      $name          Filter name.
-     * @param   int         $mode          self::READ, self::WRITE or
-     *                                     self::READ_AND_WRITE.
+     * @param   int         $mode          `self::READ`, `self::WRITE` or
+     *                                     `self::READ_AND_WRITE`.
      * @param   mixed       $parameters    Parameters.
      * @return  resource
      */
@@ -215,7 +228,7 @@ abstract class Filter extends Stream
                 throw new Exception(
                     'Cannot remove the stream filter %s because no resource was ' .
                     'found with this name.',
-                    2,
+                    3,
                     $streamFilter
                 );
             }
