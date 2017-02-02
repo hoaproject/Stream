@@ -36,6 +36,7 @@
 
 namespace Hoa\Stream\Test\Unit\Wrapper;
 
+use Hoa\Stream as LUT;
 use Hoa\Stream\Wrapper\Wrapper as SUT;
 use Hoa\Test;
 
@@ -49,6 +50,105 @@ use Hoa\Test;
  */
 class Wrapper extends Test\Unit\Suite
 {
+    public function case_register()
+    {
+        $this
+            ->given($oldIsRegistered = SUT::isRegistered('foo'))
+            ->when($result = SUT::register('foo', 'StdClass'))
+            ->then
+                ->boolean($result)
+                    ->isTrue()
+                ->boolean($oldIsRegistered)
+                    ->isFalse()
+                ->boolean(SUT::isRegistered('foo'))
+                    ->isTrue();
+    }
+
+    public function case_register_already_registered()
+    {
+        $this
+            ->exception(function () {
+                SUT::register('php', 'ClassName');
+            })
+                ->isInstanceOf(LUT\Exception::class)
+                ->hasMessage('The protocol php is already registered.');
+    }
+
+    public function case_register_implementation_does_not_exist()
+    {
+        $this
+            ->exception(function () {
+                SUT::register('foo', 'ClassName');
+            })
+                ->isInstanceOf(LUT\Exception::class)
+                ->hasMessage(
+                    'Cannot use the ClassName class for the implementation ' .
+                    'of the foo protocol because it is not found.'
+                );
+    }
+
+    public function case_unregister()
+    {
+        $this
+            ->given(
+                SUT::register('foo', 'StdClass'),
+                $oldIsRegistered = SUT::isRegistered('foo')
+            )
+            ->when($result = SUT::unregister('foo'))
+            ->then
+                ->boolean($result)
+                    ->isTrue()
+                ->boolean($oldIsRegistered)
+                    ->isTrue()
+                ->boolean(SUT::isRegistered('foo'))
+                    ->isFalse();
+    }
+
+    public function case_unregister_unregistered_protocol()
+    {
+        $this
+            ->when($result = SUT::unregister('foo'))
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
+    public function case_restore_registered_protocol()
+    {
+        $this
+            ->when($result = SUT::restore('php'))
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+    }
+
+    public function case_restore_unregistered_protocol()
+    {
+        $this
+            ->when($result = SUT::restore('foo'))
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
+    public function case_is_registered()
+    {
+        $this
+            ->when($result = SUT::isRegistered('php'))
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+    }
+
+    public function case_is_not_registered()
+    {
+        $this
+            ->when($result = SUT::isRegistered('foo'))
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
     public function case_get_registered()
     {
         $this
