@@ -44,7 +44,7 @@ use Hoa\Test;
  *
  * Test suite of the stream bucket.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Bucket extends Test\Unit\Suite
