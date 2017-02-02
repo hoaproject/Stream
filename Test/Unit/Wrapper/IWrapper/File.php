@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Stream\Test\Unit\IStream;
+namespace Hoa\Stream\Test\Unit\Wrapper\IWrapper;
 
 use Hoa\Stream\Wrapper\IWrapper\File as SUT;
 use Hoa\Test;
