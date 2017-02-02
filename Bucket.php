@@ -85,12 +85,12 @@ class Bucket
 
     /**
      * Set a brigade.
-     * If a stream is given (with the constant self::IS_A_STREAM), it will
+     * If a stream is given (with the constant `self::IS_A_STREAM`), it will
      * create a brigade automatically.
      *
      * @param   resource  &$brigade    A stream or a brigade.
-     * @param   bool      $is          Specify if $brigade is a stream or a
-     *                                 brigade, given by self::IS_A_* constant.
+     * @param   bool      $is          Specify if `$brigade` is a stream or a
+     *                                 brigade, given by `self::IS_A_*` constant.
      * @param   string    $buffer      Stream buffer.
      */
     public function __construct(&$brigade, $is = self::IS_A_BRIGADE, $buffer = '')
