@@ -39,7 +39,7 @@ namespace Hoa\Stream;
 /**
  * Class \Hoa\Stream\Composite.
  *
- * Declare a composite stream, i.e. a stream that use stream.
+ * Declare a composite stream, i.e. a stream that uses a stream.
  *
  * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
