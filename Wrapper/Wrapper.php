@@ -89,7 +89,7 @@ class Wrapper
      */
     public static function unregister($protocol)
     {
-        return stream_wrapper_unregister($protocol);
+        return @stream_wrapper_unregister($protocol);
     }
 
     /**
