@@ -37,7 +37,7 @@
 namespace Hoa\Stream\Test\Unit\Filter;
 
 use Hoa\Stream as LUT;
-use Hoa\Stream\Filter\Basic as SUT;
+use Mock\Hoa\Stream\Filter\Basic as SUT;
 use Hoa\Test;
 
 /**
@@ -70,7 +70,7 @@ class Basic extends Test\Unit\Suite
     public function case_is_a_php_filter()
     {
         $this
-            ->when($result = new \Mock\Hoa\Stream\Filter\Basic())
+            ->when($result = new SUT())
             ->then
                 ->object($result)
                     ->isInstanceOf(\php_user_filter::class);
@@ -79,9 +79,67 @@ class Basic extends Test\Unit\Suite
     public function case_interfaces()
     {
         $this
-            ->when($result = new \Mock\Hoa\Stream\Filter\Basic())
+            ->when($result = new SUT())
             ->then
                 ->object($result)
                     ->isInstanceOf(LUT\IStream\Stream::class);
+    }
+
+    public function case_set_name()
+    {
+        $this
+            ->given($filter = new SUT())
+            ->when($result = $filter->setName('foo'))
+            ->then
+                ->string($result)
+                    ->isEqualTo('');
+    }
+
+    public function case_get_name()
+    {
+        $this
+            ->given(
+                $filter = new SUT(),
+                $name   = 'foo',
+                $filter->setName($name)
+            )
+            ->when($result = $filter->getName())
+            ->then
+                ->string($result)
+                    ->isEqualTo($name);
+    }
+
+    public function case_set_parameters()
+    {
+        $this
+            ->given($filter = new SUT())
+            ->when($result = $filter->setParameters(['foo', 'bar', 'baz']))
+            ->then
+                ->string($result)
+                    ->isEqualTo('');
+    }
+
+    public function case_get_parameters()
+    {
+        $this
+            ->given(
+                $filter     = new SUT(),
+                $parameters = ['foo', 'bar', 'baz'],
+                $filter->setParameters($parameters)
+            )
+            ->when($result = $filter->getParameters())
+            ->then
+                ->array($result)
+                    ->isEqualTo($parameters);
+    }
+
+    public function case_get_stream()
+    {
+        $this
+            ->given($filter = new SUT())
+            ->when($result = $filter->getStream())
+            ->then
+                ->variable($result)
+                    ->isNull(); // Only available when filtering, so `null` is valid.
     }
 }
