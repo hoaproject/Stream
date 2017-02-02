@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2016, Hoa community. All rights reserved.
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,7 +43,7 @@ use Hoa\Consistency;
  *
  * Interface for stream wrapper class.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 interface IWrapper extends File, Stream
@@ -52,7 +52,6 @@ interface IWrapper extends File, Stream
      * Constructs a new stream wrapper.
      * Called when opening the stream wrapper, right before self::stream_open().
      *
-     * @return  void
      */
     public function __construct();
 }

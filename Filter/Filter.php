@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2016, Hoa community. All rights reserved.
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,7 @@ use Hoa\Stream;
  *
  * Proposes some methods to handle filter.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 abstract class Filter extends Stream
@@ -139,7 +139,8 @@ abstract class Filter extends Stream
     public static function append(
         $stream,
         $name,
-        $mode = self::READ, $parameters = null
+        $mode       = self::READ,
+        $parameters = null
     ) {
         if ($stream instanceof Stream) {
             $stream = $stream->getStream();

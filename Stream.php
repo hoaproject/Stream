@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2016, Hoa community. All rights reserved.
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ use Hoa\Protocol;
  *
  * Static register for all streams (files, sockets etc.).
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 abstract class Stream implements IStream\Stream, Event\Listenable
@@ -140,7 +140,6 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      * @param   string  $context       Context ID (please, see the
      *                                 \Hoa\Stream\Context class).
      * @param   bool    $wait          Differ opening or not.
-     * @return  void
      */
     public function __construct($streamName, $context = null, $wait = false)
     {
@@ -640,7 +639,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
  *
  * The `hoa://Library/Stream` node.
  *
- * @copyright  Copyright © 2007-2016 Hoa community
+ * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class _Protocol extends Protocol\Node

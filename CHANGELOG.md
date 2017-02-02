@@ -1,3 +1,8 @@
+# 1.17.01.13
+
+  * Quality: Fix CS. (Ivan Enderlin, 2017-01-13T19:10:23+01:00)
+  * Quality: Happy new year! (Alexis von Glasow, 2017-01-12T14:00:59+01:00)
+
 # 1.16.11.08
 
   * Avoid closing a closed stream (Jeremy Benoist, 2016-11-08T13:46:47+01:00)
