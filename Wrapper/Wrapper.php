@@ -52,9 +52,9 @@ class Wrapper
      * Register a wrapper.
      *
      * @param   string  $protocol     The wrapper name to be registered.
-     * @param   string  $className    Class name which implements the $protocol.
-     * @param   int     $flags        Should be set to STREAM_IS_URL if
-     *                                $protocol is a URL protocol. Default is 0,
+     * @param   string  $className    Class name which implements the protocol.
+     * @param   int     $flags        Should be set to `STREAM_IS_URL` if
+     *                                `$protocol` is a URL protocol. Default is 0,
      *                                local stream.
      * @return  bool
      * @throws  \Hoa\Stream\Wrapper\Exception
