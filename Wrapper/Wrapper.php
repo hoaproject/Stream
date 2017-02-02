@@ -100,7 +100,7 @@ class Wrapper
      */
     public static function restore($protocol)
     {
-        return stream_wrapper_restore($protocol);
+        return @stream_wrapper_restore($protocol);
     }
 
     /**
