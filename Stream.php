@@ -399,7 +399,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
     public function _setStream($stream)
     {
         if (false === is_resource($stream) &&
-            ('resource' === gettype($stream) &&
+            ('resource' !== gettype($stream) ||
              'Unknown'  !== get_resource_type($stream))) {
             throw new Exception(
                 'Try to change the stream resource with an invalid one; ' .
