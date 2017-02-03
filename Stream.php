@@ -235,7 +235,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
 
     /**
      * Open the stream and return the associated resource.
-     * Note: this method is protected, but do not forget that it could be
+     * Note: This method is protected, but do not forget that it could be
      * overloaded into a public context.
      *
      * @param   string               $streamName    Stream name (e.g. path or URL).
