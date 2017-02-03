@@ -116,11 +116,11 @@ abstract class Stream implements IStream\Stream, Event\Listenable
     protected $_context         = null;
 
     /**
-     * Whether the opening has been differed.
+     * Whether the opening has been deferred.
      *
      * @var bool
      */
-    protected $_hasBeenDiffered = false;
+    protected $_hasBeenDeferred = false;
 
     /**
      * Whether this stream is already opened by another handler.
@@ -134,18 +134,18 @@ abstract class Stream implements IStream\Stream, Event\Listenable
     /**
      * Set the current stream.
      * If not exists in the register, try to call the
-     * $this->_open() method. Please, see the self::_getStream() method.
+     * `$this->_open()` method. Please, see the `self::_getStream()` method.
      *
      * @param   string  $streamName    Stream name (e.g. path or URL).
      * @param   string  $context       Context ID (please, see the
-     *                                 \Hoa\Stream\Context class).
+     *                                 `Hoa\Stream\Context` class).
      * @param   bool    $wait          Differ opening or not.
      */
     public function __construct($streamName, $context = null, $wait = false)
     {
         $this->_streamName      = $streamName;
         $this->_context         = $context;
-        $this->_hasBeenDiffered = $wait;
+        $this->_hasBeenDeferred = $wait;
         $this->setListener(
             new Event\Listener(
                 $this,
@@ -264,7 +264,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
     {
         $context = $this->_context;
 
-        if (true === $this->_hasBeenDiffered) {
+        if (true === $this->hasBeenDeferred()) {
             if (null === $context) {
                 $handle = Context::getInstance(uniqid());
                 $handle->setParameters([
@@ -435,6 +435,14 @@ abstract class Stream implements IStream\Stream, Event\Listenable
     public function setStreamTimeout($seconds, $microseconds = 0)
     {
         return stream_set_timeout($this->getStream(), $seconds, $microseconds);
+    }
+
+    /**
+     * Whether the opening of the stream has been deferred
+     */
+    protected function hasBeenDeferred()
+    {
+        return $this->_hasBeenDeferred;
     }
 
     /**
