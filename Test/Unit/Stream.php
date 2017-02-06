@@ -394,10 +394,216 @@ class Stream extends Test\Unit\Suite
                     return true;
                 }
             )
-            ->when($result = $stream->setStreamblocking(true))
+            ->when($result = $stream->setStreamBlocking(true))
             ->then
                 ->boolean($result)
                     ->isTrue()
+                ->boolean($called)
+                    ->isTrue();
+    }
+
+    public function case_get_default_stream_buffer_size()
+    {
+        $self = $this;
+
+        $this
+            ->given($stream = new SUT(__FILE__))
+            ->when($result = $stream->getStreamBufferSize())
+            ->then
+            ->integer($result)
+                    ->isEqualTo(8192);
+    }
+
+    public function case_set_stream_buffer()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $stream = new SUT(__FILE__),
+
+                $this->function->stream_set_write_buffer = function ($_stream, $_buffer) use ($self, $stream, &$called) {
+                    $called = true;
+
+                    $self
+                        ->resource($_stream)
+                            ->isIdenticalTo($stream->getStream())
+                        ->integer($_buffer)
+                            ->isEqualTo(42);
+
+                    return 0;
+                }
+            )
+            ->when($result = $stream->setStreamBuffer(42))
+            ->then
+                ->boolean($result)
+                    ->isTrue()
+                ->boolean($called)
+                    ->isTrue()
+                ->integer($stream->getStreamBufferSize())
+                    ->isEqualTo(42);
+    }
+
+    public function case_set_stream_buffer_fail()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $stream              = new SUT(__FILE__),
+                $oldStreamBufferSize = $stream->getStreamBufferSize(),
+
+                $this->function->stream_set_write_buffer = function ($_stream, $_buffer) use ($self, $stream, &$called) {
+                    $called = true;
+
+                    $self
+                        ->resource($_stream)
+                            ->isIdenticalTo($stream->getStream())
+                        ->integer($_buffer)
+                            ->isEqualTo(42);
+
+                    return 1;
+                }
+            )
+            ->when($result = $stream->setStreamBuffer(42))
+            ->then
+                ->boolean($result)
+                    ->isFalse()
+                ->boolean($called)
+                    ->isTrue()
+                ->integer($stream->getStreamBufferSize())
+                    ->isEqualTo($oldStreamBufferSize);
+    }
+
+    public function case_disable_stream_buffer()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $stream = new SUT(__FILE__),
+
+                $this->function->stream_set_write_buffer = function ($_stream, $_buffer) use ($self, $stream, &$called) {
+                    $called = true;
+
+                    $self
+                        ->resource($_stream)
+                            ->isIdenticalTo($stream->getStream())
+                        ->integer($_buffer)
+                            ->isEqualTo(0);
+
+                    return 0;
+                }
+            )
+            ->when($result = $stream->disableStreamBuffer())
+            ->then
+                ->boolean($result)
+                    ->isTrue()
+                ->boolean($called)
+                    ->isTrue()
+                ->integer($stream->getStreamBufferSize())
+                    ->isEqualTo(0);
+    }
+
+    public function case_get_stream_wrapper_name_with_no_wrapper()
+    {
+        $this
+            ->given($stream = new SUT(__FILE__))
+            ->when($result = $stream->getStreamWrapperName())
+            ->then
+                ->string($result)
+                    ->isEqualTo('file');
+    }
+
+    public function case_get_stream_wrapper_name()
+    {
+        $this
+            ->given($stream = new SUT('hoa://Test/Vfs/Foo?type=file'))
+            ->when($result = $stream->getStreamWrapperName())
+            ->then
+                ->string($result)
+                    ->isEqualTo('hoa');
+    }
+
+    public function case_get_stream_meta_data()
+    {
+        $this
+            ->given($stream = new SUT(__FILE__))
+            ->when($result = $stream->getStreamMetaData())
+            ->then
+                ->array($result)
+                    ->isEqualTo([
+                        'timed_out'    => false,
+                        'blocked'      => true,
+                        'eof'          => false,
+                        'wrapper_type' => 'plainfile',
+                        'stream_type'  => 'STDIO',
+                        'mode'         => 'rb',
+                        'unread_bytes' => 0,
+                        'seekable'     => true,
+                        'uri'          => __FILE__
+                    ]);
+    }
+
+    public function case_is_borrowing()
+    {
+        $this
+            ->given(
+                $streamA1 = new SUT(__FILE__),
+                $streamA2 = new SUT(__FILE__)
+            )
+            ->when($result = $streamA2->isBorrowing())
+            ->then
+                ->boolean($result)
+                    ->isTrue()
+                ->boolean($streamA1->isBorrowing())
+                    ->isFalse();
+    }
+
+    public function case_is_not_borrowing()
+    {
+        $this
+            ->given($stream = new SUT(__FILE__))
+            ->when($result = $stream->isBorrowing())
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
+    public function case_notifications()
+    {
+        $this->skip('postponed');
+        /*
+        $self = $this;
+
+        $this
+            ->given($stream = new SUT('http://127.0.0.1:8080', null, false))
+            ->when(
+                $stream->on(
+                    'size',
+                    function () use ($self, &$called) {
+                        $called = true;
+                    }
+                ),
+                $stream->open()
+            )
+            ->then
+                ->boolean($called)
+                    ->isTrue();
+        */
+    }
+
+    public function case_shutdown_destructor()
+    {
+        $this
+            ->given(
+                $stream = new \Mock\Hoa\Stream\Test\Unit\SUTWithPublicClose(__FILE__),
+                $this->calling($stream)->_close = function () use (&$called) {
+                    $called = true;
+                }
+            )
+            ->when($result = SUT::_Hoa_Stream())
+            ->then
                 ->boolean($called)
                     ->isTrue();
     }
@@ -415,5 +621,13 @@ class SUT extends LUT\Stream
     protected function _close()
     {
         return fclose($this->getStream());
+    }
+}
+
+class SUTWithPublicClose extends SUT
+{
+    public function _close()
+    {
+        return parent::_close();
     }
 }
