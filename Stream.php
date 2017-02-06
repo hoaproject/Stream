@@ -127,7 +127,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      *
      * @var bool
      */
-    protected $_borrowed        = false;
+    protected $_borrowing       = false;
 
 
 
@@ -222,7 +222,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
                 $handler
             );
         } else {
-            $handler->_borrowed = true;
+            $handler->_borrowing = true;
         }
 
         if (null === self::$_register[$name][self::RESOURCE]) {
@@ -548,7 +548,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      */
     public function isBorrowing()
     {
-        return $this->_borrowed;
+        return $this->_borrowing;
     }
 
     /**
