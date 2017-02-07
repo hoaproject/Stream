@@ -105,6 +105,8 @@ class Stream extends Test\Unit\Suite
                 ->boolean($listener->listenerExists('resolve'))
                     ->isTrue()
                 ->boolean($listener->listenerExists('size'))
+                    ->isTrue()
+                ->boolean(Event::eventExists('hoa://Event/Stream/' . $name))
                     ->isTrue();
     }
 
@@ -139,6 +141,32 @@ class Stream extends Test\Unit\Suite
     public function case_close()
     {
         $this->skip('postponed');
+    }
+
+    public function case_close_event_close_before()
+    {
+        $self = $this;
+
+        $this
+            ->given(
+                $name   = 'hoa://Test/Vfs/Foo?type=file',
+                $stream = new SUT($name),
+                Event::getEvent('hoa://Event/Stream/' . $name . ':close-before')->attach(
+                    function (Event\Bucket $bucket) use ($self, &$called) {
+                        $called = true;
+
+                        $self
+                            ->variable($bucket->getData())
+                                ->isNull()
+                            ->boolean($bucket->getSource()->isOpened())
+                                ->isTrue();
+                    }
+                )
+            )
+            ->when($result = $stream->close())
+            ->then
+                ->boolean($called)
+                    ->isTrue();
     }
 
     public function case_get_stream_name()
