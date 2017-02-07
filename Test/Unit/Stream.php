@@ -607,6 +607,59 @@ class Stream extends Test\Unit\Suite
                 ->boolean($called)
                     ->isTrue();
     }
+
+    public function case_destruct_an_opened_stream()
+    {
+        $this
+            ->given(
+                $stream = new \Mock\Hoa\Stream\Test\Unit\SUTWithPublicClose(__FILE__),
+                $this->calling($stream)->_close = function () use (&$called) {
+                    $called = true;
+                }
+            )
+            ->when($result = $stream->__destruct())
+            ->then
+                ->boolean($called)
+                    ->isTrue();
+    }
+
+    public function case_destruct_a_deferred_stream()
+    {
+        $this
+            ->given(
+                $stream = new \Mock\Hoa\Stream\Test\Unit\SUTWithPublicClose(__FILE__, null, true),
+                $this->calling($stream)->_close = function () use (&$called) {
+                    $called = true;
+                }
+            )
+            ->when($result = $stream->__destruct())
+            ->then
+                ->variable($called)
+                    ->isNull();
+    }
+
+    public function case_protocol_reach_id()
+    {
+        $this
+            ->given(
+                $name   = 'hoa://Test/Vfs/Foo?type=file',
+                $stream = new SUT($name)
+            )
+            ->when($result = resolve('hoa://Library/Stream#' . $name))
+            ->then
+                ->object($result)
+                    ->isIdenticalTo($stream);
+    }
+
+    public function case_protocol_reach_unknown_id()
+    {
+        $this
+            ->given($name = 'hoa://Test/Vfs/Foo?type=file')
+            ->when($result = resolve('hoa://Library/Stream#' . $name))
+            ->then
+                ->variable($result)
+                    ->isNull();
+    }
 }
 
 class SUT extends LUT\Stream
