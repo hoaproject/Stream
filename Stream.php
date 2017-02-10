@@ -57,28 +57,35 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      *
      * @const int
      */
-    const NAME     = 0;
+    const NAME                = 0;
 
     /**
      * Handler index in the stream bucket.
      *
      * @const int
      */
-    const HANDLER  = 1;
+    const HANDLER             = 1;
 
     /**
      * Resource index in the stream bucket.
      *
      * @const int
      */
-    const RESOURCE = 2;
+    const RESOURCE            = 2;
 
     /**
      * Context index in the stream bucket.
      *
      * @const int
      */
-    const CONTEXT  = 3;
+    const CONTEXT             = 3;
+
+    /**
+     * Default buffer size.
+     *
+     * @const int
+     */
+    const DEFAULT_BUFFER_SIZE = 8192;
 
     /**
      * Current stream bucket.
@@ -99,7 +106,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      *
      * @var bool
      */
-    protected $_bufferSize      = 8192;
+    protected $_bufferSize      = self::DEFAULT_BUFFER_SIZE;
 
     /**
      * Original stream name, given to the stream constructor.
@@ -283,7 +290,8 @@ abstract class Stream implements IStream\Stream, Event\Listenable
             }
         }
 
-        $this->_bucket = self::_getStream(
+        $this->_bufferSize = self::DEFAULT_BUFFER_SIZE;
+        $this->_bucket     = self::_getStream(
             $this->_streamName,
             $this,
             $context
