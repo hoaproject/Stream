@@ -107,6 +107,8 @@ class Stream extends Test\Unit\Suite
                 ->boolean($listener->listenerExists('size'))
                     ->isTrue()
                 ->boolean(Event::eventExists('hoa://Event/Stream/' . $name))
+                    ->isTrue()
+                ->boolean(Event::eventExists('hoa://Event/Stream/' . $name . ':close-before'))
                     ->isTrue();
     }
 
@@ -125,7 +127,7 @@ class Stream extends Test\Unit\Suite
                 ->boolean($this->invoke($result)->hasBeenDeferred())
                     ->isFalse()
                 ->object($this->invoke($result)->getListener())
-            ->isInstanceOf(Event\Listener::class);
+                    ->isInstanceOf(Event\Listener::class);
     }
 
     public function case_construct_with_deferred_opening()
@@ -140,7 +142,79 @@ class Stream extends Test\Unit\Suite
 
     public function case_close()
     {
-        $this->skip('postponed');
+        $this
+            ->given(
+                $name     = __FILE__,
+                $stream   = new SUT($name),
+                $resource = $stream->getStream(),
+                $context  = $stream->getStreamContext()
+            )
+            ->when($result = $stream->close())
+            ->then
+                ->variable($result)
+                    ->isNull()
+                ->boolean($stream->isOpened())
+                    ->isFalse()
+                ->variable(SUT::getStreamHandler($stream))
+                    ->isNull()
+                ->variable($stream->getStreamName())
+                    ->isEqualTo($name)
+                ->variable($stream->getStream())
+                    ->isEqualTo($resource)
+                ->variable($stream->getStreamContext())
+                    ->isEqualTo($context)
+                ->boolean(Event::eventExists('hoa://Event/Stream/' . $name))
+                    ->isFalse()
+                ->boolean(Event::eventExists('hoa://Event/Stream/' . $name . ':close-before'))
+                    ->isFalse();
+    }
+
+    public function case_close_more_than_once()
+    {
+        $this
+            ->given(
+                $name   = __FILE__,
+                $stream = new SUT($name),
+                $close1 = $stream->close()
+            )
+            ->when($result = $stream->close())
+            ->then
+                ->variable($result)
+                    ->isIdenticalTo($close1);
+    }
+
+    public function case_open_close_open()
+    {
+        $this
+            ->given(
+                $name   = __FILE__,
+                $stream = new SUT($name, null, true),
+                $stream->open(),
+                $resource   = $stream->getStream(),
+                $context    = $stream->getStreamContext(),
+                $handler    = SUT::getStreamHandler($stream),
+
+                $this->function->stream_set_write_buffer = 0,
+
+                $stream->setStreamBuffer(42),
+                $stream->close()
+            )
+            ->when($result = $stream->open())
+            ->then
+                ->string($result->getStreamName())
+                    ->isEqualTo($name)
+                ->resource($result->getStream())
+                    ->isNotEqualTo($resource)
+                ->object($handler)
+                    ->isIdenticalTo($result)
+                ->object($this->invoke($stream)->getListener())
+                    ->isInstanceOf(Event\Listener::class)
+                ->boolean(Event::eventExists('hoa://Event/Stream/' . $name))
+                    ->isTrue()
+                ->boolean(Event::eventExists('hoa://Event/Stream/' . $name . ':close-before'))
+                    ->isTrue()
+                ->integer($stream->getStreamBufferSize())
+                    ->isEqualTo(SUT::DEFAULT_BUFFER_SIZE);
     }
 
     public function case_close_event_close_before()
