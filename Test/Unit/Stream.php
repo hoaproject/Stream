@@ -132,12 +132,37 @@ class Stream extends Test\Unit\Suite
 
     public function case_construct_with_deferred_opening()
     {
-        $this->skip('postponed');
+        $this
+            ->given($name = __FILE__)
+            ->when($result = new SUT($name, null, true))
+            ->then
+                ->boolean($this->invoke($result)->hasBeenDeferred())
+                    ->isTrue()
+                ->boolean($result->isOpened())
+                    ->isFalse()
+                ->variable($result->getStreamName())
+                    ->isNull();
     }
 
-    public function case_multiton()
+    public function case_open()
     {
-        $this->skip('postponed');
+        $this
+            ->given(
+                $name   = __FILE__,
+                $stream = new SUT($name, null, true)
+            )
+            ->when($result = $stream->open())
+            ->then
+                ->object($result)
+                    ->isIdenticalTo($stream)
+                ->boolean($this->invoke($result)->hasBeenDeferred())
+                    ->isTrue()
+                ->boolean($result->isOpened())
+                    ->isTrue()
+                ->string($result->getStreamName())
+                    ->isEqualTo($name)
+                ->integer($result->getStreamBufferSize())
+                    ->isEqualTo(SUT::DEFAULT_BUFFER_SIZE);
     }
 
     public function case_close()
@@ -672,29 +697,6 @@ class Stream extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_notifications()
-    {
-        $this->skip('postponed');
-        /*
-        $self = $this;
-
-        $this
-            ->given($stream = new SUT('http://127.0.0.1:8080', null, false))
-            ->when(
-                $stream->on(
-                    'size',
-                    function () use ($self, &$called) {
-                        $called = true;
-                    }
-                ),
-                $stream->open()
-            )
-            ->then
-                ->boolean($called)
-                    ->isTrue();
-        */
-    }
-
     public function case_shutdown_destructor()
     {
         $this
@@ -768,7 +770,11 @@ class SUT extends LUT\Stream
 {
     protected function &_open($streamName, LUT\Context $context = null)
     {
-        $out = fopen($streamName, 'rb');
+        if (null === $context) {
+            $out = fopen($streamName, 'rb');
+        } else {
+            $out = fopen($streamName, 'rb', false, $context->getContext());
+        }
 
         return $out;
     }
