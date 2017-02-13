@@ -89,6 +89,9 @@ class Wrapper
      */
     public static function unregister($protocol)
     {
+        // Silent errors if `$protocol` does not exist. This function already
+        // returns `false` in this case, which is the strict expected
+        // behaviour.
         return @stream_wrapper_unregister($protocol);
     }
 
@@ -100,6 +103,9 @@ class Wrapper
      */
     public static function restore($protocol)
     {
+        // Silent errors if `$protocol` does not exist. This function already
+        // returns `false` in this case, which is the strict expected
+        // behaviour.
         return @stream_wrapper_restore($protocol);
     }
 
