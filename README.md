@@ -324,6 +324,22 @@ The exhaustive list of listeners is the following:
   * `resolve`, when the stream is resolved (meaning can vary a lot here),
   * `size`, when the size of the stream is known.
 
+All listener bucket data is an array containing the following pairs:
+
+  * `code`, one of the `STREAM_NOTIFY_*` constant, which is basically
+    the listener name
+    (see [the documentation](http://php.net/stream.constants)),
+  * `severity`, one of the `STREAM_NOTIFY_SEVERITY_*` constant:
+    * `STREAM_NOTIFY_SEVERITY_INFO`, normal, non-error related,
+      notification,
+    * `STREAM_NOTIFY_SEVERITY_WARN`, non critical error condition,
+      processing may continue,
+    * `STREAM_NOTIFY_SEVERITY_ERR`, a critical error occurred,
+      processing cannot continue.
+  * `message`, a string containing most useful information,
+  * `transferred`, amount of bytes already transferred,
+  * `max`, total number of bytes to transfer.
+
 This is possible for the stream implementer to add more
 listeners. Please, take a look at
 [the `Hoa\Event` library](https://central.hoa-project.net/Resource/Library/Event). Not
