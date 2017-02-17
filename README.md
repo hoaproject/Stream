@@ -23,7 +23,8 @@
 [![Documentation](https://img.shields.io/badge/documentation-hack_book-ff0066.svg)](https://central.hoa-project.net/Documentation/Library/Stream)
 [![Board](https://img.shields.io/badge/organisation-board-ff0066.svg)](https://waffle.io/hoaproject/stream)
 
-This library is a high-level abstraction over PHP streams. It includes:
+This library is a high-level abstraction over PHP streams. It
+includes:
 
   * Stream manipulations: Open, close, auto-close, timeout, blocking
     mode, buffer size, metadata etc.,
@@ -155,7 +156,7 @@ Then, the most common usage will be:
 $file = new BasicFile('/path/to/file');
 ```
 
-That's all. This stream has not capability yet. Let's implement the
+That's all. This stream has no capability yet. Let's implement the
 `In` capability:
 
 ```php
@@ -172,13 +173,15 @@ class BasicFile extends Hoa\Stream\Stream implements Hoa\Stream\IStream\In
 }
 ```
 
-Other methods are left as an exercise to the reader. Thus, we are now able to:
+Other methods are left as an exercise to the reader. Thus, we are now
+able to:
 
 ```php
 $chunk = $file->read(42);
 ```
 
-The `Stream` capability is already implemented by the `Hoa\Stream\Stream` class.
+The `Stream` capability is already implemented by the
+`Hoa\Stream\Stream` class.
 
 ### Contextual streams
 
@@ -209,6 +212,8 @@ methods on the `Hoa\Stream\Context` class will be useful to
 respectivelly retrieve the options and the parameters, and acts
 according to them.
 
+The concept of _options_ and _parameters_ are defined by PHP itself.
+
 ### Events, listeners, and notifications
 
 A stream has some events, and several listeners. So far, listeners
@@ -216,7 +221,7 @@ mostly represent “stream notifications” (details hereinafter).
 
 2 events are registered: `hoa://Event/Stream/<streamName>` and
 `hoa://Event/Stream/<streamName>:close-before`. Thus, for instance, to
-execute a function before the stream `/path/to/file` is closed, one
+execute a function before the `/path/to/file` stream closes, one
 will write:
 
 ```php
@@ -237,10 +242,10 @@ opened, and can theoritically still be used.
 This event is fired when calling the `Hoa\Stream\Stream::close`
 method.
 
-About listeners: To register a listener, we must create an instance of
-our stream without opening it. This action is called “deferred
-opening”. We can control the opening time with the third argument of
-the default `Hoa\Stream\Stream` constructor, like:
+Now let's move on to listeners. To register a listener, we must create
+an instance of our stream without opening it. This action is called
+“deferred opening”. We can control the opening time with the third
+argument of the default `Hoa\Stream\Stream` constructor, like:
 
 ```php
 $file = new BasicFile('/path/to/file', null, true);
@@ -347,7 +352,85 @@ all listeners will be fired by all kind of streams.
 
 ### Wrappers
 
+A stream wrapper allows to declare schemes, like `hoa://` or
+`fortune://`. You can imagine adding your favorite online storage too,
+`cloud://`. Any stream wrapper can be used with native standard PHP
+functions, like `fopen`, `file_get_contents`, `mkdir`, `touch` etc. It
+will be transparent for the user.
+
+The `Hoa\Stream\Wrapper\Wrapper` class holds all methods to
+`register`, `unregister`, and `restore` wrappers. The `isRegistered`
+and `getRegistered` methods are also helpful. A wrapper is represented by a class:
+
+```php
+Hoa\Stream\Wrapper\Wrapper::register('tmp', Tmp::class);
+```
+
+A wrapper must implement the `Hoa\Stream\Wrapper\IWrapper\IWrapper`
+interface. It is a combination of two other interfaces in the same
+namespace: `Stream` and `File`.
+
+The `Stream` interface requires to implement several methods related to a stream, such as:
+
+  * `stream_open`,
+  * `stream_close`,
+  * `stream_cast`,
+  * `stream_eof`,
+  * `stream_flush`,
+  * `stream_lock`,
+  * `stream_metadata`,
+  * `stream_read`,
+  * `stream_write`,
+  * `stream_seek`,
+  * `stream_tell`,
+  * `stream_stat`,
+  * etc.
+
+The API provides all required information.
+
+The `File` interface requires to implement other methods related to stream acting as a file, such as:
+
+  * `mkdir`,
+  * `dir_opendir`,
+  * `dir_closedir`,
+  * `dir_readdir`,
+  * `rename`,
+  * `unlink`,
+  * etc.
+
+An example of an implementation is the `hoa://` scheme in
+[the `Hoa\Protocol` library](https://central.hoa-project.net/Resource/Library/Protocol).
+It does not depend on this library to avoid dependencies, but the code
+can be helpful.
+
 ### Filters
+
+A stream is like a pipe, with an input, and an output. This is
+possible to cut this pipe in two pieces, and insert a small part: A
+filter. There are three types of pipe, identified by constants on the
+`Hoa\Stream\Filter\Filter` class:
+
+  1. `Filter::READ` when the filter applies for reading operations,
+  2. `Filter::WRITE` when the filter applies for writing operations,
+  3. `Filter::READ_AND_WRITE` when both.
+
+This class allows to `register` or `remove` filters. A filter takes
+the form of a class extending the `Hoa\Stream\Filter\Basic` filter,
+and an associated name. This is not mandatory but highly encouraged.
+
+Once a filter is registered, we can apply it on a stream by using its
+name, with the `append` or `prepend` methods. You might guess that
+several filters can be applied on a stream, in a specific order, like
+“decrypt”, “unzip”, “transform to…”. In such a scenario, the order
+matters.
+
+Finally, we use the stream as usual. A stream is not necessarily an
+instance of `Hoa\Stream`, it can be any PHP stream resources. Passing
+an `Hoa\Stream` instance will obviously unwraps to its underlying PHP
+stream resource.
+
+Let's implement a filter that changes the content of the stream into
+uppercase.
 
 ### Other operations
 
