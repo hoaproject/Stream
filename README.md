@@ -407,8 +407,8 @@ can be helpful.
 
 A stream is like a pipe, with an input, and an output. This is
 possible to cut this pipe in two pieces, and insert a small part: A
-filter. There are three types of pipe, identified by constants on the
-`Hoa\Stream\Filter\Filter` class:
+filter. There are three types of filter, identified by constants on
+the `Hoa\Stream\Filter\Filter` class:
 
   1. `Filter::READ` when the filter applies for reading operations,
   2. `Filter::WRITE` when the filter applies for writing operations,
@@ -430,9 +430,89 @@ an `Hoa\Stream` instance will obviously unwraps to its underlying PHP
 stream resource.
 
 Let's implement a filter that changes the content of the stream into
-uppercase.
+uppercase. We start by defining out filter:
+
+```php
+class ToUpper extends Hoa\Stream\Filter\Basic
+{
+    public function filter($in, $out, &$consumed, $closing)
+    {
+        $iBucket = new Hoa\Stream\Bucket($in);
+        $oBucket = new Hoa\Stream\Bucket($out);
+
+        while (false === $iBucket->eob()) {
+            $consumed += $iBucket->getLength();
+
+            $iBucket->setData(strtoupper($iBucket->getData()));
+            $oBucket->append($iBucket);
+        }
+
+        unset($iBucket);
+        unset($oBucket);
+
+        return parent::PASS_ON;
+    }
+}
+```
+
+Great. Now let's register our filter under a specific name:
+
+```php
+$filterName = 'toupper';
+Hoa\Stream\Filter::register($filterName, ToUpper::class);
+```
+
+Then, we must apply the filter on a specific stream, so let's open a
+stream, and append the filter:
+
+```php
+$file = new Hoa\File\Read(__FILE__);
+Hoa\Stream\Filter::append($file, $filterName, Hoa\Stream\Filter::READ);
+```
+
+This filter has been applied for reading operations only. So we will
+see its effect when reading on our stream, let's do it:
+
+``` php
+echo $file->readAll();
+```
+
+You will see everything in ASCII uppercase.
+
+A filter is a low-level stream API. It integrates with all kind of
+streams. And this is a very powerful tool. We mentionned some usages
+like decrypt, transform to, unzip… Actually, PHP comes with certain
+standard filters, like: …
+
+The `Hoa\Stream\Filter\LateComputed` class is a special filter. It
+calls its public `compute` method when the stream reaches its end. So
+by extending this filter, you can override the `compute` method and
+works on the `_buffer` attribute. This buffer contains the whole
+content of the stream. This is really a buffer. Why would it be
+useful? For instance if you are reading a PHP file, you can transform
+the source code on-the-fly by using a parser —for instance— and
+rewrite parts of the file. This technique is particularily useful to
+instrument codes (adding some probes).
+
+This is also possible to auto-apply a filter with… a wrapper! For
+example the `instrument://` wrapper can prepend a filter to the stream
+being opened with the `stream_open` method (from the
+`Hoa\Stream\Wrapper\IWrapper\Stream` interface).
+
+Possibilities are numerous.
 
 ### Other operations
+
+There are more to cover. `Hoa\Stream` supports composite streams (with
+the `Hoa\Stream\Composite` abstract class), i.e. streams embedding
+other streams, like
+[the `Hoa\Xml` library](https://central.hoa-project.net/Resource/Library/Xml).
+An XML stream reads and writes from another inner stream (a file, a
+socket, or anything else).
+[The `Hoa\Stringbuffer` library](https://central.hoa-project.net/Resource/Library/Stringbuffer)
+allows a string to be manipulated with a stream API, so the stream
+content is written on the disk. Stream capabiilities are not the same
+than `Hoa\File` as you might guess.
 
 ## Documentation
 
@@ -476,4 +556,5 @@ The following projects are using this library:
   * [Marvirc](https://github.com/Hywan/Marvirc), A dead simple,
     extremely modular and blazing fast IRC bot,
   * [WellCommerce](http://wellcommerce.org/), Modern e-commerce engine
-    built on top of Symfony 3 full-stack framework.
+    built on top of Symfony 3 full-stack framework,
+  * And of course many Hoa's libraries.
