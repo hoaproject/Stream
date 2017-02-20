@@ -82,7 +82,12 @@ guide](https://hoa-project.net/Literature/Contributor/Guide.html).
 
 ## Quick usage
 
-As a quick overview, we propose to …
+As a quick overview, we propose to discover what `Hoa\Stream` provides
+in term of interfaces, i.e. stream capabilities. This is almost the
+most important part of this library. Then, how to define a stream,
+followed by how to use stream contexts. Events, listeners and
+notifications will be detailed in the next section. Finally, wrappers
+and filters are detailed in the last sections.
 
 ### Interfaces, aka stream capabilities
 
@@ -482,7 +487,10 @@ You will see everything in ASCII uppercase.
 A filter is a low-level stream API. It integrates with all kind of
 streams. And this is a very powerful tool. We mentionned some usages
 like decrypt, transform to, unzip… Actually, PHP comes with certain
-standard filters, like: …
+standard filters, like: `string.toupper`, `string.tolower`, `dechunk`,
+`zlib.*`, `bzip2.*`, `convert.iconv.*` etc. The
+`Hoa\Stream\Filter\Filter::getRegistered` method will provide the list
+of all registered filters.
 
 The `Hoa\Stream\Filter\LateComputed` class is a special filter. It
 calls its public `compute` method when the stream reaches its end. So
