@@ -192,7 +192,8 @@ The `Stream` capability is already implemented by the
 
 A context is represented by the `Hoa\Stream\Context` class. It
 represents a set of options and parameters for the stream.
-[See the options and parameters for the `http://` stream wrapper](http://php.net/context.http).
+[See the options and parameters for the `http://` stream wrapper](http://php.net/context.http)
+as an example of possible ones.
 
 To use them, first let's define the context:
 
