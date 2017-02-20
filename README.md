@@ -214,7 +214,7 @@ $basicFile = new BasicFile('/path/to/file', $contextId);
 
 For the stream implementer, the `getOptions` and `getParameters`
 methods on the `Hoa\Stream\Context` class will be useful to
-respectivelly retrieve the options and the parameters, and acts
+respectively retrieve the options and the parameters, and acts
 according to them.
 
 The concept of _options_ and _parameters_ are defined by PHP itself.
@@ -241,7 +241,7 @@ Remember that a stream is not necessarily a file. It can be a socket,
 a WebSocket, a stringbuffer, any stream you have defined…
 Consequently, this event can be used in very different manner for
 various scenario, like logging things, closing related resources,
-firing another events… There is no rule. The observed stream is still
+firing another event… There is no rule. The observed stream is still
 opened, and can theoritically still be used.
 
 This event is fired when calling the `Hoa\Stream\Stream::close`
@@ -250,7 +250,8 @@ method.
 Now let's move on to listeners. To register a listener, we must create
 an instance of our stream without opening it. This action is called
 “deferred opening”. We can control the opening time with the third
-argument of the default `Hoa\Stream\Stream` constructor, like:
+argument of the default `Hoa\Stream\Stream` constructor; `true` to
+defer the opening, like:
 
 ```php
 $file = new BasicFile('/path/to/file', null, true);
@@ -259,8 +260,8 @@ $file->open();
 ```
 
 Passing `null` as a second argument means: No context. Note that we
-must manually call the `open` method to open the stream. Between the
-stream instanciation and the stream opening, we can attach new
+must manually call the `open` method to open the stream then. Between
+the stream instanciation and the stream opening, we can attach new
 listeners.
 
 Depending of the stream implementation, different listeners will be
@@ -289,19 +290,19 @@ $basic->on(
 $basic->on(
     'mimetype',
     function (Hoa\Event\Bucket $bucket) {
-        echo 'MIME-Type is ' . $bucket->getData()['message'], "\n";
+        echo 'MIME-Type is ', $bucket->getData()['message'], "\n";
     }
 );
 $basic->on(
     'size',
     function (Hoa\Event\Bucket $bucket) {
-        echo 'Size is ' . $bucket->getData()['max'], "\n";
+        echo 'Size is ', $bucket->getData()['max'], "\n";
     }
 );
 $basic->on(
     'progress',
     function (Hoa\Event\Bucket $bucket) {
-        echo 'Progressed, ' . $bucket->getData()['transferred'], ' bytes downloaded', "\n";
+        echo 'Progressed, ', $bucket->getData()['transferred'], ' bytes downloaded', "\n";
     }
 );
 
