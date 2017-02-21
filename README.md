@@ -193,7 +193,10 @@ The `Stream` capability is already implemented by the
 A context is represented by the `Hoa\Stream\Context` class. It
 represents a set of options and parameters for the stream.
 [See the options and parameters for the `http://` stream wrapper](http://php.net/context.http)
-as an example of possible ones.
+as an example of possible ones. Thanks to context, this is possible to
+add HTTP headers for instance, or to specify the proxy, the maximum
+number of redirections etc. All these information are
+options/parameters of the stream.
 
 To use them, first let's define the context:
 
@@ -222,7 +225,7 @@ The concept of _options_ and _parameters_ are defined by PHP itself.
 ### Events, listeners, and notifications
 
 A stream has some events, and several listeners. So far, listeners
-mostly represent “stream notifications” (details hereinafter).
+mostly represent “stream notifications”.
 
 2 events are registered: `hoa://Event/Stream/<streamName>` and
 `hoa://Event/Stream/<streamName>:close-before`. Thus, for instance, to
