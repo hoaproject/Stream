@@ -35,7 +35,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Hoa\\Stream\\": "."
+            "Hoa\\Stream\\"      : "Source",
+            "Hoa\\Stream\\Test\\": "Test"
         }
     },
     "extra": {
