@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -45,12 +47,11 @@ use Hoa\Test;
  *
  * Test suite of the filter class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Filter extends Test\Unit\Suite
 {
-    public function case_constants()
+    public function case_constants(): void
     {
         $this
             ->boolean(SUT::OVERWRITE)
@@ -65,7 +66,7 @@ class Filter extends Test\Unit\Suite
                 ->isEqualTo(STREAM_FILTER_ALL);
     }
 
-    public function case_register()
+    public function case_register(): void
     {
         $this
             ->when($result = SUT::register('foo', \StdClass::class))
@@ -74,7 +75,7 @@ class Filter extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_register_already_registered_do_not_overwrite()
+    public function case_register_already_registered_do_not_overwrite(): void
     {
         $this
             ->given(
@@ -82,14 +83,14 @@ class Filter extends Test\Unit\Suite
                 $class = \StdClass::class,
                 SUT::register($name, $class)
             )
-            ->exception(function () use ($name, $class) {
+            ->exception(function () use ($name, $class): void {
                 SUT::register($name, $class);
             })
                 ->isInstanceOf(LUT\Filter\Exception::class)
                 ->hasMessage('Filter foo is already registered.');
     }
 
-    public function case_register_already_registered_do_overwrite()
+    public function case_register_already_registered_do_overwrite(): void
     {
         $this
             ->given(
@@ -103,10 +104,10 @@ class Filter extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_register_empty_name()
+    public function case_register_empty_name(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::register('', \StdClass::class);
             })
                 ->isInstanceOf(LUT\Filter\Exception::class)
@@ -116,10 +117,10 @@ class Filter extends Test\Unit\Suite
                 );
     }
 
-    public function case_register_unknown_class()
+    public function case_register_unknown_class(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::register('foo', '42Foo');
             })
                 ->isInstanceOf(LUT\Filter\Exception::class)
@@ -129,7 +130,7 @@ class Filter extends Test\Unit\Suite
                 );
     }
 
-    public function case_append()
+    public function case_append(): void
     {
         $this
             ->given(
@@ -142,7 +143,7 @@ class Filter extends Test\Unit\Suite
                     ->isStreamFilter();
     }
 
-    public function case_prepend()
+    public function case_prepend(): void
     {
         $this
             ->given(
@@ -155,7 +156,7 @@ class Filter extends Test\Unit\Suite
                     ->isStreamFilter();
     }
 
-    public function case_remove()
+    public function case_remove(): void
     {
         $this
             ->given(
@@ -169,7 +170,7 @@ class Filter extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_remove_by_name()
+    public function case_remove_by_name(): void
     {
         $this
             ->given(
@@ -183,10 +184,10 @@ class Filter extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_remove_unknown()
+    public function case_remove_unknown(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::remove('foo');
             })
                 ->isInstanceOf(LUT\Filter\Exception::class)
@@ -196,7 +197,7 @@ class Filter extends Test\Unit\Suite
                 );
     }
 
-    public function case_is_registered()
+    public function case_is_registered(): void
     {
         $this
             ->when($result = SUT::isRegistered('string.toupper'))
@@ -205,7 +206,7 @@ class Filter extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_is_not_registered()
+    public function case_is_not_registered(): void
     {
         $this
             ->when($result = SUT::isRegistered('foo'))
@@ -214,7 +215,7 @@ class Filter extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_get_registered()
+    public function case_get_registered(): void
     {
         $this
             ->when($result = SUT::getRegistered())

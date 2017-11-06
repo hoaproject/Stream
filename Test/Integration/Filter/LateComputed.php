@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -45,12 +47,11 @@ use Hoa\Test;
  *
  * Test suite of the late computed filter class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class LateComputed extends Test\Integration\Suite
 {
-    public function case_custom_late_computed_filter()
+    public function case_custom_late_computed_filter(): void
     {
         $this
             ->given(
@@ -77,12 +78,12 @@ class LateComputed extends Test\Integration\Suite
 
 class CustomFilter extends LUT\Filter\LateComputed
 {
-    protected function compute()
+    protected function compute(): string
     {
         $this->_buffer =
             strtolower($this->_buffer) . ' ' .
             strlen($this->_buffer); // proof that the buffer contains all the data
 
-        return;
+        return '';
     }
 }

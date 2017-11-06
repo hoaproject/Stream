@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -37,20 +39,19 @@
 namespace Hoa\Stream\Test\Unit\Filter;
 
 use Hoa\Stream as LUT;
-use Mock\Hoa\Stream\Filter\Basic as SUT;
 use Hoa\Test;
+use Mock\Hoa\Stream\Filter\Basic as SUT;
 
 /**
  * Class \Hoa\Stream\Test\Unit\Filter\Basic.
  *
  * Test suite of the basic filter class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Basic extends Test\Unit\Suite
 {
-    public function case_constants()
+    public function case_constants(): void
     {
         $this
             ->integer(SUT::PASS_ON)
@@ -67,7 +68,7 @@ class Basic extends Test\Unit\Suite
                 ->isEqualTo(PSFS_FLAG_FLUSH_CLOSE);
     }
 
-    public function case_is_a_php_filter()
+    public function case_is_a_php_filter(): void
     {
         $this
             ->when($result = new SUT())
@@ -76,7 +77,7 @@ class Basic extends Test\Unit\Suite
                     ->isInstanceOf(\php_user_filter::class);
     }
 
-    public function case_interfaces()
+    public function case_interfaces(): void
     {
         $this
             ->when($result = new SUT())
@@ -85,7 +86,7 @@ class Basic extends Test\Unit\Suite
                     ->isInstanceOf(LUT\IStream\Stream::class);
     }
 
-    public function case_set_name()
+    public function case_set_name(): void
     {
         $this
             ->given($filter = new SUT())
@@ -95,7 +96,7 @@ class Basic extends Test\Unit\Suite
                     ->isEqualTo('');
     }
 
-    public function case_get_name()
+    public function case_get_name(): void
     {
         $this
             ->given(
@@ -109,7 +110,7 @@ class Basic extends Test\Unit\Suite
                     ->isEqualTo($name);
     }
 
-    public function case_set_parameters()
+    public function case_set_parameters(): void
     {
         $this
             ->given($filter = new SUT())
@@ -119,7 +120,7 @@ class Basic extends Test\Unit\Suite
                     ->isEqualTo('');
     }
 
-    public function case_get_parameters()
+    public function case_get_parameters(): void
     {
         $this
             ->given(
@@ -133,7 +134,7 @@ class Basic extends Test\Unit\Suite
                     ->isEqualTo($parameters);
     }
 
-    public function case_get_stream()
+    public function case_get_stream(): void
     {
         $this
             ->given($filter = new SUT())

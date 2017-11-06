@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -40,79 +42,51 @@ namespace Hoa\Stream\IStream;
  * Interface \Hoa\Stream\IStream\Structural.
  *
  * Interface for structural input/output.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 interface Structural extends Stream
 {
     /**
      * Select root of the document: :root.
-     *
-     * @return  \Hoa\Stream\IStream\Structural
      */
-    public function selectRoot();
+    public function selectRoot(): self;
 
     /**
      * Select any elements: *.
-     *
-     * @return  array
      */
-    public function selectAnyElements();
+    public function selectAnyElements(): array;
 
     /**
      * Select elements of type E: E.
-     *
-     * @param   string  $E    Element E.
-     * @return  array
      */
-    public function selectElements($E = null);
+    public function selectElements(string $E = null): array;
 
     /**
      * Select F elements descendant of an E element: E F.
-     *
-     * @param   string  $F    Element F.
-     * @return  array
      */
-    public function selectDescendantElements($F = null);
+    public function selectDescendantElements(string $F = null): array;
 
     /**
      * Select F elements children of an E element: E > F.
-     *
-     * @param   string  $F    Element F.
-     * @return  array
      */
-    public function selectChildElements($F = null);
+    public function selectChildElements(string $F = null): array;
 
     /**
      * Select an F element immediately preceded by an E element: E + F.
-     *
-     * @param   string  $F    Element F.
-     * @return  \Hoa\Stream\IStream\Structural
      */
-    public function selectAdjacentSiblingElement($F);
+    public function selectAdjacentSiblingElement(string $F): Structural;
 
     /**
      * Select F elements preceded by an E element: E ~ F.
-     *
-     * @param   string  $F    Element F.
-     * @return  array
      */
-    public function selectSiblingElements($F = null);
+    public function selectSiblingElements(string $F = null): array;
 
     /**
      * Execute a query selector and return the first result.
-     *
-     * @param   string  $query    Query.
-     * @return  \Hoa\Stream\IStream\Structural
      */
-    public function querySelector($query);
+    public function querySelector(string $query): Structural;
 
     /**
      * Execute a query selector and return one or many results.
-     *
-     * @param   string  $query    Query.
-     * @return  array
      */
-    public function querySelectorAll($query);
+    public function querySelectorAll(string $query): array;
 }

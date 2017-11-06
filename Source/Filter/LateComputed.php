@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -42,16 +44,11 @@ use Hoa\Stream;
  * Class \Hoa\Stream\Filter\LateComputed.
  *
  * A late computed filter computes the data when closing the filtering.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 abstract class LateComputed extends Basic
 {
     /**
      * Buffer.
-     *
-     * @var string
      */
     protected $_buffer = null;
 
@@ -61,31 +58,15 @@ abstract class LateComputed extends Basic
      * Filter data.
      * This method is called whenever data is read from or written to the attach
      * stream.
-     *
-     * @param   resource  $in           A resource pointing to a bucket brigade
-     *                                  which contains one or more bucket
-     *                                  objects containing data to be filtered.
-     * @param   resource  $out          A resource pointing to a second bucket
-     *                                  brigade into which your modified buckets
-     *                                  should be replaced.
-     * @param   int       &$consumed    Which must always be declared by
-     *                                  reference, should be incremented by the
-     *                                  length of the data which your filter
-     *                                  reads in and alters.
-     * @param   bool      $closing      If the stream is in the process of
-     *                                  closing (and therefore this is the last
-     *                                  pass through the filterchain), the
-     *                                  closing parameter will be set to true.
-     * @return  int
      */
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, int &$consumed, bool $closing): int
     {
         $return  = self::FEED_ME;
         $iBucket = new Stream\Bucket($in);
 
         while (false === $iBucket->eob()) {
             $this->_buffer .= $iBucket->getData();
-            $consumed      += $iBucket->getLength();
+            $consumed += $iBucket->getLength();
         }
 
         if (null !== $consumed) {
@@ -112,8 +93,6 @@ abstract class LateComputed extends Basic
 
     /**
      * Compute the whole data (stored in $this->_buffer).
-     *
-     * @return  string
      */
-    abstract protected function compute();
+    abstract protected function compute(): ?string;
 }

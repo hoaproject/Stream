@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -45,12 +47,11 @@ use Hoa\Test;
  *
  * Test suite of the wrapper class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Wrapper extends Test\Unit\Suite
 {
-    public function case_register()
+    public function case_register(): void
     {
         $this
             ->given($oldIsRegistered = SUT::isRegistered('foo'))
@@ -64,20 +65,20 @@ class Wrapper extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_register_already_registered()
+    public function case_register_already_registered(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::register('php', 'ClassName');
             })
                 ->isInstanceOf(LUT\Exception::class)
                 ->hasMessage('The protocol php is already registered.');
     }
 
-    public function case_register_implementation_does_not_exist()
+    public function case_register_implementation_does_not_exist(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::register('foo', 'ClassName');
             })
                 ->isInstanceOf(LUT\Exception::class)
@@ -87,7 +88,7 @@ class Wrapper extends Test\Unit\Suite
                 );
     }
 
-    public function case_unregister()
+    public function case_unregister(): void
     {
         $this
             ->given(
@@ -104,7 +105,7 @@ class Wrapper extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_unregister_unregistered_protocol()
+    public function case_unregister_unregistered_protocol(): void
     {
         $this
             ->when($result = SUT::unregister('foo'))
@@ -113,7 +114,7 @@ class Wrapper extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_restore_registered_protocol()
+    public function case_restore_registered_protocol(): void
     {
         $this
             ->when($result = SUT::restore('php'))
@@ -122,7 +123,7 @@ class Wrapper extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_restore_unregistered_protocol()
+    public function case_restore_unregistered_protocol(): void
     {
         $this
             ->when($result = SUT::restore('foo'))
@@ -131,7 +132,7 @@ class Wrapper extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_is_registered()
+    public function case_is_registered(): void
     {
         $this
             ->when($result = SUT::isRegistered('php'))
@@ -140,7 +141,7 @@ class Wrapper extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_is_not_registered()
+    public function case_is_not_registered(): void
     {
         $this
             ->when($result = SUT::isRegistered('foo'))
@@ -149,7 +150,7 @@ class Wrapper extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_get_registered()
+    public function case_get_registered(): void
     {
         $this
             ->when($result = SUT::getRegistered())
@@ -166,7 +167,7 @@ class Wrapper extends Test\Unit\Suite
                     ]);
     }
 
-    public function case_get_registered_dynamically()
+    public function case_get_registered_dynamically(): void
     {
         $this
             ->given($oldCount = count(SUT::getRegistered()))

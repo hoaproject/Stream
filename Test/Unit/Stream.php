@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -45,12 +47,11 @@ use Hoa\Test;
  *
  * Test suite of the stream class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Stream extends Test\Unit\Suite
 {
-    public function case_interfaces()
+    public function case_interfaces(): void
     {
         $this
             ->when($result = new SUT(__FILE__))
@@ -60,7 +61,7 @@ class Stream extends Test\Unit\Suite
                     ->isInstanceOf(Event\Listenable::class);
     }
 
-    public function case_constants()
+    public function case_constants(): void
     {
         $this
             ->integer(SUT::NAME)
@@ -73,7 +74,7 @@ class Stream extends Test\Unit\Suite
                 ->isEqualTo(3);
     }
 
-    public function case_construct()
+    public function case_construct(): void
     {
         $this
             ->given($name = __FILE__)
@@ -112,7 +113,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_construct_with_a_context()
+    public function case_construct_with_a_context(): void
     {
         $this
             ->given(
@@ -130,7 +131,7 @@ class Stream extends Test\Unit\Suite
                     ->isInstanceOf(Event\Listener::class);
     }
 
-    public function case_construct_with_deferred_opening()
+    public function case_construct_with_deferred_opening(): void
     {
         $this
             ->given($name = __FILE__)
@@ -144,7 +145,7 @@ class Stream extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_open()
+    public function case_open(): void
     {
         $this
             ->given(
@@ -165,7 +166,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo(SUT::DEFAULT_BUFFER_SIZE);
     }
 
-    public function case_close()
+    public function case_close(): void
     {
         $this
             ->given(
@@ -180,7 +181,7 @@ class Stream extends Test\Unit\Suite
                     ->isNull()
                 ->boolean($stream->isOpened())
                     ->isFalse()
-                ->variable(SUT::getStreamHandler($stream))
+                ->variable(SUT::getStreamHandler((string) $stream))
                     ->isNull()
                 ->variable($stream->getStreamName())
                     ->isEqualTo($name)
@@ -194,7 +195,7 @@ class Stream extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_close_more_than_once()
+    public function case_close_more_than_once(): void
     {
         $this
             ->given(
@@ -208,7 +209,7 @@ class Stream extends Test\Unit\Suite
                     ->isIdenticalTo($close1);
     }
 
-    public function case_open_close_open()
+    public function case_open_close_open(): void
     {
         $this
             ->given(
@@ -217,7 +218,7 @@ class Stream extends Test\Unit\Suite
                 $stream->open(),
                 $resource   = $stream->getStream(),
                 $context    = $stream->getStreamContext(),
-                $handler    = SUT::getStreamHandler($stream),
+                $handler    = SUT::getStreamHandler((string) $stream),
 
                 $this->function->stream_set_write_buffer = 0,
 
@@ -242,7 +243,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo(SUT::DEFAULT_BUFFER_SIZE);
     }
 
-    public function case_close_event_close_before()
+    public function case_close_event_close_before(): void
     {
         $self = $this;
 
@@ -251,7 +252,7 @@ class Stream extends Test\Unit\Suite
                 $name   = 'hoa://Test/Vfs/Foo?type=file',
                 $stream = new SUT($name),
                 Event::getEvent('hoa://Event/Stream/' . $name . ':close-before')->attach(
-                    function (Event\Bucket $bucket) use ($self, &$called) {
+                    function (Event\Bucket $bucket) use ($self, &$called): void {
                         $called = true;
 
                         $self
@@ -268,7 +269,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_get_stream_name()
+    public function case_get_stream_name(): void
     {
         $this
             ->given(
@@ -281,7 +282,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo($name);
     }
 
-    public function case_get_stream()
+    public function case_get_stream(): void
     {
         $this
             ->given(
@@ -294,7 +295,7 @@ class Stream extends Test\Unit\Suite
                     ->isStream($name);
     }
 
-    public function case_get_stream_context()
+    public function case_get_stream_context(): void
     {
         $this
             ->given(
@@ -309,7 +310,7 @@ class Stream extends Test\Unit\Suite
                     ->isIdenticalTo($context);
     }
 
-    public function case_get_stream_context_with_no_context_given()
+    public function case_get_stream_context_with_no_context_given(): void
     {
         $this
             ->given(
@@ -322,7 +323,7 @@ class Stream extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_get_stream_handler()
+    public function case_get_stream_handler(): void
     {
         $this
             ->given(
@@ -335,7 +336,7 @@ class Stream extends Test\Unit\Suite
                     ->isIdenticalTo($result);
     }
 
-    public function case_get_stream_handler_of_unknown_stream()
+    public function case_get_stream_handler_of_unknown_stream(): void
     {
         $this
             ->when($result = SUT::getStreamHandler('foo'))
@@ -344,7 +345,7 @@ class Stream extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case__set_stream()
+    public function case__set_stream(): void
     {
         $this
             ->given(
@@ -362,17 +363,17 @@ class Stream extends Test\Unit\Suite
                     ->isIdenticalTo($newStream);
     }
 
-    public function case__set_stream_invalid_resource()
+    public function case__set_stream_invalid_resource(): void
     {
         $this
             ->given($stream = new SUT(__FILE__))
-            ->exception(function () use ($stream) {
+            ->exception(function () use ($stream): void {
                 $stream->_setStream(true);
             })
                 ->isInstanceOf(LUT\Exception::class);
     }
 
-    public function case__set_stream_unknown_resource()
+    public function case__set_stream_unknown_resource(): void
     {
         $this
             ->given(
@@ -393,7 +394,7 @@ class Stream extends Test\Unit\Suite
                     ->isIdenticalTo($newStream);
     }
 
-    public function case_is_opened()
+    public function case_is_opened(): void
     {
         $this
             ->given($stream = new SUT(__FILE__))
@@ -403,7 +404,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_is_not_opened()
+    public function case_is_not_opened(): void
     {
         $this
             ->given($stream = new SUT(__FILE__, null, true))
@@ -421,7 +422,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_set_stream_timeout()
+    public function case_set_stream_timeout(): void
     {
         $self = $this;
 
@@ -451,7 +452,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_has_been_deferred()
+    public function case_has_been_deferred(): void
     {
         $this
             ->given($stream = new SUT(__FILE__, null, true))
@@ -461,7 +462,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_has_not_been_deferred()
+    public function case_has_not_been_deferred(): void
     {
         $this
             ->given($stream = new SUT(__FILE__))
@@ -471,7 +472,7 @@ class Stream extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_has_timed_out()
+    public function case_has_timed_out(): void
     {
         $this
             ->given(
@@ -486,7 +487,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_has_not_timed_out()
+    public function case_has_not_timed_out(): void
     {
         $this
             ->given(
@@ -501,7 +502,7 @@ class Stream extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_set_stream_blocking()
+    public function case_set_stream_blocking(): void
     {
         $self = $this;
 
@@ -529,7 +530,7 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_get_default_stream_buffer_size()
+    public function case_get_default_stream_buffer_size(): void
     {
         $self = $this;
 
@@ -541,7 +542,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo(8192);
     }
 
-    public function case_set_stream_buffer()
+    public function case_set_stream_buffer(): void
     {
         $self = $this;
 
@@ -571,7 +572,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo(42);
     }
 
-    public function case_set_stream_buffer_fail()
+    public function case_set_stream_buffer_fail(): void
     {
         $self = $this;
 
@@ -602,7 +603,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo($oldStreamBufferSize);
     }
 
-    public function case_disable_stream_buffer()
+    public function case_disable_stream_buffer(): void
     {
         $self = $this;
 
@@ -632,7 +633,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo(0);
     }
 
-    public function case_get_stream_wrapper_name_with_no_wrapper()
+    public function case_get_stream_wrapper_name_with_no_wrapper(): void
     {
         $this
             ->given($stream = new SUT(__FILE__))
@@ -642,7 +643,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo('file');
     }
 
-    public function case_get_stream_wrapper_name()
+    public function case_get_stream_wrapper_name(): void
     {
         $this
             ->given($stream = new SUT('hoa://Test/Vfs/Foo?type=file'))
@@ -652,7 +653,7 @@ class Stream extends Test\Unit\Suite
                     ->isEqualTo('hoa');
     }
 
-    public function case_get_stream_meta_data()
+    public function case_get_stream_meta_data(): void
     {
         $this
             ->given($stream = new SUT(__FILE__))
@@ -672,7 +673,7 @@ class Stream extends Test\Unit\Suite
                     ]);
     }
 
-    public function case_is_borrowing()
+    public function case_is_borrowing(): void
     {
         $this
             ->given(
@@ -687,7 +688,7 @@ class Stream extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_is_not_borrowing()
+    public function case_is_not_borrowing(): void
     {
         $this
             ->given($stream = new SUT(__FILE__))
@@ -697,13 +698,15 @@ class Stream extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_shutdown_destructor()
+    public function case_shutdown_destructor(): void
     {
         $this
             ->given(
                 $stream = new \Mock\Hoa\Stream\Test\Unit\SUTWithPublicClose(__FILE__),
                 $this->calling($stream)->_close = function () use (&$called) {
                     $called = true;
+
+                    return true;
                 }
             )
             ->when($result = SUT::_Hoa_Stream())
@@ -712,13 +715,15 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_destruct_an_opened_stream()
+    public function case_destruct_an_opened_stream(): void
     {
         $this
             ->given(
                 $stream = new \Mock\Hoa\Stream\Test\Unit\SUTWithPublicClose(__FILE__),
                 $this->calling($stream)->_close = function () use (&$called) {
                     $called = true;
+
+                    return true;
                 }
             )
             ->when($result = $stream->__destruct())
@@ -727,13 +732,15 @@ class Stream extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_destruct_a_deferred_stream()
+    public function case_destruct_a_deferred_stream(): void
     {
         $this
             ->given(
                 $stream = new \Mock\Hoa\Stream\Test\Unit\SUTWithPublicClose(__FILE__, null, true),
                 $this->calling($stream)->_close = function () use (&$called) {
                     $called = true;
+
+                    return true;
                 }
             )
             ->when($result = $stream->__destruct())
@@ -742,7 +749,7 @@ class Stream extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_protocol_reach_id()
+    public function case_protocol_reach_id(): void
     {
         $this
             ->given(
@@ -755,7 +762,7 @@ class Stream extends Test\Unit\Suite
                     ->isIdenticalTo($stream);
     }
 
-    public function case_protocol_reach_unknown_id()
+    public function case_protocol_reach_unknown_id(): void
     {
         $this
             ->given($name = 'hoa://Test/Vfs/Foo?type=file')
@@ -768,7 +775,7 @@ class Stream extends Test\Unit\Suite
 
 class SUT extends LUT\Stream
 {
-    protected function &_open($streamName, LUT\Context $context = null)
+    protected function &_open(string $streamName, ?LUT\Context $context)
     {
         if (null === $context) {
             $out = fopen($streamName, 'rb');
@@ -779,7 +786,7 @@ class SUT extends LUT\Stream
         return $out;
     }
 
-    protected function _close()
+    protected function _close(): bool
     {
         return fclose($this->getStream());
     }
@@ -787,7 +794,7 @@ class SUT extends LUT\Stream
 
 class SUTWithPublicClose extends SUT
 {
-    public function _close()
+    public function _close(): bool
     {
         return parent::_close();
     }

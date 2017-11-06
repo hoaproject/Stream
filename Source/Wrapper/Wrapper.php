@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -42,24 +44,13 @@ use Hoa\Consistency;
  * Class \Hoa\Stream\Wrapper.
  *
  * Manipulate wrappers.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Wrapper
 {
     /**
      * Register a wrapper.
-     *
-     * @param   string  $protocol     The wrapper name to be registered.
-     * @param   string  $className    Class name which implements the protocol.
-     * @param   int     $flags        Should be set to `STREAM_IS_URL` if
-     *                                `$protocol` is a URL protocol. Default is 0,
-     *                                local stream.
-     * @return  bool
-     * @throws  \Hoa\Stream\Wrapper\Exception
      */
-    public static function register($protocol, $className, $flags = 0)
+    public static function register(string $protocol, string $className, int $flags = 0): bool
     {
         if (true === self::isRegistered($protocol)) {
             throw new Exception(
@@ -83,11 +74,8 @@ class Wrapper
 
     /**
      * Unregister a wrapper.
-     *
-     * @param   string  $protocol    The wrapper name to be unregistered.
-     * @return  bool
      */
-    public static function unregister($protocol)
+    public static function unregister(string $protocol): bool
     {
         // Silent errors if `$protocol` does not exist. This function already
         // returns `false` in this case, which is the strict expected
@@ -97,11 +85,8 @@ class Wrapper
 
     /**
      * Restore a previously unregistered build-in wrapper.
-     *
-     * @param   string  $protocol    The wrapper name to be restored.
-     * @return  bool
      */
-    public static function restore($protocol)
+    public static function restore(string $protocol): bool
     {
         // Silent errors if `$protocol` does not exist. This function already
         // returns `false` in this case, which is the strict expected
@@ -111,21 +96,16 @@ class Wrapper
 
     /**
      * Check if a protocol is registered or not.
-     *
-     * @param   string  $protocol    Protocol name.
-     * @return  bool
      */
-    public static function isRegistered($protocol)
+    public static function isRegistered(string $protocol): bool
     {
         return in_array($protocol, self::getRegistered());
     }
 
     /**
      * Get all registered wrapper.
-     *
-     * @return  array
      */
-    public static function getRegistered()
+    public static function getRegistered(): array
     {
         return stream_get_wrappers();
     }
@@ -134,4 +114,4 @@ class Wrapper
 /**
  * Flex entity.
  */
-Consistency::flexEntity('Hoa\Stream\Wrapper\Wrapper');
+Consistency::flexEntity(Wrapper::class);

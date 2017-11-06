@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -42,16 +44,12 @@ use Hoa\Consistency;
  * Interface \Hoa\Stream\Wrapper\IWrapper.
  *
  * Interface for stream wrapper class.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 interface IWrapper extends File, Stream
 {
     /**
      * Constructs a new stream wrapper.
      * Called when opening the stream wrapper, right before self::stream_open().
-     *
      */
     public function __construct();
 }
@@ -59,4 +57,4 @@ interface IWrapper extends File, Stream
 /**
  * Flex entity.
  */
-Consistency::flexEntity('Hoa\Stream\Wrapper\IWrapper\IWrapper');
+Consistency::flexEntity(IWrapper::class);

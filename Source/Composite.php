@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -40,23 +42,16 @@ namespace Hoa\Stream;
  * Class \Hoa\Stream\Composite.
  *
  * Declare a composite stream, i.e. a stream that uses a stream.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 abstract class Composite
 {
     /**
      * Current stream.
-     *
-     * @var mixed
      */
     protected $_stream      = null;
 
     /**
      * Inner stream.
-     *
-     * @var \Hoa\Stream
      */
     protected $_innerStream = null;
 
@@ -64,9 +59,6 @@ abstract class Composite
 
     /**
      * Set current stream.
-     *
-     * @param   object  $stream    Current stream.
-     * @return  object
      */
     protected function setStream($stream)
     {
@@ -78,8 +70,6 @@ abstract class Composite
 
     /**
      * Get current stream.
-     *
-     * @return  object
      */
     public function getStream()
     {
@@ -88,11 +78,8 @@ abstract class Composite
 
     /**
      * Set inner stream.
-     *
-     * @param   \Hoa\Stream  $innerStream    Inner stream.
-     * @return  \Hoa\Stream
      */
-    protected function setInnerStream(Stream $innerStream)
+    protected function setInnerStream(Stream $innerStream): ?Stream
     {
         $old                = $this->_innerStream;
         $this->_innerStream = $innerStream;
@@ -102,10 +89,8 @@ abstract class Composite
 
     /**
      * Get inner stream.
-     *
-     * @return  \Hoa\Stream
      */
-    public function getInnerStream()
+    public function getInnerStream(): ?Stream
     {
         return $this->_innerStream;
     }

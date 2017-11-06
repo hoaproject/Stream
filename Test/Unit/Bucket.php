@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -44,12 +46,11 @@ use Hoa\Test;
  *
  * Test suite of the stream bucket.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Bucket extends Test\Unit\Suite
 {
-    public function case_constants()
+    public function case_constants(): void
     {
         $this
             ->boolean(SUT::IS_A_BRIGADE)
@@ -58,7 +59,7 @@ class Bucket extends Test\Unit\Suite
                 ->isFalse();
     }
 
-    public function case_construct_a_brigade()
+    public function case_construct_a_brigade(): void
     {
         $this
             ->given($brigade = 'foo')
@@ -71,7 +72,7 @@ class Bucket extends Test\Unit\Suite
                     ->isIdenticalTo('foo');
     }
 
-    public function case_construct_a_stream()
+    public function case_construct_a_stream(): void
     {
         $this
             ->given(
@@ -94,7 +95,7 @@ class Bucket extends Test\Unit\Suite
                     ->isIdenticalTo($bucket);
     }
 
-    public function case_eob()
+    public function case_eob(): void
     {
         $this
             ->given(
@@ -107,7 +108,7 @@ class Bucket extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_set_data()
+    public function case_set_data(): void
     {
         $this
             ->given(
@@ -132,7 +133,7 @@ class Bucket extends Test\Unit\Suite
                     ->isIdenticalTo($_bucket);
     }
 
-    public function case_get_data()
+    public function case_get_data(): void
     {
         $this
             ->given(
@@ -147,7 +148,7 @@ class Bucket extends Test\Unit\Suite
                     ->isEqualTo($this->invoke($bucket)->getBucket()->data);
     }
 
-    public function case_get_length()
+    public function case_get_length(): void
     {
         $this
             ->given(

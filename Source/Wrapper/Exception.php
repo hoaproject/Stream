@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -42,9 +44,6 @@ use Hoa\Stream;
  * Class \Hoa\Stream\Wrapper\Exception.
  *
  * Extending the \Hoa\Stream\Exception class.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Exception extends Stream\Exception
 {

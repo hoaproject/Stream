@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -36,20 +38,19 @@
 
 namespace Hoa\Stream\Test\Unit;
 
-use Mock\Hoa\Stream\Composite as SUT;
 use Hoa\Test;
+use Mock\Hoa\Stream\Composite as SUT;
 
 /**
  * Class \Hoa\Stream\Test\Unit\Composite.
  *
  * Test suite of the composite stream.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Composite extends Test\Unit\Suite
 {
-    public function case_set_stream()
+    public function case_set_stream(): void
     {
         $this
             ->given(
@@ -62,7 +63,7 @@ class Composite extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_get_stream()
+    public function case_get_stream(): void
     {
         $this
             ->given(
@@ -76,7 +77,7 @@ class Composite extends Test\Unit\Suite
                     ->isIdenticalTo($stream);
     }
 
-    public function case_set_inner_stream()
+    public function case_set_inner_stream(): void
     {
         $this
             ->given(
@@ -89,7 +90,7 @@ class Composite extends Test\Unit\Suite
                     ->isNull();
     }
 
-    public function case_get_inner_stream()
+    public function case_get_inner_stream(): void
     {
         $this
             ->given(

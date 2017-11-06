@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -45,12 +47,11 @@ use Hoa\Test;
  *
  * Test suite of the touchable interface.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Touchable extends Test\Unit\Suite
 {
-    public function case_is_a_valid_interface()
+    public function case_is_a_valid_interface(): void
     {
         $this
             ->when($result = new \Mock\Hoa\Stream\IStream\Touchable())
@@ -60,7 +61,7 @@ class Touchable extends Test\Unit\Suite
                     ->isInstanceOf(LUT\IStream\Stream::class);
     }
 
-    public function case_constants()
+    public function case_constants(): void
     {
         $this
             ->when($result = SUT::OVERWRITE)

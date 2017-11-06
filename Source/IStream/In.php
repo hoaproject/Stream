@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -40,96 +42,63 @@ namespace Hoa\Stream\IStream;
  * Interface \Hoa\Stream\IStream\In.
  *
  * Interface for input.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 interface In extends Stream
 {
     /**
      * Test for end-of-stream.
-     *
-     * @return  bool
      */
-    public function eof();
+    public function eof(): bool;
 
     /**
      * Read n characters.
-     *
-     * @param   int     $length    Length.
-     * @return  string
      */
-    public function read($length);
+    public function read(int $length): string;
 
     /**
      * Alias of $this->read().
-     *
-     * @param   int     $length    Length.
-     * @return  string
      */
-    public function readString($length);
+    public function readString(int $length): string;
 
     /**
      * Read a character.
      * It could be equivalent to $this->read(1).
-     *
-     * @return  string
      */
-    public function readCharacter();
+    public function readCharacter(): string;
 
     /**
      * Read a boolean.
-     *
-     * @return  bool
      */
-    public function readBoolean();
+    public function readBoolean(): bool;
 
     /**
      * Read an integer.
-     *
-     * @param   int     $length    Length.
-     * @return  int
      */
-    public function readInteger($length = 1);
+    public function readInteger(int $length = 1): int;
 
     /**
      * Read a float.
-     *
-     * @param   int     $length    Length.
-     * @return  float
      */
-    public function readFloat($length = 1);
+    public function readFloat(int $length = 1): float;
 
     /**
      * Read an array.
      * In most cases, it could be an alias to the $this->scanf() method.
-     *
-     * @param   mixed   $argument    Argument (because the behavior is very
-     *                               different according to the implementation).
-     * @return  array
      */
-    public function readArray($argument = null);
+    public function readArray(): array;
 
     /**
      * Read a line.
-     *
-     * @return  string
      */
     public function readLine();
 
     /**
      * Read all, i.e. read as much as possible.
-     *
-     * @param   int  $offset    Offset.
-     * @return  string
      */
-    public function readAll($offset = 0);
+    public function readAll(int $offset = 0): string;
 
     /**
      * Parse input from a stream according to a format.
-     *
-     * @param   string  $format    Format (see printf's formats).
-     * @return  array
      */
-    public function scanf($format);
+    public function scanf(string $format): array;
 }

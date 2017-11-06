@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -45,21 +47,20 @@ use Hoa\Test;
  *
  * Test suite of the context stream class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Context extends Test\Unit\Suite
 {
-    public function case_get_instance_with_empty_id()
+    public function case_get_instance_with_empty_id(): void
     {
         $this
-            ->exception(function () {
+            ->exception(function (): void {
                 SUT::getInstance(null);
             })
             ->isInstanceOf(LUT\Exception::class);
     }
 
-    public function case_get_new_instance()
+    public function case_get_new_instance(): void
     {
         $this
             ->when($result = SUT::getInstance('foo'))
@@ -68,7 +69,7 @@ class Context extends Test\Unit\Suite
                     ->isInstanceOf(SUT::class);
     }
 
-    public function case_get_new_instances()
+    public function case_get_new_instances(): void
     {
         $this
             ->when($result = SUT::getInstance('foo'))
@@ -77,7 +78,7 @@ class Context extends Test\Unit\Suite
                     ->isNotIdenticalTo(SUT::getInstance('bar'));
     }
 
-    public function case_get_same_instance()
+    public function case_get_same_instance(): void
     {
         $this
             ->when($result = SUT::getInstance('foo'))
@@ -86,7 +87,7 @@ class Context extends Test\Unit\Suite
                     ->isIdenticalTo(SUT::getInstance('foo'));
     }
 
-    public function case_get_id()
+    public function case_get_id(): void
     {
         $this
             ->given(
@@ -99,7 +100,7 @@ class Context extends Test\Unit\Suite
                     ->isEqualTo($id);
     }
 
-    public function case_context_exists()
+    public function case_context_exists(): void
     {
         $this
             ->given(
@@ -112,7 +113,7 @@ class Context extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_context_does_not_exist()
+    public function case_context_does_not_exist(): void
     {
         $this
             ->when($result = SUT::contextExists('foo'))
@@ -121,7 +122,7 @@ class Context extends Test\Unit\Suite
                     ->isFalse();
     }
 
-    public function case_set_options()
+    public function case_set_options(): void
     {
         $this
             ->given(
@@ -134,7 +135,7 @@ class Context extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_get_options()
+    public function case_get_options(): void
     {
         $this
             ->given(
@@ -148,7 +149,7 @@ class Context extends Test\Unit\Suite
                     ->isEqualTo($options);
     }
 
-    public function case_set_parameters()
+    public function case_set_parameters(): void
     {
         $this
             ->given(
@@ -164,7 +165,7 @@ class Context extends Test\Unit\Suite
                     ->isTrue();
     }
 
-    public function case_get_parameters()
+    public function case_get_parameters(): void
     {
         $this
             ->given(
@@ -181,7 +182,7 @@ class Context extends Test\Unit\Suite
                     ->isEqualTo($parameters);
     }
 
-    public function case_get_context()
+    public function case_get_context(): void
     {
         $this
             ->given($context = SUT::getInstance('foo'))

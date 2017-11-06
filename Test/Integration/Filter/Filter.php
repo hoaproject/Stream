@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -44,12 +46,11 @@ use Hoa\Test;
  *
  * Test suite of the filter class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
  * @license    New BSD License
  */
 class Filter extends Test\Integration\Suite
 {
-    public function case_append()
+    public function case_append(): void
     {
         $this
             ->given(
@@ -68,7 +69,7 @@ class Filter extends Test\Integration\Suite
                     ->isEqualTo(strtoupper($content));
     }
 
-    public function case_prepend()
+    public function case_prepend(): void
     {
         $this
             ->given(
@@ -87,7 +88,7 @@ class Filter extends Test\Integration\Suite
                     ->isEqualTo(strtoupper($content));
     }
 
-    public function case_append_append()
+    public function case_append_append(): void
     {
         $this
             ->given(
@@ -108,7 +109,7 @@ class Filter extends Test\Integration\Suite
                     ->isEqualTo(strtolower($content));
     }
 
-    public function case_append_prepend()
+    public function case_append_prepend(): void
     {
         $this
             ->given(
@@ -129,7 +130,7 @@ class Filter extends Test\Integration\Suite
                     ->isEqualTo(strtoupper($content));
     }
 
-    public function case_prepend_prepend()
+    public function case_prepend_prepend(): void
     {
         $this
             ->given(
@@ -150,7 +151,7 @@ class Filter extends Test\Integration\Suite
                     ->isEqualTo(strtoupper($content));
     }
 
-    public function case_append_1000_filters()
+    public function case_append_1000_filters(): void
     {
         $this
             ->given(
@@ -160,7 +161,7 @@ class Filter extends Test\Integration\Suite
                 $stream = fopen($filename, 'r'),
                 $name   = 'string.toupper'
             )
-            ->when(function () use ($stream, $name) {
+            ->when(function () use ($stream, $name): void {
                 for ($i = 1000; $i >= 0; --$i) {
                     $this->resource(SUT::prepend($stream, $name));
                 }
