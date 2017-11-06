@@ -25,9 +25,9 @@
     },
     "require": {
         "php"            : ">=7.1",
-        "hoa/consistency": "~1.0",
-        "hoa/event"      : "~1.0",
-        "hoa/exception"  : "~1.0",
+        "hoa/consistency": "~2.0",
+        "hoa/event"      : "~2.0",
+        "hoa/exception"  : "~2.0",
         "hoa/protocol"   : "~1.0"
     },
     "require-dev": {
