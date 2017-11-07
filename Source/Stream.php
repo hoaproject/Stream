@@ -208,7 +208,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      * Note: This method is protected, but do not forget that it could be
      * overloaded into a public context.
      */
-    abstract protected function &_open(string $streamName, ?Context $context);
+    abstract protected function &_open(string $streamName, Context $context = null);
 
     /**
      * Close the current stream.
