@@ -38,6 +38,7 @@ declare(strict_types=1);
 
 namespace Hoa\Stream\Test\Unit;
 
+use Hoa\Stream as LUT;
 use Hoa\Test;
 use Mock\Hoa\Stream\Composite as SUT;
 
@@ -81,7 +82,7 @@ class Composite extends Test\Unit\Suite
     {
         $this
             ->given(
-                $innerStream = new \Mock\Hoa\Stream(__FILE__),
+                $innerStream = new MockedStream(),
                 $composite   = new SUT()
             )
             ->when($result = $this->invoke($composite)->setInnerStream($innerStream))
@@ -94,7 +95,7 @@ class Composite extends Test\Unit\Suite
     {
         $this
             ->given(
-                $innerStream = new \Mock\Hoa\Stream(__FILE__),
+                $innerStream = new MockedStream(),
                 $composite   = new SUT(),
                 $this->invoke($composite)->setInnerStream($innerStream)
             )
@@ -102,5 +103,21 @@ class Composite extends Test\Unit\Suite
             ->then
                 ->object($result)
                     ->isIdenticalTo($innerStream);
+    }
+}
+
+class MockedStream extends LUT\Stream
+{
+    public function __construct()
+    {
+    }
+
+    public function &_open(string $fileName, LUT\Context $context = null)
+    {
+    }
+
+    public function _close(): bool
+    {
+        return false;
     }
 }

@@ -39,6 +39,7 @@ declare(strict_types=1);
 namespace Hoa\Stream\Test\Unit;
 
 use Hoa\Event;
+use Hoa\Protocol;
 use Hoa\Stream as LUT;
 use Hoa\Test;
 
@@ -756,7 +757,7 @@ class Stream extends Test\Unit\Suite
                 $name   = 'hoa://Test/Vfs/Foo?type=file',
                 $stream = new SUT($name)
             )
-            ->when($result = resolve('hoa://Library/Stream#' . $name))
+            ->when($result = Protocol\Protocol::getInstance()->resolve('hoa://Library/Stream#' . $name))
             ->then
                 ->object($result)
                     ->isIdenticalTo($stream);
@@ -766,7 +767,7 @@ class Stream extends Test\Unit\Suite
     {
         $this
             ->given($name = 'hoa://Test/Vfs/Foo?type=file')
-            ->when($result = resolve('hoa://Library/Stream#' . $name))
+            ->when($result = Protocol\Protocol::getInstance()->resolve('hoa://Library/Stream#' . $name))
             ->then
                 ->variable($result)
                     ->isNull();
@@ -775,7 +776,7 @@ class Stream extends Test\Unit\Suite
 
 class SUT extends LUT\Stream
 {
-    protected function &_open(string $streamName, ?LUT\Context $context)
+    protected function &_open(string $streamName, LUT\Context $context = null)
     {
         if (null === $context) {
             $out = fopen($streamName, 'rb');

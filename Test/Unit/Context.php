@@ -51,15 +51,6 @@ use Hoa\Test;
  */
 class Context extends Test\Unit\Suite
 {
-    public function case_get_instance_with_empty_id(): void
-    {
-        $this
-            ->exception(function (): void {
-                SUT::getInstance(null);
-            })
-            ->isInstanceOf(LUT\Exception::class);
-    }
-
     public function case_get_new_instance(): void
     {
         $this

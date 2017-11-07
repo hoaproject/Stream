@@ -73,10 +73,6 @@ class Context
      */
     public static function getInstance(string $id): self
     {
-        if (empty($id)) {
-            throw new Exception('Context ID must not be null.', 0);
-        }
-
         if (false === static::contextExists($id)) {
             static::$_instances[$id] = new static($id);
         }

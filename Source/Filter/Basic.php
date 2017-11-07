@@ -87,7 +87,7 @@ abstract class Basic extends \php_user_filter implements Stream\IStream\Stream
      * This method is called whenever data is read from or written to the attach
      * stream.
      */
-    public function filter($in, $out, int &$consumed, bool $closing): int
+    public function filter($in, $out, &$consumed, $closing)
     {
         $iBucket = new Stream\Bucket($in);
         $oBucket = new Stream\Bucket($out);

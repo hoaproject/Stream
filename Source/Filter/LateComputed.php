@@ -59,7 +59,7 @@ abstract class LateComputed extends Basic
      * This method is called whenever data is read from or written to the attach
      * stream.
      */
-    public function filter($in, $out, int &$consumed, bool $closing): int
+    public function filter($in, $out, &$consumed, $closing)
     {
         $return  = self::FEED_ME;
         $iBucket = new Stream\Bucket($in);

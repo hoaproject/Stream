@@ -46,8 +46,6 @@ use Hoa\Test;
  * Class \Hoa\Stream\Test\Integration\Stream.
  *
  * Test suite of the stream class.
- *
- * @license    New BSD License
  */
 class Stream extends Test\Integration\Suite
 {
@@ -154,7 +152,7 @@ class Stream extends Test\Integration\Suite
 
 class SUT extends LUT\Stream
 {
-    protected function &_open(string $streamName, ?LUT\Context $context)
+    protected function &_open(string $streamName, LUT\Context $context = null)
     {
         if (null === $context) {
             $out = fopen($streamName, 'rb');
