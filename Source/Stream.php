@@ -259,7 +259,12 @@ abstract class Stream implements IStream\Stream, Event\Listenable
     final public function close()
     {
         $streamName = $this->getStreamName();
-        $name       = md5($streamName);
+
+        if (null === $streamName) {
+            return;
+        }
+
+        $name = md5($streamName);
 
         if (!isset(self::$_register[$name])) {
             return;
