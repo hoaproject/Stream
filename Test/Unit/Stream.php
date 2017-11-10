@@ -511,14 +511,14 @@ class Stream extends Test\Unit\Suite
             ->given(
                 $stream = new SUT(__FILE__),
 
-                $this->function->stream_set_blocking = function ($_stream, $_mode) use ($self, $stream, &$called) {
+                $this->function->stream_set_blocking = function ($_stream, bool $_mode) use ($self, $stream, &$called) {
                     $called = true;
 
                     $self
                         ->resource($_stream)
                             ->isIdenticalTo($stream->getStream())
-                        ->integer($_mode)
-                            ->isEqualTo(1);
+                        ->boolean($_mode)
+                            ->isTrue();
 
                     return true;
                 }

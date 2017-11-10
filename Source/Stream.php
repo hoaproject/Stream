@@ -408,7 +408,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      */
     public function setStreamBlocking(bool $mode): bool
     {
-        return stream_set_blocking($this->getStream(), (int) $mode);
+        return stream_set_blocking($this->getStream(), $mode);
     }
 
     /**
