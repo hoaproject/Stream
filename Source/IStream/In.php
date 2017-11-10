@@ -53,39 +53,39 @@ interface In extends Stream
     /**
      * Read n characters.
      */
-    public function read(int $length): string;
+    public function read(int $length);
 
     /**
      * Alias of $this->read().
      */
-    public function readString(int $length): string;
+    public function readString(int $length);
 
     /**
      * Read a character.
      * It could be equivalent to $this->read(1).
      */
-    public function readCharacter(): string;
+    public function readCharacter();
 
     /**
      * Read a boolean.
      */
-    public function readBoolean(): bool;
+    public function readBoolean();
 
     /**
      * Read an integer.
      */
-    public function readInteger(int $length = 1): int;
+    public function readInteger(int $length = 1);
 
     /**
      * Read a float.
      */
-    public function readFloat(int $length = 1): float;
+    public function readFloat(int $length = 1);
 
     /**
      * Read an array.
      * In most cases, it could be an alias to the $this->scanf() method.
      */
-    public function readArray(): array;
+    public function readArray();
 
     /**
      * Read a line.
@@ -95,7 +95,7 @@ interface In extends Stream
     /**
      * Read all, i.e. read as much as possible.
      */
-    public function readAll(int $offset = 0): string;
+    public function readAll(int $offset = 0);
 
     /**
      * Parse input from a stream according to a format.
