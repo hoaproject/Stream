@@ -192,7 +192,7 @@ abstract class Stream implements IStream\Stream, Event\Listenable
      * @return  array
      * @throws  \Hoa\Stream\Exception
      */
-    final private static function &_getStream(
+    private static function &_getStream(
         $streamName,
         Stream $handler,
         $context = null
